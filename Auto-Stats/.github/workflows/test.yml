@@ -1,0 +1,21 @@
+name: CI / Test
+
+on: 
+  push: 
+    branches: ["master", "**"]
+  workflow_dispatch:
+
+jobs:
+   stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Stats
+        uses: ./
+        with:
+            branch: ${{ github.head_ref || 'master' }}
+            # name: github-actions[bot]
+            # email: github-actions[bot]@users.noreply.github.com
+            github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+            commit-message: 'Updated Daily Statistics.'

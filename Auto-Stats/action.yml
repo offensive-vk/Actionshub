@@ -1,0 +1,35 @@
+name: 'Auto Stats'
+description: 'Auto Stats Action enables generation of repository statistics like total number of files, number of words in every file, etc.'
+
+branding:
+  icon: database
+  color: gray-dark
+
+inputs:
+  name: 
+    description: 'Username for Git'
+    required: false
+  email: 
+    description: 'Email for Git'
+    required: false
+  message: 
+    description: 'Commit Message'
+    required: false
+  github-token:
+    description: 'GitHub token for Authorization'
+    required: true
+  branch:
+    description: 'Branch to Push Changes'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: ./entrypoint.sh
+      shell: bash
+      env:
+        NAME: ${{ inputs.name || 'github-actions[bot]' }}
+        EMAIL: ${{ inputs.email || 'github-actions[bot]@noreply.github.com' }}
+        COMMITTER: ${{ inputs.committer || inputs.name || github.repository_owner }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        COMMIT_MESSAGE: ${{ inputs.message || 'Updated Repo Stats' }}
