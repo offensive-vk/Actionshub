@@ -1,0 +1,48 @@
+name: 'Auto Commit Push'
+description: 'Auto Commit and Push Action helps to stage all changes and push them to Remote Repo. '
+branding:
+  icon: upload-cloud
+  color: gray-dark
+
+inputs:
+  name:
+    description: 'Your Name'
+    required: false
+    default: 'github-actions[bot]'
+  email:
+    description: 'Your Email'
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+  message:
+    description: 'Commit message'
+    required: false
+    default: ''
+  branch:
+    description: 'Target branch'
+    required: true
+    default: ${{ github.head_ref }}
+  github-token:
+    description: 'GitHub token to push changes'
+    required: true
+    default: ${{ github.token }}
+  co_authors:
+    description: 'Co-authors (comma-separated)'
+    required: false
+  push_options:
+    description: Push options (eg. --force)
+    required: false
+    default: ''
+  commit_options:
+    description: Commit options (eg. --no-verify)
+    required: false
+    default: ''
+  add_options:
+    description: Add options (eg. -u)
+    required: false
+    default: ''
+
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/offensive-vk/auto-commit-push:master'
+  env:
+      GITHUB_TOKEN: ${{ inputs.github-token }}
