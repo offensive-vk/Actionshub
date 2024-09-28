@@ -6,8 +6,8 @@ on:
     - cron: '0 */2 * * *'
 
 jobs:
-  sync-auto-pr:
-    name: Auto Pull Request
+  sync-auto-commit-push:
+    name: Auto Commit Push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,14 +15,13 @@ jobs:
 
       - name: Remove old directory
         run: |
-          rm -rf Auto-Pull-Request || exit 0
-          mkdir -p Auto-Pull-Request
+          rm -rf Auto-Commit-Push || exit 0
+          mkdir -p Auto-Commit-Push
 
       - name: Fetch Upstream Changes
         run: |
-          git clone https://github.com/offensive-vk/auto-pull-request.git Auto-Pull-Request
+          git clone --bare https://github.com/offensive-vk/auto-commit-push.git Auto-Pull-Request
           cd Auto-Pull-Request
-          git checkout master
           cd ..
 
       - name: Commit and Push changes
@@ -31,7 +30,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-pull-request'
+          message: 'Remote Repo Sync - auto-commit-push'
           github-token: ${{ secrets.BOT_TOKEN }}
 
 # name: CI / Mirror Sync
