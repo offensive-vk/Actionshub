@@ -19,12 +19,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Start Docker Daemon (macOS only)
         if: matrix.os == 'macos-latest'
         run: |
-          docker-machine start default
-          eval $(docker-machine env default)
+          docker start default
+          docker system info
+          eval $(docker env default)
 
       - name: Build Docker Image
         run: |
