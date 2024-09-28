@@ -229,3 +229,12 @@ jobs:
           branch: 'master'
           message: 'Remote Repo Sync - auto-label'
           github-token: ${{ secrets.BOT_TOKEN }}
+
+  finish-repo-sync:
+    runs-on: ubuntu-latest
+    name: Finish and Report Sucessful Syncing
+    needs: [sync-auto-commit-push, sync-auto-issue, sync-auto-pr, sync-auto-update-quote, sync-auto-repo-sync, sync-auto-add-project, sync-auto-stats, sync-auto-label]
+    steps:
+      - name: Goodbye
+        run: | 
+           echo -e "All the Remote Repositories are done syncing. \n Have a Good Day!"
