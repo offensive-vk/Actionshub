@@ -1,0 +1,20 @@
+name: CI / Add to Project
+
+on:
+  issues:
+    types: [opened, edited, closed]
+  pull_request:
+    types: [opened, edited, synchronize]
+  workflow_dispatch:
+jobs:
+  add_to_project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add Auto to Project
+        uses: actions/add-to-project@v1.0.2
+        with:
+          project-url: 'https://github.com/users/offensive-vk/projects/6'
+          github-token: ${{ secrets.BOT_TOKEN }}
