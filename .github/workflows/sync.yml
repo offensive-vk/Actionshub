@@ -13,15 +13,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Remove old directory
+      - name: Cleanup
         run: |
           rm -rf Auto-Commit-Push || exit 0
           mkdir -p Auto-Commit-Push
 
       - name: Fetch Upstream Changes
         run: |
-          git clone --bare https://github.com/offensive-vk/auto-commit-push.git Auto-Commit-Push
-          cd Auto-Pull-Request
+          git clone --depth 1 https://github.com/offensive-vk/auto-commit-push.git Auto-Commit-Push
+          cd Auto-Commit-Push
+          rm -rf .git/
           cd ..
 
       - name: Commit and Push changes
