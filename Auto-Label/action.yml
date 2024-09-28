@@ -1,0 +1,27 @@
+name: auto-label
+description: Super Easy Action to Automatically Apply Labels on Issues and PRs
+author: offensive-vk
+branding:
+  icon: mail
+  color: gray-dark
+
+runs:
+  using: node20
+  main: ./dist/index.js
+
+inputs:
+  github-token:
+    description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
+    required: false
+  repo:
+    description: "The target repository for the issue. If not specified, the current repository is used."
+    required: false
+  create-labels:
+    description: "Set to true if the labels does not exist in the repository. If set to false, the action will not create the labels."
+    required: false
+  issue-config:
+    description: "Path to file where each label maps to an array of matching strings. File type: .yml, .yaml, .json. Content : (e.g., '{\"bug\": [\"error\", \"failure\"], \"feature\": [\"request\", \"enhancement\"]}')."
+    required: true
+  pr-config:
+    description: "Path to file for labeling pull request based on file changes. Like labeler.yml in @actions/labeler."
+    required: true
