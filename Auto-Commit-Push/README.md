@@ -40,12 +40,12 @@ jobs:
 
 | Name | Description | Required | Default |
 | --- | --- | --- | --- |
-| name | Your name | true | |
-| email | Your email | true | |
-| message | Commit message | true | |
-| branch | Target branch | true | |
-| github-token | Github repository token | true | |
-| co-authors | Co-authors (comma-separated) | false | |
+| name | Your name | true | github-actions[bot] |
+| email | Your email | true | github-actions[bot]@users.noreply.github.com|
+| message | Commit message | true | Automated Commit by Actions. |
+| branch | Target branch | true | main |
+| github-token | Github repository token | true | github.token |
+| co-authors | Co-authors (comma-separated) | false | null |
 
 ### Outputs
 

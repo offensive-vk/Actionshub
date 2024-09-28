@@ -16,11 +16,11 @@ inputs:
   message:
     description: 'Commit message'
     required: false
-    default: ''
+    default: 'Automated Commit by Actions.'
   branch:
     description: 'Target branch'
     required: true
-    default: ${{ github.head_ref }}
+    default: 'main'
   github-token:
     description: 'GitHub token to push changes'
     required: true

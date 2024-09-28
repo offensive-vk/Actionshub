@@ -8,6 +8,9 @@ BRANCH=${INPUT_BRANCH}
 REPO=${GITHUB_REPOSITORY}
 GITHUB_TOKEN=${INPUT_GITHUB_TOKEN:-${GITHUB_TOKEN}}
 CO_AUTHORS=${INPUT_CO_AUTHORS:-""}
+COMMIT_OPTIONS=${INPUT_COMMIT_OPTIONS:-""}
+PUSH_OPTIONS=${INPUT_PUSH_OPTIONS:-""}
+ADD_OPTIONS=${INPUT_ADD_OPTIONS:-""}
 
 # Check if required inputs are provided
 if [ -z "$GITHUB_TOKEN" ]; then
@@ -26,16 +29,21 @@ fi
 # Add safe directory config
 git config --global --add safe.directory /github/workspace
 
-# Stage all changes
+# Stage all changes with add options (if any)
 git fetch --all
 git pull --all --verbose
-git add .
+git add . $ADD_OPTIONS
 
-# Commit the changes
-git commit -m "$MESSAGE"
+# If commit message is empty, use default message
+if [ -z "$MESSAGE" ]; then
+  MESSAGE="Automated Commit by GitHub Actions"
+fi
 
-# Push the changes to the specified branch
-git push
+# Commit the changes with commit options (if any)
+git commit $COMMIT_OPTIONS -m "$MESSAGE" ${CO_AUTHORS:+-m "$CO_AUTHORS"}
+
+# Push the changes to the specified branch with push options (if any)
+git push origin "$BRANCH" $PUSH_OPTIONS
 
 # If the push is successful, print a success message
 if [ $? -eq 0 ]; then
@@ -44,7 +52,3 @@ else
   echo "Failed to push changes to $REPO"
   exit 1
 fi
-
-########################
-# MIT 2024. GitHub. Inc
-########################
