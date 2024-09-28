@@ -10,6 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Import GPG Key
+        id: data
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -17,10 +18,10 @@ jobs:
           git_user_signingkey: true
           git_commit_gpgsign: true
           git_config_global: true
-          trust_level: 4
+          trust_level: 5
 
       - name: Break something.
-        run: echo "oi oi" > again.txt
+        run: echo "Key:${{ steps.data.outputs.fingerprint }}" > key.txt
 
       - name: Commit and Push changes
         uses: offensive-vk/auto-commit-push@v5
@@ -30,4 +31,3 @@ jobs:
           branch: 'master'
           message: 'Remote Commit by Bot.'
           github-token: ${{ secrets.BOT_TOKEN }}
-          commit_options: '-S'
