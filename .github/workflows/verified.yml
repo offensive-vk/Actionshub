@@ -7,21 +7,24 @@ jobs:
   begin:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v4
-      -
-        name: Import GPG key
+      - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
-      -
-        name: Sign commit and Push
-        run: |
-          echo oi > oi.txt
-          git add .
-          git commit -S -m "This commit is signed!"
-          git push
+
+      - name: Break something.
+        run: echo "oi oi" > again.txt
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Commit by Bot'
+          github-token: ${{ secrets.BOT_TOKEN }}
