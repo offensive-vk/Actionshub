@@ -1,0 +1,44 @@
+name: auto-issue
+description: Create a new GitHub Issue using Octokit, with support for advanced options like labels, assignees, and milestones.
+author: offensive-vk
+branding:
+  icon: mail
+  color: gray-dark
+
+inputs:
+  github-token:
+    description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
+    required: false
+  owner:
+    description: "The repository owner. If not specified, the owner will be inferred from the context."
+    required: false
+  repo:
+    description: "The target repository for the issue. If not specified, the current repository is used."
+    required: false
+  title:
+    description: "The title of the issue. This input is required."
+    required: true
+  body:
+    description: "The body content of the issue. Optional."
+    required: false
+  milestone:
+    description: "The milestone ID to associate with the issue. Optional."
+    required: false
+  labels:
+    description: "A comma-separated list of labels to apply to the issue (e.g., 'bug,aws'). Optional."
+    required: false
+  assignees:
+    description: "A comma-separated list of GitHub usernames to assign to the issue (e.g., 'Hamster,user'). Optional."
+    required: false
+
+outputs:
+  JSON:
+    description: "The full JSON response for the created issue, as returned by the GitHub API."
+  URL:
+    description: "The web URL of the newly created issue."
+  NUMBER:
+    description: "The number of the newly created issue."
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
