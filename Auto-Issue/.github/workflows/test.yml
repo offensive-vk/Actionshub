@@ -1,0 +1,78 @@
+name: CI / Test
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches: 
+     - "**"
+  pull_request:
+    branches: 
+     - "**"
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Production Build
+        run: |
+          pnpm i; pnpm run build
+    
+  pr-test:
+    if: github.event_name == 'pull_request'
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: test
+        id: new-issue
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}
+          title: "Automated Pull Request from: ${{ github.head_ref }}"
+          body: |
+            # Test Action - Pull Request Test
+            
+            This Pull Request was Created Sucessfully.
+            This Auto Issue Action is functional.
+          labels: test,automated
+          assignees: TheHamsterBot
+      
+      - name: View Action Outputs
+        run: |
+          echo "## Auto Issue Action Summary " >> $GITHUB_STEP_SUMMARY
+          echo "NUMBER - ${{ steps.new-issue.outputs.NUMBER }}" >> $GITHUB_STEP_SUMMARY
+          echo "URL - ${{ steps.new-issue.outputs.URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "JSON - ${{ steps.new-issue.outputs.JSON }}" >> $GITHUB_STEP_SUMMARY
+          echo '${{ steps.new-issue.outputs.JSON }}' | jq
+          echo '${{ steps.new-issue.outputs.JSON }}' | jq .state 
+          echo '${{ steps.new-issue.outputs.JSON }}' | jq .labels[].name
+
+  push-test:
+    if: github.event_name == 'push'
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+  trigger-test:
+    if: github.event_name == 'workflow_dispatch' || github.ref_name == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl --silent --show-error \
+            --request POST \
+            --header "Authorization: token ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}" \
+            --header "Accept: application/vnd.github.v3+json" \
+            --url "https://api.github.com/repos/dacbd/err/dispatches" \
+            --data '{"event_type":"basic", "client_payload": {"ref_name":"${{ github.ref_name }}"}}'
