@@ -34,38 +34,198 @@ jobs:
           message: 'Remote Repo Sync - auto-commit-push'
           github-token: ${{ secrets.BOT_TOKEN }}
 
-# name: CI / Mirror Sync
+  sync-auto-issue:
+    name: Auto Issue Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-# on:
-#   workflow_dispatch:
-#   schedule:
-#     - cron: '0 */2 * * *'
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Issue || exit 0
+          mkdir -p Auto-Issue
 
-# jobs:
-#   sync-auto-pr:
-#     name: Auto Pull Request
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-issue.git Auto-Issue
+          cd Auto-Issue
+          rm -rf .git/
+          cd ..
 
-#       - name: Set up remote and fetch changes
-#         run: |
-#           mkdir -p Auto-Pull-Request || echo "Directory Exists" ; cd Auto-Pull-Request/
-#           if [ -d ".git" ]; then
-#             git remote set-url origin https://github.com/offensive-vk/auto-pull-request.git || exit 1
-#           else
-#             git init
-#             git remote add origin https://github.com/offensive-vk/auto-pull-request.git
-#           fi
-#           git fetch origin
-#           git reset --hard origin/master
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-issue'
+          github-token: ${{ secrets.BOT_TOKEN }}
 
-#       - name: Commit and Push Changes
-#         uses: offensive-vk/auto-commit-push@master
-#         with: 
-#           name: 'Hamster [bot]'
-#           email: 'TheHamsterBot@outlook.com'
-#           branch: 'master'
-#           message: 'Remote Repo Sync Job - auto-pull-request'
-#           github-token: ${{ secrets.BOT_TOKEN }}
+  sync-auto-pr:
+    name: Auto Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Pull-Request || exit 0
+          mkdir -p Auto-Pull-Request
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-pull-request.git Auto-Pull-Request
+          cd Auto-Pull-Request
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-pull-request'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
+  sync-auto-update-quote:
+    name: Auto Update Quote
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Update-Quote || exit 0
+          mkdir -p Auto-Update-Quote
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-update-quote.git Auto-Update-Quote
+          cd Auto-Update-Quote
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-update-quote'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
+  sync-auto-repo-sync:
+    name: Auto Repo Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Repo-Sync || exit 0
+          mkdir -p Auto-Repo-Sync
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-repo-sync.git Auto-Repo-Sync
+          cd Auto-Repo-Sync
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-repo-sync'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
+  sync-auto-add-project:
+    name: Auto Update Quote
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Add-Project || exit 0
+          mkdir -p Auto-Add-Project
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-add-project.git Auto-Add-Project
+          cd Auto-Add-Project
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-add-project'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
+  sync-auto-stats:
+    name: Auto Stats
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Stats || exit 0
+          mkdir -p Auto-Stats
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-stats.git Auto-Stats
+          cd Auto-Stats
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-stats'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
+  sync-auto-label:
+    name: Auto Labeler
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Label || exit 0
+          mkdir -p Auto-Label
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-label.git Auto-Label
+          cd Auto-Label
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-label'
+          github-token: ${{ secrets.BOT_TOKEN }}

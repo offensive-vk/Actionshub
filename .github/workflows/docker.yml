@@ -5,12 +5,23 @@ on:
     branches: [ "**" ]
   pull_request:
     branches: [ "**" ]
-
+  workflow_dispatch:
 jobs:
-  build_image:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    name: Building Docker Image on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile -t awesomedevops
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker Image
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -t awesome-devops:${{ github.sha }} .
