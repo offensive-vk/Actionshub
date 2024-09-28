@@ -1,0 +1,45 @@
+name: CI / Test
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches-ignore:
+      - "master"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auto Pull Request
+        id: new-pr
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}
+          destination_branch: master
+          source_branch: ${{ github.head_ref }}
+          pr_title: "Automated: Pull Request from Branch"
+          pr_body: |
+            # Test Action - Pull Request Test
+            
+            This Pull Request was Created Successfully.
+            This Auto Pull Request Action is functional.
+          pr_label: "test,automated"
+          pr_assignee: "TheHamsterBot"
+          pr_milestone: ""
+          pr_draft: false
+          pr_reviewer: offensive-vk
+          pr_allow_empty: true
+          working_directory: "."
+      
+      - name: View Action Outputs
+        run: |
+          echo "## Auto Pull Request Action Summary" >> $GITHUB_STEP_SUMMARY
+          echo "PR_NUMBER - ${{ steps.new-pr.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "PR_URL - ${{ steps.new-pr.outputs.pr_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "PR_CREATED - ${{ steps.new-pr.outputs.pr_created }}" >> $GITHUB_STEP_SUMMARY
+          echo '${{ steps.new-pr.outputs.pr_created }}' | jq
+          echo '${{ steps.new-pr.outputs.has_changed_files }}' | jq
