@@ -1,0 +1,32 @@
+name: "Auto Update Quote"
+author: Vedansh
+description: "Update Your Readme with a random quote or fun-fact."
+
+inputs:
+  GH_TOKEN:
+    description: "GitHub access token with Scoped Github PAT"
+    required: true
+    default: ${{ github.token }}
+
+  REPOSITORY:
+    description: "Your GitHub Repository"
+    default: ${{ github.repository }}
+    required: false
+
+  OPTION:
+    description: "Option for quote, fun-fact or both, it can take - quote, funfact or both"
+    default: "both"
+    required: false
+
+  COMMIT_MESSAGE:
+    description: "Add a meaningful commit message"
+    default: "Updated Daily Quote"
+    required: false
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+branding:
+  icon: "bookmark"
+  color: "black"
