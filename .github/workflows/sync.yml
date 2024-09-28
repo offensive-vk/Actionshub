@@ -37,6 +37,7 @@ jobs:
   sync-auto-issue:
     name: Auto Issue Action
     runs-on: ubuntu-latest
+    needs: [sync-auto-commit-push]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,6 +65,7 @@ jobs:
 
   sync-auto-pr:
     name: Auto Pull Request
+    needs: [sync-auto-issue]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -92,6 +94,7 @@ jobs:
 
   sync-auto-update-quote:
     name: Auto Update Quote
+    needs: [sync-auto-pr]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -120,6 +123,7 @@ jobs:
 
   sync-auto-repo-sync:
     name: Auto Repo Sync
+    needs: [sync-auto-update-quote]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -148,6 +152,7 @@ jobs:
 
   sync-auto-add-project:
     name: Auto Update Quote
+    needs: [sync-auto-repo-sync]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -176,6 +181,7 @@ jobs:
 
   sync-auto-stats:
     name: Auto Stats
+    needs: [sync-auto-add-project]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -204,6 +210,7 @@ jobs:
 
   sync-auto-label:
     name: Auto Labeler
+    needs: [sync-auto-stats]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -233,7 +240,8 @@ jobs:
   finish-repo-sync:
     runs-on: ubuntu-latest
     name: Finish and Report Sucessful Syncing
-    needs: [sync-auto-commit-push, sync-auto-issue, sync-auto-pr, sync-auto-update-quote, sync-auto-repo-sync, sync-auto-add-project, sync-auto-stats, sync-auto-label]
+    needs: [sync-auto-label]
+    # needs: [sync-auto-commit-push, sync-auto-issue, sync-auto-pr, sync-auto-update-quote, sync-auto-repo-sync, sync-auto-add-project, sync-auto-stats, sync-auto-label]
     steps:
       - name: Goodbye
         run: | 
