@@ -13,23 +13,59 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up remote and fetch changes
+      - name: Remove old directory
         run: |
-          mkdir -p Auto-Pull-Request || echo "Directory Exists" ; cd Auto-Pull-Request/
-          if [ -d ".git" ]; then
-            git remote set-url origin https://github.com/offensive-vk/auto-pull-request.git || exit 1
-          else
-            git init
-            git remote add origin https://github.com/offensive-vk/auto-pull-request.git
-          fi
-          git fetch origin
-          git reset --hard origin/master
+          rm -rf Auto-Pull-Request || exit 0
+          mkdir -p Auto-Pull-Request
 
-      - name: Commit and Push Changes
-        uses: offensive-vk/auto-commit-push@master
+      - name: Fetch Upstream Changes
+        run: |
+          git clone https://github.com/offensive-vk/auto-pull-request.git Auto-Pull-Request
+          cd Auto-Pull-Request
+          git checkout master
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v5
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync Job - auto-pull-request'
+          message: 'Remote Repo Sync - auto-pull-request'
           github-token: ${{ secrets.BOT_TOKEN }}
+
+# name: CI / Mirror Sync
+
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     - cron: '0 */2 * * *'
+
+# jobs:
+#   sync-auto-pr:
+#     name: Auto Pull Request
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+
+#       - name: Set up remote and fetch changes
+#         run: |
+#           mkdir -p Auto-Pull-Request || echo "Directory Exists" ; cd Auto-Pull-Request/
+#           if [ -d ".git" ]; then
+#             git remote set-url origin https://github.com/offensive-vk/auto-pull-request.git || exit 1
+#           else
+#             git init
+#             git remote add origin https://github.com/offensive-vk/auto-pull-request.git
+#           fi
+#           git fetch origin
+#           git reset --hard origin/master
+
+#       - name: Commit and Push Changes
+#         uses: offensive-vk/auto-commit-push@master
+#         with: 
+#           name: 'Hamster [bot]'
+#           email: 'TheHamsterBot@outlook.com'
+#           branch: 'master'
+#           message: 'Remote Repo Sync Job - auto-pull-request'
+#           github-token: ${{ secrets.BOT_TOKEN }}
