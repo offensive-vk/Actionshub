@@ -1,9 +1,9 @@
-name: Mirror Sync
+name: CI / Mirror Sync
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 */2 * * *'
 
 jobs:
   sync-auto-pr:
@@ -12,21 +12,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Create Directory
-        run: mkdir -p AwesomeTesting || exit 0
 
-      - name: Begin Sync
+      - name: Set up remote and fetch changes
         run: |
-          git clone --mirror https://github.com/offensive-vk/auto-pull-request.git temp_repo
-          rsync -a temp_repo/ AwesomeTesting/
-          rm -rf temp_repo
+          mkdir -p Auto-Pull-Request || echo "Directory Exists" ; cd Auto-Pull-Request/
+          if [ -d ".git" ]; then
+            git remote set-url origin https://github.com/offensive-vk/auto-pull-request.git || exit 1
+          else
+            git init
+            git remote add origin https://github.com/offensive-vk/auto-pull-request.git
+          fi
+          git fetch origin
+          git reset --hard origin/master
 
-      - name: Commit and Push
-        uses: offensive-vk/auto-commit-push@v5
+      - name: Commit and Push Changes
+        uses: offensive-vk/auto-commit-push@master
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-pull-request'
-          github-token: ${{ secrets.BOT_TOKEN }} 
+          message: 'Remote Repo Sync Job - auto-pull-request'
+          github-token: ${{ secrets.BOT_TOKEN }}
