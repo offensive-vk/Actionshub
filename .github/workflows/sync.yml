@@ -151,7 +151,7 @@ jobs:
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-add-project:
-    name: Auto Update Quote
+    name: Auto Add Project
     needs: [sync-auto-repo-sync]
     runs-on: ubuntu-latest
     steps:
@@ -239,10 +239,9 @@ jobs:
 
   finish-repo-sync:
     runs-on: ubuntu-latest
-    name: Finish and Report Sucessful Syncing
+    name: Report Successful Syncing
     needs: [sync-auto-label]
-    # needs: [sync-auto-commit-push, sync-auto-issue, sync-auto-pr, sync-auto-update-quote, sync-auto-repo-sync, sync-auto-add-project, sync-auto-stats, sync-auto-label]
     steps:
       - name: Goodbye
         run: | 
-           echo -e "All the Remote Repositories are done syncing. \n Have a Good Day!"
+           echo -e "Perfect! All the Remote Repositories are done syncing. \n\tHave a Good Day!"
