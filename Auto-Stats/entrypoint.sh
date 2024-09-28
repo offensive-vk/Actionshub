@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Get the inputs from the action.yml file
-SET_NAME="${INPUT_NAME:-"github-actions[bot]"}"
-SET_EMAIL="${INPUT_EMAIL:-"github-actions[bot]@users.noreply.github.com"}"
-MESSAGE="${INPUT_MESSAGE:-"Updated Repo Stats"}"
-BRANCH="${INPUT_BRANCH:-"master"}"
+
+SET_NAME="${INPUT_NAME}"
+SET_EMAIL="${INPUT_EMAIL}"
+MESSAGE="${INPUT_MESSAGE}"
+BRANCH="${INPUT_BRANCH}"
 GITHUB_TOKEN="${INPUT_GITHUB_TOKEN:-${GITHUB_TOKEN}}"
+OPTIONS="${INPUT_OPTIONS}"
 
 # Initialize Variables
 total_characters=0
@@ -76,5 +78,5 @@ git config --local user.name "$SET_NAME"
 git config --local user.email "$SET_EMAIL"
 git add STATS.md
 git fetch --all; git pull --verbose
-git commit -m "$MESSAGE"
+git commit "$OPTIONS" -m "$MESSAGE"
 git push

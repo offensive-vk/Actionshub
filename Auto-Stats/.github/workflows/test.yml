@@ -1,8 +1,10 @@
 name: CI / Test
 
 on: 
+  schedule:
+   - cron: '0 */4 * * *'
   push: 
-    branches: ["master", "**"]
+    branches: ["**"]
   workflow_dispatch:
 
 jobs:
@@ -18,4 +20,4 @@ jobs:
             # name: github-actions[bot]
             # email: github-actions[bot]@users.noreply.github.com
             github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
-            commit-message: 'Updated Daily Statistics.'
+            message: 'Updated Daily Statistics.'

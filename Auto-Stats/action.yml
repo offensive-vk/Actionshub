@@ -9,27 +9,34 @@ inputs:
   name: 
     description: 'Username for Git'
     required: false
+    default: 'github-actions[bot]'
   email: 
     description: 'Email for Git'
     required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
   message: 
     description: 'Commit Message'
     required: false
+    default: 'Updated Repo Stats'
   github-token:
     description: 'GitHub token for Authorization'
     required: true
   branch:
     description: 'Branch to Push Changes'
-    required: true
-
+    required: false
+    default: 'master'
+  options:
+    description: 'Commit flags'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
     - run: ./entrypoint.sh
       shell: bash
       env:
-        NAME: ${{ inputs.name || 'github-actions[bot]' }}
-        EMAIL: ${{ inputs.email || 'github-actions[bot]@noreply.github.com' }}
+        NAME: ${{ inputs.name }}
+        EMAIL: ${{ inputs.email }}
         COMMITTER: ${{ inputs.committer || inputs.name || github.repository_owner }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
-        COMMIT_MESSAGE: ${{ inputs.message || 'Updated Repo Stats' }}
+        COMMIT_MESSAGE: ${{ inputs.message }}
