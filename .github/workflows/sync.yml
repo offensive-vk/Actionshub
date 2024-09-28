@@ -20,7 +20,7 @@ jobs:
 
       - name: Fetch Upstream Changes
         run: |
-          git clone --bare https://github.com/offensive-vk/auto-commit-push.git Auto-Pull-Request
+          git clone --bare https://github.com/offensive-vk/auto-commit-push.git Auto-Commit-Push
           cd Auto-Pull-Request
           cd ..
 
