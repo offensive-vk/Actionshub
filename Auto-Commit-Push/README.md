@@ -46,6 +46,9 @@ jobs:
 | branch | Target branch | true | main |
 | github-token | Github repository token | true | github.token |
 | co-authors | Co-authors (comma-separated) | false | null |
+| push_options | Push options (eg. --force) | false | '' |
+| commit_options | Commit options (eg. -S -a, --no-verify) | false | '' |
+| add_options | Add options (eg. -u) | false | '' |
 
 ### Outputs
 

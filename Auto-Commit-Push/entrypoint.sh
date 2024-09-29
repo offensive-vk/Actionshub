@@ -40,7 +40,7 @@ if [ -z "$MESSAGE" ]; then
 fi
 
 # Commit the changes with commit options (if any)
-git commit $COMMIT_OPTIONS -m "$MESSAGE" ${CO_AUTHORS:+-m "$CO_AUTHORS"}
+git commit $COMMIT_OPTIONS -m "$MESSAGE"
 
 # Push the changes to the specified branch with push options (if any)
 git push origin "$BRANCH" $PUSH_OPTIONS
