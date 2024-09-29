@@ -40,7 +40,10 @@ jobs:
 
           # Get the fingerprint of the generated key
           GPG_FINGERPRINT=$(gpg --list-secret-keys --keyid-format LONG "$GPG_KEY_EMAIL" | grep "sec" | awk '{print $2}' | awk -F/ '{print $2}')
-
+          
+          GPG_KEY=$(gpg --export --armor --output gpg-key.asc)
+          echo "GPG_KEY=$GPG_KEY" >> $GITHUB_ENV
+          
           # Export key ID for later steps
           echo "GPG_FINGERPRINT=$GPG_FINGERPRINT" >> $GITHUB_ENV
 
@@ -53,6 +56,18 @@ jobs:
           git config --global user.email "TheHamsterBot@outlook.com"
           git config --global gpg.program gpg
 
+      - name: Add GPG Key to GitHub Account
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          ADD_GPG_KEY: ${{ env.GPG_KEY }}
+        
+        run: |
+          curl -X PATCH \
+          https://api.github.com/users/TheHamsterBot/gpg_keys \
+          -H 'Authorization: Bearer ${GITHUB_TOKEN}' \
+          -H 'Content-Type: application/json' \
+          -d '{"gpg_keys": [{"key": "${ADD_GPG_KEY}"]}'
+          
       - name: Create a change (e.g., create a file)
         run: |
           echo "This is a signed commit" > signed-file.txt
