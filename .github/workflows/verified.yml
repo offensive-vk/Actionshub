@@ -21,7 +21,6 @@ jobs:
           git_config_global: true
           trust_level: 5
 
-      # Optional: Verify GPG key
       - name: Verify GPG Key
         run: |
           gpg --list-secret-keys --keyid-format LONG
@@ -32,7 +31,7 @@ jobs:
         run: git config --global user.signingkey ${{ steps.data.outputs.fingerprint }}
 
       - name: Break something
-        run: echo "Key--=-=->${{ steps.data.outputs.fingerprint }}" > key.txt
+        run: echo "Key->${{ steps.data.outputs.fingerprint }}" > key.txt
 
       - name: Commit and Push changes
         uses: offensive-vk/auto-commit-push@v6
