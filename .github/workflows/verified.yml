@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
       - name: Import GPG Key
         id: data
         uses: crazy-max/ghaction-import-gpg@v6
@@ -20,7 +21,17 @@ jobs:
           git_config_global: true
           trust_level: 5
 
-      - name: Break something.
+      # Optional: Verify GPG key
+      - name: Verify GPG Key
+        run: |
+          gpg --list-secret-keys --keyid-format LONG
+          git config --list
+
+      # Set the correct GPG key fingerprint (optional if using a specific key)
+      - name: Set GPG Signing Key
+        run: git config --global user.signingkey ${{ steps.data.outputs.fingerprint }}
+
+      - name: Break something
         run: echo "Key->${{ steps.data.outputs.fingerprint }}" > key.txt
 
       - name: Commit and Push changes
@@ -28,7 +39,7 @@ jobs:
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
-          branch: 'master'
+          branch: 'master' 
           message: 'Remote Commit by Bot.'
           commit_options: '-S'
           github-token: ${{ secrets.BOT_TOKEN }}
