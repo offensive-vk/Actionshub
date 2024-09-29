@@ -21,7 +21,7 @@ jobs:
           trust_level: 5
 
       - name: Break something.
-        run: echo "Key:@${{ steps.data.outputs.fingerprint }}" > key.txt
+        run: echo "Key->${{ steps.data.outputs.fingerprint }}" > key.txt
 
       - name: Commit and Push changes
         uses: offensive-vk/auto-commit-push@v6
@@ -30,4 +30,5 @@ jobs:
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
           message: 'Remote Commit by Bot.'
+          commit_options: '-S'
           github-token: ${{ secrets.BOT_TOKEN }}
