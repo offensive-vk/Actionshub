@@ -21,10 +21,10 @@ jobs:
           trust_level: 5
 
       - name: Break something.
-        run: echo "Key:${{ steps.data.outputs.fingerprint }}" > key.txt
+        run: echo "Key:@${{ steps.data.outputs.fingerprint }}" > key.txt
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v5
+        uses: offensive-vk/auto-commit-push@v6
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
