@@ -8,10 +8,10 @@ This GitHub Action allows you to automate the creation of issues in a repository
 steps:
   - uses: actions/checkout@v4
   - name: Create an Issue
-    uses: offensive-vk/auto-issue@v5
+    uses: offensive-vk/auto-issue@v6
     with:
       github-token: ${{ github.token }}
-      title: "Issue Created"
+      title: "Automated Issue Created"
       body: "This is a issue"
 ```
 
