@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,20 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-// @ts-nocheck
-var github = require('@actions/github');
-var core = require('@actions/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core = require("@actions/core");
+var github = require("@actions/github");
+var yaml = require("js-yaml");
+var fs = require("fs");
 var context = github.context;
-var issue = context.payload.issue;
-var labels = [];
-var title = issue.title.toLowerCase();
-var body = issue.body ? issue.body.toLowerCase() : '';
-/**
- * Fetch the labels from action.yml file and verify them
- * @param labels the labels from the user
- * @returns all labels
- */
+var issue = context.payload.issue || context.payload.pull_request;
+var title = (issue === null || issue === void 0 ? void 0 : issue.title) ? issue.title.toLowerCase() : '';
+var body = (issue === null || issue === void 0 ? void 0 : issue.body) ? issue.body.toLowerCase() : '';
 function GetLabels(labels) {
     var tempLabels = [];
     labels.forEach(function (_a) {
@@ -58,9 +54,6 @@ function GetLabels(labels) {
     });
     return tempLabels.length > 0 ? tempLabels : undefined;
 }
-/**
- * Generate a random color in hex format (e.g., 'ff5733')
- */
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -69,9 +62,6 @@ function getRandomColor() {
     }
     return color.slice(1);
 }
-/**
- * Check if a label exists in the repository, if not, create it with a random color.
- */
 function ensureLabelExists(octokit, owner, repo, label) {
     return __awaiter(this, void 0, void 0, function () {
         var error_1, randomColor;
@@ -110,33 +100,44 @@ function ensureLabelExists(octokit, owner, repo, label) {
         });
     });
 }
-(function () { return __awaiter(_this, void 0, void 0, function () {
-    var token, octokit, _a, contextOwner, contextRepo, owner, repo, labelConfigInput, labelData, labelMapping, matched, _i, labelMapping_1, _b, label, match, error_2;
+function parseConfigFile(filePath) {
+    var fileContent = fs.readFileSync(filePath, 'utf8');
+    if (filePath.endsWith('.yml') || filePath.endsWith('.yaml')) {
+        return yaml.load(fileContent);
+    }
+    else if (filePath.endsWith('.json')) {
+        return JSON.parse(fileContent);
+    }
+    throw new Error("Unsupported file type: ".concat(filePath));
+}
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var token, octokit, labels, _a, contextOwner, contextRepo, owner, repo, createLabels, issueConfigPath, prConfigPath, issueLabelMapping, prLabelMapping, matched, _i, issueLabelMapping_1, _b, label, match, error_2;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
                 _c.trys.push([0, 9, , 10]);
                 token = core.getInput('github-token', { required: true });
                 octokit = github.getOctokit(token);
+                labels = [];
                 _a = github.context.repo, contextOwner = _a.owner, contextRepo = _a.repo;
                 owner = core.getInput('owner') || contextOwner;
                 repo = core.getInput('repo') || contextRepo;
-                labelConfigInput = core.getInput('label-config');
-                labelData = GetLabels(labelConfigInput);
-                labelMapping = labelConfigInput ? JSON.parse(labelConfigInput) : [];
+                createLabels = core.getInput('create-labels') == 'true';
+                issueConfigPath = core.getInput('issue-config');
+                prConfigPath = core.getInput('pr-config');
+                issueLabelMapping = parseConfigFile(issueConfigPath) || [];
+                prLabelMapping = prConfigPath ? parseConfigFile(prConfigPath) : [];
                 matched = false;
-                _i = 0, labelMapping_1 = labelMapping;
+                _i = 0, issueLabelMapping_1 = issueLabelMapping;
                 _c.label = 1;
             case 1:
-                if (!(_i < labelMapping_1.length)) return [3 /*break*/, 4];
-                _b = labelMapping_1[_i], label = _b.label, match = _b.match;
+                if (!(_i < issueLabelMapping_1.length)) return [3 /*break*/, 4];
+                _b = issueLabelMapping_1[_i], label = _b.label, match = _b.match;
                 if (!match.some(function (keyword) { return title.includes(keyword) || body.includes(keyword); })) return [3 /*break*/, 3];
                 labels.push(label);
                 matched = true;
-                // Ensure the label exists in the repo, otherwise create it with a random color
                 return [4 /*yield*/, ensureLabelExists(octokit, owner, repo, label)];
             case 2:
-                // Ensure the label exists in the repo, otherwise create it with a random color
                 _c.sent();
                 _c.label = 3;
             case 3:
@@ -145,10 +146,8 @@ function ensureLabelExists(octokit, owner, repo, label) {
             case 4:
                 if (!!matched) return [3 /*break*/, 6];
                 labels.push('unknown');
-                // Ensure the 'unknown' label exists in the repo
                 return [4 /*yield*/, ensureLabelExists(octokit, owner, repo, 'unknown')];
             case 5:
-                // Ensure the 'unknown' label exists in the repo
                 _c.sent();
                 _c.label = 6;
             case 6:
@@ -156,8 +155,8 @@ function ensureLabelExists(octokit, owner, repo, label) {
                 return [4 /*yield*/, octokit.rest.issues.addLabels({
                         owner: context.repo.owner,
                         repo: context.repo.repo,
-                        issue_number: issue.number,
-                        labels: labels
+                        issue_number: context.issue.number,
+                        labels: labels,
                     })];
             case 7:
                 _c.sent();
