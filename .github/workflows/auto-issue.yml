@@ -6,13 +6,11 @@ on:
   issue_comment:
     types: ['created']
   workflow_dispatch:
-  schedule:
-    - cron: '0 */1 * * *'
 
 jobs:
   create_issue:
     runs-on: ubuntu-latest
-    if: ${{  github.event_name == 'pull_request' && github.event.pull_request.state == 'open' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event_name == 'pull_request' && github.event.pull_request.state == 'open' }}
     steps:
       - uses: actions/checkout@v4
       - name: Generate Issue Template
