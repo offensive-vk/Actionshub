@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+    name: Deploy
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -46,11 +46,10 @@ jobs:
           tags: |
             type=ref,event=pr
             type=edge
-            v5  # Add the specific version tag you want (v5)
-            latest  # Add the latest tag
+            latest
           labels: |
             org.opencontainers.image.title=auto-issue
-            org.opencontainers.image.description=Automated Issue Creator
+            org.opencontainers.image.description=Automated Issue Creator Github Action
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels
@@ -66,6 +65,6 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}  # Uses both latest and v5
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7

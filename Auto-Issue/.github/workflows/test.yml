@@ -38,7 +38,7 @@ jobs:
         id: new-issue
         uses: ./
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}
+          github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
           title: "Automated Pull Request from: ${{ github.head_ref }}"
           body: |
             # Test Action - Pull Request Test
