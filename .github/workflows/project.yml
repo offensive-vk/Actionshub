@@ -9,6 +9,7 @@ on:
 jobs:
   add_to_project:
     runs-on: ubuntu-latest
+    name: Add Everything to Project
     steps:
       - name: Checkout
         uses: actions/checkout@v4

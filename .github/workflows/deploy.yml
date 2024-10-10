@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   schedule:
-      - cron: '0 0 1 * *'
+      - cron: '0 0 * * 0'
   workflow_dispatch:
 
 env:
@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+    name: Deploy
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -32,18 +32,19 @@ jobs:
           username: ${{ env.USERNAME }}
           password: ${{ env.TOKEN }}
 
-      - name: Extract Metadatafor Docker
+      - name: Extract Metadata for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
+          tags: |
+            latest
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
           echo "Tags: ${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
           echo "Labels: ${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
-          echo "*** VERIFICATION COMPLETED *** " >> $GITHUB_STEP_SUMMARY
+          echo "*** VERIFICATION COMPLETED *** "
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4

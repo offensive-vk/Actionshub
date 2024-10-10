@@ -1,4 +1,4 @@
-name: CI / Docker - Build Image
+name: CI / Docker
 
 on:
   push:
@@ -9,14 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: on ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build Image
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Build Docker Image
         run: |
-          docker build -t awesome-devops:${{ github.sha }} .
+          docker build -t awesomedevops:${{ github.sha }} .

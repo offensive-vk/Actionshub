@@ -18,6 +18,8 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      
+    name: Publish
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
