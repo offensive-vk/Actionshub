@@ -27,11 +27,11 @@ jobs:
 
       - name: Pull Image from GHRC Hub
         run: |
-          docker pull ghcr.io/offensive-vk/auto-update-quote:master
+          docker pull ghcr.io/offensive-vk/auto-update-quote:latest
 
       - name: Run Container - GHCR
         run: |
-          docker run -it -d --name my-container ghcr.io/offensive-vk/auto-update-quote:master
+          docker run -it -d --name my-container ghcr.io/offensive-vk/auto-update-quote:latest
 
       - name: List Running Docker Containers
         run: |
@@ -41,6 +41,5 @@ jobs:
       - name: Get System Details
         run: |
           echo "" >> $GITHUB_STEP_SUMMARY; echo "## Runner Details " >> $GITHUB_STEP_SUMMARY
-          docker exec my-container uname -a >> $GITHUB_STEP_SUMMARY
           echo "## Docker Info" >> $GITHUB_STEP_SUMMARY
           docker system info >> $GITHUB_STEP_SUMMARY
