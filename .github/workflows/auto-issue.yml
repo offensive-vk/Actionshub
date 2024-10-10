@@ -1,4 +1,4 @@
-name: Automated Issue
+name: CI / Automated Issue
 
 on:
   pull_request:
@@ -10,7 +10,6 @@ on:
 jobs:
   create_issue:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event_name == 'pull_request' && github.event.pull_request.state == 'open' }}
     steps:
       - uses: actions/checkout@v4
       - name: Generate Issue Template
@@ -48,7 +47,7 @@ jobs:
           title: |
             ${{ github.workflow }} - ${{ github.head_ref }}
           assignees: TheHamsterBot
-          labels: automated,bot,hamster,issue
+          labels: automated
           body: |
             ${{ env.MARKDOWN_CONTENT }}
 
