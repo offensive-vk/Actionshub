@@ -1,4 +1,4 @@
-name: CI / Docker - Build Image
+name: CI / Docker
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
-    name: on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    name: Build on ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -19,4 +19,4 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t awesome-devops:${{ github.sha }} .
+          docker build -t awesomedevops:${{ github.sha }} .
