@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN pnpm i
 
 # Copy the source code to the container
-COPY src/ ./src/
+COPY . .
 
 # Build the project, ensuring it compiles to the dist directory
 RUN pnpm run build
@@ -21,7 +21,7 @@ RUN pnpm run build
 RUN ls -al ./dist
 
 # Start the application
-ENTRYPOINT ["node", "./dist/index.js"]
+ENTRYPOINT ["node", "/dist/index.js"]
 
 LABEL \
     "name"="Auto Issue Action" \
