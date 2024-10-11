@@ -4,7 +4,7 @@ Git Repo Sync enables you to synchronize code to other code management platforms
 
 ## Example
 
-You can use the following example as a template to create a new file with any name under `.github/workflows/`.
+You can use the following example as a template to create a new file with any name under `.github/workflows/`. Enjoy !
 
 ```yaml
 name: CI
