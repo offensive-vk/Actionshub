@@ -21,7 +21,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: offensive-vk/auto-repo-sync@v5
+    - uses: offensive-vk/auto-repo-sync@v6
       with:
         # Such as https://github.com/<user>/<repo>.git
         target-url: <target-url>
