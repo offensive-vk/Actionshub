@@ -9,6 +9,6 @@ ENTRYPOINT ["sh", "./entrypoint.sh"]
 
 LABEL \
   "name"="Auto Pull Request" \
-  "homepage"="https://github.com/marketplace/actions/auto-pull-request" \
+  "homepage"="https://github.com/marketplace/actions/auto-pr-action" \
   "repository"="https://github.com/offensive-vk/auto-pull-request" \
   "maintainer"="TheHamsterBot <TheHamsterBot@users.noreply.github.com>"
