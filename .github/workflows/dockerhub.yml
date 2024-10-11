@@ -1,4 +1,4 @@
-name: CD / Docker - Publish Image
+name: CD / Docker
 
 on:
   schedule:
@@ -19,7 +19,7 @@ jobs:
       packages: write
       id-token: write
       
-    name: Publish
+    name: Publish Images
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
           echo "*** VERIFICATION COMPLETED ***"
 
@@ -64,6 +64,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7
 
       - name: Sign the Docker Image
         if: ${{ github.event_name != 'pull_request' }}

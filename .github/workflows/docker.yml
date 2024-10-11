@@ -14,6 +14,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build Docker Image
+      - name: Action
         run: |
           docker build -t awesomedevops:${{ github.sha }} .
