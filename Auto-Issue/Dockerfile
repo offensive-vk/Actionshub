@@ -15,14 +15,15 @@ RUN pnpm i
 COPY . .
 
 # Build the project, ensuring it compiles to the dist directory
-RUN pnpm run build
+RUN pnpm run build || exit 1
 
 # Check if dist/index.js exists and list files in the dist directory
-RUN ls -al ./dist
+RUN ls -al dist || echo "dist directory not found"
 
-# Start the application
-ENTRYPOINT ["node", "/dist/index.js"]
+# Start the application with a relative path
+ENTRYPOINT ["node", "./dist/index.js"]
 
+# Labels
 LABEL \
     "name"="Auto Issue Action" \
     "homepage"="https://github.com/marketplace/actions/auto-issue" \
