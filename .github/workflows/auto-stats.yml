@@ -1,4 +1,4 @@
-name: Auto Repo Stats
+name: CI / Auto Repo Stats
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate Stats
-        uses: offensive-vk/auto-stats@v6-alpha
+        uses: offensive-vk/auto-stats@v6-beta
         with:
           name: Hamster [bot]
           email: TheHamsterBot@users.noreply.github.com
