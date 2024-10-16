@@ -1,0 +1,22 @@
+name: Auto Repo Stats
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  stats:
+    name: Generate Stats
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Stats
+        uses: offensive-vk/auto-stats@v6-alpha
+        with:
+          name: Hamster [bot]
+          email: TheHamsterBot@users.noreply.github.com
+          branch: ${{ github.ref_name || 'master' }}
+          github-token: ${{ secrets.BOT_TOKEN }}
+          message: 'Updated Daily Statistics - Hamster.'
