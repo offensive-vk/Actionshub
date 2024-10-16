@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   schedule:
-      - cron: '0 0 * * 0'
+      - cron: '10 0 * * 0'
   workflow_dispatch:
 
 env:
@@ -39,11 +39,16 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             latest
+            ${{ github.ref_name }}
+            
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "Tags: ${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
-          echo "Labels: ${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.labels }}" >> $GITHUB_STEP_SUMMARY
           echo "*** VERIFICATION COMPLETED *** "
 
       - name: Build and Push Docker Image
@@ -53,3 +58,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
