@@ -47,6 +47,7 @@ jobs:
             type=ref,event=pr
             type=edge
             latest
+            ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-repo-sync
             org.opencontainers.image.description=Automated Repo Sync Action
