@@ -11,6 +11,7 @@ OPTIONS="${INPUT_OPTIONS}"
 # Set Git identity both globally and locally
 git config --global user.name "$SET_NAME"
 git config --global user.email "$SET_EMAIL"
+git config --global --add safe.directory /github/workspace
 
 # Initialize Variables
 total_characters=0
