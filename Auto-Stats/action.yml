@@ -30,13 +30,24 @@ inputs:
     required: false
     default: ''
 runs:
-  using: "composite"
-  steps:
-    - run: ./entrypoint.sh
-      shell: bash
-      env:
-        NAME: ${{ inputs.name }}
-        EMAIL: ${{ inputs.email }}
-        COMMITTER: ${{ inputs.committer || inputs.name || github.repository_owner }}
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        COMMIT_MESSAGE: ${{ inputs.message }}
+  using: docker
+  image: docker://ghcr.io/offensive-vk/auto-stats:latest
+  env:
+    NAME: ${{ inputs.name }}
+    EMAIL: ${{ inputs.email }}
+    COMMIT_MESSAGE: ${{ inputs.message }}
+    GITHUB_TOKEN: ${{ inputs.github-token }}
+    BRANCH: ${{ inputs.branch }}
+    OPTIONS: ${{ inputs.options }}
+# runs:
+#   using: "composite"
+#   steps:
+#     - run: ./entrypoint.sh
+#       shell: bash
+#       env:
+#         NAME: ${{ inputs.name }}
+#         EMAIL: ${{ inputs.email }}
+#         COMMIT_MESSAGE: ${{ inputs.message }}
+#         GITHUB_TOKEN: ${{ inputs.github-token }}
+#         BRANCH: ${{ inputs.branch }}
+#         OPTIONS: ${{ inputs.options }}

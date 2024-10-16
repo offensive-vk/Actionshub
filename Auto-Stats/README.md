@@ -15,13 +15,13 @@ on:
 
 jobs:
   stats:
+    name: Generate Stats
     runs-on: ubuntu-latest
     steps:
-
     - uses: actions/checkout@v4
       
     - name: Generate Stats
-    - uses: offensive-vk/auto-stats@v5
+    - uses: offensive-vk/auto-stats@v6
       with:
         branch: master
         commit-message: Update Repo Stats
@@ -53,3 +53,13 @@ package.json: 1201 characters
 - Largest file: shocked.gif (952063 characters)  
 - Smallest file: GREETINGS.md (69 characters)  
 - Optional: Total word count: 274804  
+
+
+***
+
+<p align="center">
+  <i>&copy; <a href="https://github.com/offensive-vk/">Vedansh </a> 2020 - Present</i><br>
+  <i>Licensed under <a href="https://github.com/offensive-vk/auto-stats?tab=MIT-1-ov-file">MIT</a></i><br>
+  <a href="https://github.com/TheHamsterBot"><img src="https://i.ibb.co/4KtpYxb/octocat-clean-mini.png" alt="hamster"/></a><br>
+  <sup>Thanks for visiting :)</sup>
+</p>

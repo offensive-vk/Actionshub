@@ -1,13 +1,18 @@
 #!/bin/bash
 
 # Get the inputs from the action.yml file
-
-SET_NAME="${INPUT_NAME}"
-SET_EMAIL="${INPUT_EMAIL}"
-MESSAGE="${INPUT_MESSAGE}"
-BRANCH="${INPUT_BRANCH}"
-GITHUB_TOKEN="${INPUT_GITHUB_TOKEN:-${GITHUB_TOKEN}}"
+SET_NAME="${INPUT_NAME:-github-actions[bot]}"
+SET_EMAIL="${INPUT_EMAIL:-github-actions[bot]@users.noreply.github.com}"
+MESSAGE="${INPUT_MESSAGE:-Updated Repo Stats}"
+BRANCH="${INPUT_BRANCH:-master}"
+GITHUB_TOKEN="${INPUT_GITHUB_TOKEN}"
 OPTIONS="${INPUT_OPTIONS}"
+
+# Set Git identity both globally and locally
+git config --global user.name "$SET_NAME"
+git config --global user.email "$SET_EMAIL"
+git config --local user.name "$SET_NAME"
+git config --local user.email "$SET_EMAIL"
 
 # Initialize Variables
 total_characters=0
@@ -25,15 +30,12 @@ echo "" >> STATS.md
 
 # Iterate through all files (excluding hidden files and directories)
 for file in $(find . -type f -not -path '*/\.*'); do
-    # Count characters in the file
     char_count=$(wc -c < "$file")
     file_name=$(basename "$file")
 
-    # Add to total character count
     total_characters=$((total_characters + char_count))
     total_files=$((total_files + 1))
 
-    # Check for the biggest and smallest files by character count
     if [ $char_count -gt $biggest_count ]; then
         biggest_count=$char_count
         biggest_file=$file_name
@@ -54,11 +56,8 @@ else
     average_characters=0
 fi
 
-# count words too
+# Calculate total words
 total_words=$(wc -w $(find . -type f -not -path '*/\.*') | tail -n 1 | awk '{print $1}')
-
-# Ensure GITHUB_TOKEN is available
-export GITHUB_TOKEN=$GITHUB_TOKEN
 
 # Write final results to the markdown file
 echo "" >> STATS.md
@@ -70,13 +69,30 @@ echo "- Largest file: $biggest_file ($biggest_count characters)  " >> STATS.md
 echo "- Smallest file: $smallest_file ($smallest_count characters)  " >> STATS.md
 echo "- Total word count: $total_words  " >> STATS.md
 echo "--- " >> STATS.md
+echo -e "# ✨✨✨" >> STATS.md
 
-# Git configuration and commit
+# Git configuration and commit the changes
 git config --global user.name "github-actions[bot]"
 git config --global user.email "github-actions[bot]@users.noreply.github.com"
 git config --local user.name "$SET_NAME"
 git config --local user.email "$SET_EMAIL"
+
+# Ensure all changes are added
 git add STATS.md
-git fetch --all; git pull --verbose
-git commit "$OPTIONS" -m "$MESSAGE"
-git push
+
+# Stash any uncommitted changes before pulling
+git stash --include-untracked
+
+# Pull the latest changes
+git fetch --all
+git pull --rebase --autostash origin "$BRANCH"
+
+# Apply the stash if necessary
+git stash pop || echo "No stash to apply."
+
+# Commit and push the changes
+git commit $OPTIONS -m "$MESSAGE"
+git push origin "$BRANCH"
+
+# Check the status
+git status
