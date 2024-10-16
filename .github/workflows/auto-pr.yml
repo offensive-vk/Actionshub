@@ -5,9 +5,9 @@ on:
     branches-ignore:
       - 'main'
       - 'master'
+      - 'dev'
+      - 'prod'
   workflow_dispatch:
-  schedule:
-    - cron: '0 */1 * * *'
 
 jobs:
   create_pr:

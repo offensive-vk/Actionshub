@@ -1,8 +1,6 @@
 name: CI / Repo Sync
 
 on:
-  schedule:
-    - cron: '0 */1 * * *'
   push:
     branches: ['**']
   workflow_dispatch:
@@ -15,7 +13,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: offensive-vk/auto-repo-sync@v6
+      - uses: offensive-vk/auto-repo-sync@master
         with:
           target-url: ${{ secrets.TARGET_URL }}
           target-username: ${{ secrets.TARGET_USERNAME }}
