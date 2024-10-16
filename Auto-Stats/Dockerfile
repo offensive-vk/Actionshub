@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 # Install required packages non-interactively
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get upgrade -y \
     git bash && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -15,7 +15,7 @@ ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 # Metadata labels
 LABEL \
     "name"="Auto Repo Stats" \
-    "version"="1.0.0" \
+    "version"="6.0.0" \
     "description"="Generate repository statistics such as file counts and word counts." \
     "homepage"="https://github.com/marketplace/actions/auto-stats" \
     "repository"="https://github.com/offensive-vk/auto-stats" \

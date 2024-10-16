@@ -28,10 +28,10 @@ inputs:
   options:
     description: 'Commit flags'
     required: false
-    default: ''
+    default: '-a'
 runs:
   using: docker
-  image: docker://ghcr.io/offensive-vk/auto-stats:latest
+  image: Dockerfile
   env:
     NAME: ${{ inputs.name }}
     EMAIL: ${{ inputs.email }}
