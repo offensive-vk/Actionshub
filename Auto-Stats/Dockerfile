@@ -1,3 +1,4 @@
+# Ubuntu as the base image
 FROM ubuntu:24.04
 
 # Install required packages non-interactively
