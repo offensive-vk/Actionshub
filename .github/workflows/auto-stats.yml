@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate Stats
-        uses: offensive-vk/auto-stats@v6-beta
+        uses: offensive-vk/auto-stats@v6
         with:
           name: Hamster [bot]
           email: TheHamsterBot@users.noreply.github.com
