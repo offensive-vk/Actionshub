@@ -1,5 +1,5 @@
 ###############################
-# main.py - Entrypoint Program#
+# main.py - Entrypoint 
 ###############################
 import os
 import re
@@ -24,7 +24,7 @@ FUNFACTS_PATH = "/funfacts/funfacts.txt"
 
 def get_quotes() -> List[str]:
     """
-    Get quotes from quotes/quotes.txt, return a list.
+    Get quotes from quotes/quotes.txt, returns a list.
     """
     global QUOTES_PATH
     quotes = []
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     if readme_content_decoded != new_readme:
         readme_repo.update_file(path=readme_obj.path, message=COMMIT_MSG,
                              content=new_readme, sha=readme_obj.sha)
-        print("Success")
+        print("Success, pushed to remote")
     else:
-        print('No change')
+        print("Error, no changes to commit.")

@@ -1,4 +1,4 @@
-name: Deploy to GitHub Container Registry
+name: CI / Deploy to GHCR
 
 on:
   push:
@@ -30,21 +30,29 @@ jobs:
 
       - name: Extract Metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
+          tags: |
+            latest
+            ${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.title=auto-update-quote
+            org.opencontainers.image.vendor=Vedansh
+            org.opencontainers.image.source=https://github.com/offensive-vk/auto-update-quote/
+            
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "Tags: ${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
-          echo "Labels: ${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
           echo "*** VERIFICATION COMPLETED ***"
 
       - name: Build and Push Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          platform: linux/amd64,linux/arm64,linux/arm/v7

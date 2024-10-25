@@ -1,4 +1,4 @@
-name: Test Github Action
+name: CI / Test Action
 
 on:
   workflow_dispatch:
