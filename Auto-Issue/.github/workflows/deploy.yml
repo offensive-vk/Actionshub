@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   schedule:
-      - cron: '0 0 1 * *'
+      - cron: '0 0 * * 0'
   workflow_dispatch:
 
 env:
@@ -48,9 +48,10 @@ jobs:
             type=ref,event=pr
             type=edge
             latest
+            ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-issue
-            org.opencontainers.image.description=Automated Issue Creator Github Action
+            org.opencontainers.image.description=Create Automated Issue using Github Action
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels

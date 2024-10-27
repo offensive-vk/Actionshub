@@ -9,36 +9,43 @@ inputs:
   github-token:
     description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
     required: false
+    default: ${{ github.token }}
   owner:
     description: "The repository owner. If not specified, the owner will be inferred from the context."
     required: false
+    default: ${{ github.repository_owner }}
   repo:
     description: "The target repository for the issue. If not specified, the current repository is used."
     required: false
+    default: ${{ github.repository }}
   title:
     description: "The title of the issue. This input is required."
-    required: true
+    required: false
+    default: 'Automated Issue'
   body:
     description: "The body content of the issue. Optional."
     required: false
+    default: 'This Issue was automated by github-actions.'
   milestone:
     description: "The milestone ID to associate with the issue. Optional."
     required: false
   labels:
     description: "A comma-separated list of labels to apply to the issue (e.g., 'bug,aws'). Optional."
     required: false
+    default: 'automated'
   assignees:
     description: "A comma-separated list of GitHub usernames to assign to the issue (e.g., 'Hamster,user'). Optional."
     required: false
-
+    default: ${{ github.actor }}
 outputs:
-  JSON:
+  json:
     description: "The full JSON response for the created issue, as returned by the GitHub API."
-  URL:
+  url:
     description: "The web URL of the newly created issue."
-  NUMBER:
+  number:
     description: "The number of the newly created issue."
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/offensive-vk/auto-issue:latest'
+  image: './Dockerfile'
+  # image: 'docker://ghcr.io/offensive-vk/auto-issue:latest'

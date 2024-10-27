@@ -2,7 +2,7 @@ name: CI / Test
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'
   push:
     branches: 
      - "**"
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: test
+      - name: Test
         id: new-issue
         uses: ./
         with:
@@ -51,12 +51,12 @@ jobs:
       - name: View Action Outputs
         run: |
           echo "## Auto Issue Action Summary " >> $GITHUB_STEP_SUMMARY
-          echo "NUMBER - ${{ steps.new-issue.outputs.NUMBER }}" >> $GITHUB_STEP_SUMMARY
-          echo "URL - ${{ steps.new-issue.outputs.URL }}" >> $GITHUB_STEP_SUMMARY
-          echo "JSON - ${{ steps.new-issue.outputs.JSON }}" >> $GITHUB_STEP_SUMMARY
-          echo '${{ steps.new-issue.outputs.JSON }}' | jq
-          echo '${{ steps.new-issue.outputs.JSON }}' | jq .state 
-          echo '${{ steps.new-issue.outputs.JSON }}' | jq .labels[].name
+          echo "NUMBER - ${{ steps.new-issue.outputs.number }} " >> $GITHUB_STEP_SUMMARY
+          echo "URL - ${{ steps.new-issue.outputs.url }} " >> $GITHUB_STEP_SUMMARY
+          echo "JSON - ${{ steps.new-issue.outputs.json }} " >> $GITHUB_STEP_SUMMARY
+          echo '${{ steps.new-issue.outputs.json }}' | jq
+          echo '${{ steps.new-issue.outputs.json }}' | jq .state 
+          echo '${{ steps.new-issue.outputs.json }}' | jq .labels[].name
 
   push-test:
     if: github.event_name == 'push'

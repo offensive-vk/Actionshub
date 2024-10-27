@@ -8,11 +8,11 @@ This GitHub Action allows you to automate the creation of issues in a repository
 steps:
   - uses: actions/checkout@v4
   - name: Create an Issue
-    uses: offensive-vk/auto-issue@v6
+    uses: offensive-vk/auto-issue@v7
     with:
-      github-token: ${{ github.token }}
-      title: "Automated Issue Created"
-      body: "This is a issue"
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+      title: "Automated Issue by Actions."
+      body: "This is a test issue created by auto-issue action."
 ```
 
 ## Inputs Configuration
@@ -21,14 +21,14 @@ Configure the inputs through the `with:` section of the Action. Below is a list 
 
 | Option    | Default Value                 | Description |
 |-----------|-------------------------------|-------------|
-| github-token    | `${{ github.token }}` / `required` | The GitHub token used to authenticate requests. Use `${{ github.token }}` or create a PAT and store it in secrets. |
-| owner     | `github.context.repo.owner`   | The owner of the repository where the issue will be created. Inferred from the context. |
-| repo      | `github.context.repo.repo`    | The repository name where the issue will be created. Inferred from the context. |
-| title     | `required`                    | The title of the issue. |
-| body      |  `null`                              | The body content of the issue. |
-| milestone |        `null`                       | The milestone ID to associate the issue with. |
-| labels    |         `null`                      | A comma-separated list of labels to apply to the issue. |
-| assignees |         `${{ github.actor }}`                      | A comma-separated list of GitHub usernames to assign the issue to. |
+| github-token | `${{ github.token }}` | The GitHub token used to authenticate requests. Use `${{ github.token }}` or create a PAT and store it in secrets. |
+| owner     | `github.context.repo.owner`  | The owner of the repository where the issue will be created. Inferred from the context. |
+| repo      | `github.context.repo.repo`   | The repository name where the issue will be created. Inferred from the context. |
+| title     | `Automated Issue` | The title of the issue. |
+| body      | `This Issue was automated by github-actions.` | The body content of the issue. |
+| labels    | `automated` | A comma-separated list of labels to apply to the issue. |
+| milestone | `null` | The milestone ID to associate the issue with. |
+| assignees | `github.actor` | A comma-separated list of GitHub usernames to assign the issue to. |
 
 ## Outputs
 
@@ -62,9 +62,9 @@ jobs:
         uses: actions/checkout@v4
     
       - name: Create Issue
-        uses: offensive-vk/auto-issue@v5
+        uses: offensive-vk/auto-issue@v7
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           title: |
             ${{ github.workflow }} failed during ${{ github.event_name }}
           assignees: ${{ github.actor }},${{ github.triggering_actor }}
@@ -93,12 +93,12 @@ jobs:
 ...
 steps:
   - uses: actions/checkout@v4
-  - uses: offensive-vk/create-issue-action@v5
+  - uses: offensive-vk/auto-issue@v7
     id: new-issue
     with:
-      github-token: ${{ github.token }}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
       title: Simple Issue
-      body: This Issue was created using the auto-issue GitHub Action.
+      body: This Issue was created by auto-issue GitHub Action.
   - run: |
       echo "${{ steps.new-issue.outputs.json }}" | jq
       echo "${{ steps.new-issue.outputs.json }}" | jq .state
