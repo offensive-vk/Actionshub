@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y git gnupg
 
-COPY --chown=1000:1000 --chmod=+x entrypoint.sh /
+COPY --chown=1000:1000 --chmod=755 entrypoint.sh /
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 
