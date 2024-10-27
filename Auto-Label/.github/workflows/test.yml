@@ -1,8 +1,6 @@
-name: Test Action
+name: CI / Test Action
 
 on: 
-  schedule:
-    - cron: '0 */1 * * *'
   issues:
     types: [opened, edited]
   pull_request:
@@ -30,8 +28,8 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.BOT_TOKEN }}
-        issue-config: issues.yml
+        github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+        issue-config: '.github/issues.yml'
   # label_pull_requests:
   #   runs-on: ubuntu-latest
   #   permissions:

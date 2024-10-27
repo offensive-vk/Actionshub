@@ -8,7 +8,7 @@ inputs:
   github-token:
     description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
     required: false
-    default: ${{ secrets.GITHUB_TOKEN }}
+    default: ${{ github.token }}
   create-labels:
     description: "Set to true if the labels does not exist in the repository. If set to false, the action will not create the labels."
     required: false
@@ -16,9 +16,11 @@ inputs:
   issue-config:
     description: "Path to file where each label maps to an array of matching strings. File type: .yml, .yaml, .json."
     required: true
+    default: '.github/issues.yml'
   pr-config:
     description: "Path to file for labeling pull request based on file changes. Like labeler.yml in @actions/labeler."
-    required: true
+    required: false
+    default: '.github/pr.yml'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/offensive-vk/auto-label:latest'
+  image: './Dockerfile'

@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   schedule:
-      - cron: '0 0 1 * *'
+      - cron: '0 0 * * 0'
   workflow_dispatch:
 
 env:
@@ -16,6 +16,7 @@ env:
   
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -46,16 +47,17 @@ jobs:
           tags: |
             type=ref,event=pr
             type=edge
-            latest  # Add the latest tag
+            latest
+            ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-issue
-            org.opencontainers.image.description=Automated Issue Creator
+            org.opencontainers.image.description=Automated Issue Creator Action
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
           echo "*** VERIFICATION COMPLETED *** "
 
@@ -65,6 +67,6 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}  # Uses both latest and v5
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
