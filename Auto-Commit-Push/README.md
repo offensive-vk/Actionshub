@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Commit and Push
-        uses: offensive-vk/auto-commit-push@v5
+        uses: offensive-vk/auto-commit-push@v6
         with:
           name: 'Your Name'
           email: 'your@email.com'

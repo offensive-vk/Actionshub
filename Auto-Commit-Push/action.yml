@@ -1,4 +1,5 @@
 name: 'Auto Commit Push'
+author: 'Vedansh (offensive-vk)'
 description: 'Auto Commit and Push Action helps to stage all changes and push them to Remote Repo. '
 branding:
   icon: upload-cloud
