@@ -29,7 +29,7 @@ Add a comment to your `README.md` like this:
 
 ```md
 <!--STARTS_HERE_QUOTE_README-->
-<i>❝“It is easier to change the specification to fit the program than vice versa.”— Alan Perlis   ❞</i>
+<i>❝“In Data Science if you want to help individuals, be empathetic and ask questions; that way, you can begin to understand their journey, too.”— Damian Duffy Mingle❞</i>
 <!--ENDS_HERE_QUOTE_README-->
 ```
 
