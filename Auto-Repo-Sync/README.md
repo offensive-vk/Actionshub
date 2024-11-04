@@ -2,9 +2,11 @@
 
 Git Repo Sync enables you to synchronize code to other code management platforms, such as GitLab, Github, Bitbucket etc.
 
+This Action does not use Docker as its Runtime.
+
 ## Example
 
-You can use the following example as a template to create a new file with any name under `.github/workflows/`. Enjoy !
+You can use the following example as a template to create a new file with any name under `.github/workflows/`.
 
 ```yaml
 name: CI

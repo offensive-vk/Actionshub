@@ -1,9 +1,9 @@
 name: 'Auto Repo Sync'
-description: 'Auto Repo Sync enables you to synchronize code to other code management platforms, such as GitLab, Bitbucket, etc.'
+description: 'This Action enables you to synchronize code to other code management platforms, such as GitLab, Bitbucket, etc.'
 
 branding:
-  icon: upload-cloud
-  color: gray-dark
+  icon: 'upload-cloud'
+  color: 'gray-dark'
 
 inputs:
   target-url:
@@ -17,9 +17,12 @@ inputs:
     required: true
 
 runs:
-  using: "docker"
-  image: "docker://ghcr.io/offensive-vk/auto-repo-sync:latest"
-  env:
-      INPUT_TARGET_URL: ${{ inputs.target-url }}
-      INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
-      INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
+  using: "composite"
+  steps:
+    - name: Sync Repository
+      shell: bash
+      env:
+        INPUT_TARGET_URL: "${{ inputs.target-url }}"
+        INPUT_TARGET_USERNAME: "${{ inputs.target-username }}"
+        INPUT_TARGET_TOKEN: "${{ inputs.target-token }}"
+      run: chmod +x ./entrypoint.sh; ./entrypoint.sh
