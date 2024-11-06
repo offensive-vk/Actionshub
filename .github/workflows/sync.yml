@@ -237,6 +237,35 @@ jobs:
           message: 'Remote Repo Sync - auto-label'
           github-token: ${{ secrets.BOT_TOKEN }}
 
+  sync-auto-translate:
+    name: Auto Translate
+    needs: [sync-auto-label]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-Translate || exit 0
+          mkdir -p Auto-Translate
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-translate.git Auto-Translate
+          cd Auto-Translate
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v6
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-translate'
+          github-token: ${{ secrets.BOT_TOKEN }}
+          
   finish-repo-sync:
     runs-on: ubuntu-latest
     name: Report Successful Syncing
