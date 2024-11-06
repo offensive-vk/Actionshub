@@ -1,0 +1,38 @@
+name: Auto Translate MD
+author: Vedansh (offensive-vk)
+description: Automatically Translate a MD File to Other Languages
+
+inputs:
+  repo-token:
+    description: 'Repo scope github PAT'
+    required: false
+  file:
+    description: 'Path of File to Translate'
+    required: false
+    default: 'README.md'
+  github-token:
+    description: 'GitHub Token Bearer for Authentication'
+    required: false
+  committer:
+    description: 'Name of the committer'
+    required: false
+    default: 'github-actions[bot]'
+  commit-message:
+    description: 'Custom commit message'
+    required: false
+    default: 'Automated Translation Successful ⚡'
+  commit-options:
+    description: 'Additional commit options (optional)'
+    required: false
+  language:
+    description: 'Language for translation (e.g., es, zh-CN)'
+    required: false
+    default: 'es'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  
+branding:
+  icon: book-open
+  color: black

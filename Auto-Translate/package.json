@@ -1,0 +1,33 @@
+{
+  "name": "auto-translate",
+  "version": "5.0.0",
+  "description": "Github Action to translate Readme to a different language.",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild index.js --bundle --outdir=dist/ --platform=node --sourcemap"
+  },
+  "keywords": [
+    "readme",
+    "translate",
+    "translator"
+  ],
+  "author": {
+    "name": "Vedansh <offensive-vk>"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0",
+    "@iamtraction/google-translate": "2.0.0",
+    "http-proxy-agent": "^4.0.1",
+    "remark-parse": "^8.0.3",
+    "remark-stringify": "^8.1.1",
+    "simple-git": "^3.27.0",
+    "tunnel": "0.0.6",
+    "unified": "^9.2.2",
+    "unist-util-visit": "^2.0.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

@@ -1,0 +1,37 @@
+name: CI / Action
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['master']
+
+env:
+  repo-token: ${{ secrets.BOT_TOKEN }}
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        lang: ['es', 'hi', 'fr', 'zh-CN', 'ar']
+
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Translate Readme
+        uses: ./
+        with:
+          repo-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+          file: "README.md"
+          language: ${{ matrix.lang }}
+
+      - name: Commit and Push
+        uses: offensive-vk/auto-commit-push@master
+        with: 
+          branch: 'master'
+          name: 'TheHamsterBot'
+          email: 'TheHamsterBot@outlook.com'
+          github-token: ${{ secrets.BOT_TOKEN }}
+          message: 'CI: Translated Markdown ${{ matrix.lang }} File.'
