@@ -26,7 +26,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -55,7 +55,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -84,7 +84,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -113,7 +113,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -142,7 +142,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -171,7 +171,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -200,7 +200,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -229,7 +229,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
@@ -258,7 +258,7 @@ jobs:
           cd ..
 
       - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v7
         with: 
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'

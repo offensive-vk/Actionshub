@@ -1,4 +1,4 @@
-name: CI / Auto Repo Stats
+name: CI / Repo Stats
 
 on:
   push:

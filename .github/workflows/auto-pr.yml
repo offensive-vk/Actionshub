@@ -18,7 +18,7 @@ jobs:
 
       - name: Create or Update Pull Request
         id: create-pr
-        uses: offensive-vk/auto-pull-request@master
+        uses: offensive-vk/auto-pr-action@master
         with:
           github_token: ${{ secrets.BOT_TOKEN }}
           destination_branch: 'master'

@@ -1,8 +1,8 @@
-name: CI / Repo Sync
+name: CI / Mirror Sync
 
 on:
   push:
-    branches: ['**']
+    branches: ['master']
   workflow_dispatch:
 jobs:
   sync:
