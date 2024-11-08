@@ -1,6 +1,7 @@
 name: auto-issue
-description: Create a new GitHub Issue using Octokit, with support for advanced options like labels, assignees, and milestones.
-author: offensive-vk
+description: Create a Issue using Octokit, with support for advanced options like labels, assignees, and milestones.
+author: 'Vedansh (offensive-vk)'
+
 branding:
   icon: mail
   color: gray-dark
@@ -9,15 +10,12 @@ inputs:
   github-token:
     description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
     required: false
-    default: ${{ github.token }}
   owner:
     description: "The repository owner. If not specified, the owner will be inferred from the context."
     required: false
-    default: ${{ github.repository_owner }}
   repo:
     description: "The target repository for the issue. If not specified, the current repository is used."
     required: false
-    default: ${{ github.repository }}
   title:
     description: "The title of the issue. This input is required."
     required: false
@@ -36,7 +34,6 @@ inputs:
   assignees:
     description: "A comma-separated list of GitHub usernames to assign to the issue (e.g., 'Hamster,user'). Optional."
     required: false
-    default: ${{ github.actor }}
 outputs:
   json:
     description: "The full JSON response for the created issue, as returned by the GitHub API."
@@ -46,6 +43,5 @@ outputs:
     description: "The number of the newly created issue."
 
 runs:
-  using: 'docker'
-  image: './Dockerfile'
-  # image: 'docker://ghcr.io/offensive-vk/auto-issue:latest'
+  using: 'node20'
+  main: 'dist/index.js'

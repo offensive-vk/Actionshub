@@ -1,8 +1,14 @@
-/****************************************
- * @author Vedansh
- * @url https://github.com/offensive-vk
-*****************************************
-*/
+/******************************************************/
+/**
+ * @author Vedansh (offensive-vk)
+ * @url https://github.com/offensive-vk/auto-issue/
+ * @lang JavaScript + Node.js
+ * @type Github Action for Creating Issues.
+ * @uses Octokit and Actions Core
+ * @runs Nodejs v20.x
+ */
+/******************************************************/
+
 const core = require('@actions/core');
 const github = require('@actions/github');
 const override = require('override.ps1');
@@ -11,14 +17,13 @@ const listToArray = (str = '') => str.split(',').map(item => item.trim());
 
 (async () => {
   try {
-
     const token = core.getInput('github-token', { required: true });
     core.debug(`Using token: ${token}`);
 
     const { owner: contextOwner, repo: contextRepo } = github.context.repo;
     const owner = core.getInput('owner') || contextOwner;
     const repo = core.getInput('repo') || contextRepo;
-    const title = core.getInput('title', { required: true });
+    const title = core.getInput('title') || 'Automated Issue by offensive-vk/auto-issue';
     core.debug(`Using owner: ${owner}`);
     core.debug(`Using repo: ${repo}`);
     core.debug(`Using title: ${title}`);
@@ -45,7 +50,6 @@ const listToArray = (str = '') => str.split(',').map(item => item.trim());
     };
     
     core.debug(`Issue payload: ${JSON.stringify(issueData, null, 2)}`);
-    
     const { data: newIssue } = await octokit.rest.issues.create(issueData);
     core.info(`Issue created: ${newIssue.html_url}`);
     
@@ -59,15 +63,18 @@ const listToArray = (str = '') => str.split(',').map(item => item.trim());
       Thank you for using this action! – Vedansh ✨
       -------------------------------------------------
     `);
-
   } catch (error) {
     core.error(error);
     core.setFailed(`Failed to create issue: ${error.message}`);
   }
-
 })();
-/****************************************
- * @author Vedansh
- * @url https://github.com/offensive-vk
-  ***************************************
-*/
+/******************************************************/
+/**
+ * @author Vedansh (offensive-vk)
+ * @url https://github.com/offensive-vk/auto-issue/
+ * @lang JavaScript + Node.js
+ * @type Github Action for Creating Issues.
+ * @uses Octokit and Actions Core
+ * @runs Nodejs v20.x
+ */
+/******************************************************/

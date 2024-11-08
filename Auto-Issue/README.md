@@ -7,12 +7,13 @@ This GitHub Action allows you to automate the creation of issues in a repository
 ```yml
 steps:
   - uses: actions/checkout@v4
+
   - name: Create an Issue
     uses: offensive-vk/auto-issue@v7
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
-      title: "Automated Issue by Actions."
-      body: "This is a test issue created by auto-issue action."
+      title: "Automated Issue by offensive-vk/auto-issue."
+      body: "This is a test issue created by [auto-issue](https://github.com/offensive-vk/auto-issue) action."
 ```
 
 ## Inputs Configuration
@@ -98,7 +99,7 @@ steps:
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       title: Simple Issue
-      body: This Issue was created by auto-issue GitHub Action.
+      body: 'This is a test issue created by [auto-issue](https://github.com/offensive-vk/auto-issue) action.'
   - run: |
       echo "${{ steps.new-issue.outputs.json }}" | jq
       echo "${{ steps.new-issue.outputs.json }}" | jq .state

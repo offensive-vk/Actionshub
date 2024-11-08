@@ -1,10 +1,10 @@
 {
   "name": "auto-issue",
   "version": "7.0.0",
-  "description": "Github Action to Automatically Create an Issue using Actions.",
-  "main": "src/index.js",
+  "description": "Automatically Create an Issue using Actions.",
+  "main": "index.js",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --outfile=dist/index.js --platform=node"
+    "build": "esbuild index.js --bundle --outfile=dist/index.js --platform=node --sourcemap"
   },
   "repository": {
     "type": "git",

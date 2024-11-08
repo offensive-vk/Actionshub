@@ -1,13 +1,10 @@
 name: CI / Test
 
 on:
-  schedule:
-    - cron: '0 0 * * 0'
   push:
-    branches: 
-     - "**"
-  pull_request:
-    branches: 
+    paths-ignore:
+    - '*/**.md'
+    branches:
      - "**"
   workflow_dispatch:
 
@@ -41,10 +38,9 @@ jobs:
           github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
           title: "Automated Pull Request from: ${{ github.head_ref }}"
           body: |
-            # Test Action - Pull Request Test
+             The `auto-issue` Action is functional locally here.
             
-            This Pull Request was Created Sucessfully.
-            This Auto Issue Action is functional.
+             Good Day!
           labels: test,automated
           assignees: TheHamsterBot
       
@@ -66,13 +62,19 @@ jobs:
       - uses: actions/checkout@v4
 
   trigger-test:
-    if: github.event_name == 'workflow_dispatch' || github.ref_name == 'master'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          curl --silent --show-error \
-            --request POST \
-            --header "Authorization: token ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}" \
-            --header "Accept: application/vnd.github.v3+json" \
-            --url "https://api.github.com/repos/dacbd/err/dispatches" \
-            --data '{"event_type":"basic", "client_payload": {"ref_name":"${{ github.ref_name }}"}}'
+      - uses: actions/checkout@v4
+      - name: Test Action
+        id: new-issue
+        uses: ./
+        with:
+          github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+          title: "Automated Pull Request from: ${{ github.head_ref }}"
+          body: |
+             The `auto-issue` Action is functional locally here.
+            
+             Good Day!
+          labels: test,automated
+          assignees: TheHamsterBot
