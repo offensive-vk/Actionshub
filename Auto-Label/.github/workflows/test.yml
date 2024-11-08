@@ -13,7 +13,8 @@ permissions:
   contents: write
 
 jobs:
-  label_issues:
+  label:
+    name: Label Stuff
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,8 +29,16 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.BOT_TOKEN }}
         issue-config: '.github/issues.yml'
+
+    - name: Label Pull Requests
+      if: github.event_name == 'pull_request'
+      uses: ./
+      with:
+        create-labels: true
+        github-token: ${{ secrets.BOT_TOKEN }}
+        pr-config: '.github/pr.yml'
   # label_pull_requests:
   #   runs-on: ubuntu-latest
   #   permissions:

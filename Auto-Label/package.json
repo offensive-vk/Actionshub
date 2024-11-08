@@ -1,12 +1,10 @@
 {
 	"name": "auto-label",
-	"version": "6.0.0",
+	"version": "7.0.0",
 	"description": "Automatically Apply Labels on Issues and PRs using Actions.",
-	"main": "src/index.js",
+	"main": "index.ts",
 	"scripts": {
-		"build-ts": "tsc src/index.ts",
-		"bundle": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node",
-		"build": "tsc src/index.ts && esbuild src/index.js --bundle --outfile=dist/index.js --platform=node"
+		"build": "esbuild index.ts --bundle --outfile=dist/index.js --platform=node --sourcemap"
 	},
 	"repository": {
 		"type": "git",

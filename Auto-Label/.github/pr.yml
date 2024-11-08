@@ -1,0 +1,20 @@
+hamster:
+  - label: hamster
+    description: sorry its my hamster
+    match:
+      - automated
+      - hamster
+      - hamsters
+      - hamster-bot
+      - hamster-bots
+      - Hamster
+
+issue:
+  - label: issue
+    description: its a issue
+    match:
+      - issue
+      - issues
+      - bug
+      - bugs
+      - fix

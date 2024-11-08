@@ -8,12 +8,12 @@ This GitHub Action allows you to automate labels on issues and pull requests in 
 steps:
   - uses: actions/checkout@v4
   - name: Apply Labels on PRs and Issues
-    uses: offensive-vk/auto-label-stuff@v6
+    uses: offensive-vk/auto-label-stuff@v7
     with:
       create-labels: true
       github-token: ${{ secrets.GITHUB_TOKEN }}
-      issue-config: .github/labels.yml
-      pr-config: .github/labeler.yml
+      issue-config: .github/issues.yml
+      pr-config: .github/pr.yml
 ```
 
 ## Inputs Configuration
