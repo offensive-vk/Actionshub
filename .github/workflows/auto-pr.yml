@@ -20,15 +20,15 @@ jobs:
         id: create-pr
         uses: offensive-vk/auto-pr-action@master
         with:
-          github_token: ${{ secrets.BOT_TOKEN }}
+          repo-token: ${{ secrets.BOT_TOKEN }}
           destination_branch: 'master'
-          pr_title:
+          title:
             '${{ github.workflow }} - (${{ github.event.head_commit.message }})'
-          pr_body: 'Please Wait.... Hamster is working really hard here.'
-          pr_reviewer: 'offensive-vk'
-          pr_label: 'bot,automated,hamster,pull-request'
-          pr_assignee: 'TheHamsterBot'
-          pr_draft: false
+          body: 'Please Wait.... Hamster is working really hard here.'
+          reviewers: 'offensive-vk'
+          labels: 'bot,automated,hamster,pull-request'
+          assignees: 'TheHamsterBot'
+          draft: false
 
       - name: Save PR Number in ENV
         run:
@@ -72,4 +72,4 @@ jobs:
           gh pr edit "$PR_NUMBER" --body "$MARKDOWN_CONTENT"
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
