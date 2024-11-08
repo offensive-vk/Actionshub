@@ -1,7 +1,7 @@
 services:
   awesome-devops:
     build: .
-    container_name: awesome-devops-container
+    container_name: awesome-devops
     restart: always
     environment:
       - NODE_ENV=development
