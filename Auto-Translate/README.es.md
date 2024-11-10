@@ -60,7 +60,7 @@ Este ejemplo traduce el`README.md`archivo al español (`es`) y el archivo traduc
 | ----------------- | -------------------------------------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------- |
 | `file`            | Ruta del archivo a traducir (relativa a la raíz del repositorio).                                                    | No        | `README.md`                                                          |
 | `repo-token`      | Token de GitHub utilizado para autenticar confirmaciones. Usar`${{ secrets.GITHUB_TOKEN }}`en los flujos de trabajo. | No        |                                                                      |
-| `committer`       | El nombre del confirmador de la confirmación.                                                                        | No        | `github-actions[bot] <github-actions[bot]@users.noreply.github.com>` |
+| `committer`       | El nombre del confirmador para la confirmación.                                                                      | No        | `github-actions[bot] <github-actions[bot]@users.noreply.github.com>` |
 | `commit-options`  | Opciones adicionales para el`git commit`dominio.                                                                     | No        |                                                                      |
 | `language`        | El código del idioma de destino para la traducción (p. ej.,`es`,`zh-CN`,`fr`).                                       | No        | `es`                                                                 |
 

@@ -12,7 +12,7 @@ jobs:
   test:
     strategy:
       matrix:
-        lang: ['es', 'hi', 'fr', 'zh-CN', 'ar']
+        lang: ['es', 'hi', 'fr', 'zh-CN', 'ar', 'de', 'ru']
 
     name: Test
     runs-on: ubuntu-latest
@@ -34,4 +34,4 @@ jobs:
           name: 'TheHamsterBot'
           email: 'TheHamsterBot@outlook.com'
           github-token: ${{ secrets.BOT_TOKEN }}
-          message: 'CI: Translated Markdown ${{ matrix.lang }} File.'
+          message: 'CI: Translated Markdown [${{ matrix.lang }}] File.'

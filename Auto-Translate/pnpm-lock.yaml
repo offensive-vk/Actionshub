@@ -17,6 +17,9 @@ importers:
       '@iamtraction/google-translate':
         specifier: 2.0.0
         version: 2.0.0
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
       http-proxy-agent:
         specifier: ^4.0.1
         version: 4.0.1
@@ -38,10 +41,6 @@ importers:
       unist-util-visit:
         specifier: ^2.0.3
         version: 2.0.3
-    devDependencies:
-      esbuild:
-        specifier: ^0.24.0
-        version: 0.24.0
 
 packages:
 

@@ -1,10 +1,10 @@
 # Auto Translate 📘
 
-Automatically translate a Markdown file (e.g., README.md) to other languages and commit the translated version back to your repository.
+This Action Automatically translate a Markdown file (e.g., README.md) to any other language using options. However, this action does not process the html tags and other complex formatting in markdown file. 
 
 ## Current Translation
 
-[Hindi](./README.hi.md) - [French](./README.fr.md) - [Arabic](./README.ar.md) - [Chinese](./README.zh-CN.md) - [Espanol](./README.es.md) - 
+[English](./README.md) [Hindi](./README.hi.md) - [French](./README.fr.md) - [Arabic](./README.ar.md) - [Chinese](./README.zh-CN.md) - [Espanol](./README.es.md)
 
 ## 📖 Overview
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auto Translate
-        uses: offensive-vk/auto-translate-action@master
+        uses: offensive-vk/auto-translate-md@v7
         with:
           file: 'README.md'
           language: 'es'
@@ -82,7 +82,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auto Translate README to French
-        uses: offensive-vk/auto-translate@master
+        uses: offensive-vk/auto-translate-md@master
         with:
           file: 'README.md'
           language: ${{ matrix.lang }}
@@ -128,4 +128,13 @@ Created by Vedansh ([offensive-vk](https://github.com/offensive-vk)).
 
 ## 📜 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT](LICENSE) License.
+
+***
+
+<p align="center">
+  <i>&copy; <a href="https://github.com/offensive-vk/">Vedansh </a> 2020 - Present</i><br>
+  <i>Licensed under <a href="https://github.com/offensive-vk/auto-translate?tab=MIT-1-ov-file">MIT</a></i><br>
+  <a href="https://github.com/TheHamsterBot"><img src="https://i.ibb.co/4KtpYxb/octocat-clean-mini.png" alt="hamster"/></a><br>
+  <sup>Thanks for visiting :)</sup>
+</p>
