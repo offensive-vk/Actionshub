@@ -21,6 +21,7 @@ AwesomeDevOps serves as the testing ground for various custom actions, including
 - **auto-stats**: Tracks and reports repository statistics.
 - **auto-update-quote**: Adds daily motivational or code-related quotes.
 - **auto-commit-push**: Automates regular commits and pushes.
+- **auto-translate**: Translate your readme to different language.
 
 Expect frequent updates and cutting-edge features being tested!
 
