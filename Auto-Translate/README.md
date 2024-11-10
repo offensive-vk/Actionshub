@@ -1,6 +1,6 @@
 # Auto Translate 📘
 
-This Action Automatically translate a Markdown file (e.g., README.md) to any other language using options. However, this action does not process the html tags and other complex formatting in markdown file. 
+This Action Automatically translate a Markdown file (e.g., README.md) to any other language using options. However, this action does not process the html tags and other complex formatting in markdown file. *Some features are still in development phases.*
 
 ## Current Translation
 
@@ -103,7 +103,7 @@ Use any language code supported by Google Translate (e.g., `es` for Spanish, `zh
 
 ## 🛠 Development
 
-If you want to build and test the action locally, you can use [act](https://github.com/nektos/act) to run GitHub Actions in your local environment.
+If you want to build and test the action locally, you can use [act](https://github.com/nektos/act) to run GitHub Actions in your local environment. *We are constantly scaling our services and the flexiblity of our continuous integration and our backend systems.*
 
 ```bash
 # Install dependencies
