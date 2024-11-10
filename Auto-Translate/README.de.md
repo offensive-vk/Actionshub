@@ -1,10 +1,10 @@
 # Automatische Übersetzung 📘
 
-Übersetzen Sie eine Markdown-Datei (z. B. README.md) automatisch in andere Sprachen und übertragen Sie die übersetzte Version zurück in Ihr Repository.
+Diese Aktion übersetzt eine Markdown-Datei (z. B. README.md) mithilfe von Optionen automatisch in eine andere Sprache. Diese Aktion verarbeitet jedoch nicht die HTML-Tags und andere komplexe Formatierungen in der Markdown-Datei.
 
 ## Aktuelle Übersetzung
 
-[Nein](./README.hi.md)-[Französisch](./README.fr.md)-[Arabisch](./README.ar.md)-[chinesisch](./README.zh-CN.md)-[Spanisch](./README.es.md)-
+[Englisch](./README.md)-[Nein](./README.hi.md)-[Französisch](./README.fr.md)-[Arabisch](./README.ar.md)-[chinesisch](./README.zh-CN.md)-[Spanisch](./README.es.md)
 
 ## 📖 Übersicht
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auto Translate
-        uses: offensive-vk/auto-translate-action@master
+        uses: offensive-vk/auto-translate@v7
         with:
           file: 'README.md'
           language: 'es'
@@ -49,7 +49,7 @@ jobs:
           name: 'TheHamsterBot'
           email: 'TheHamsterBot@outlook.com'
           github-token: ${{ secrets.BOT_TOKEN }}
-          message: 'CI: Translated Markdown Files.'
+          message: 'CI: Translated Markdown File.'
 ```
 
 Dieses Beispiel übersetzt die`README.md`Datei auf Spanisch (`es`) und die übersetzte Datei`README.es.md`zum Repository.
@@ -128,4 +128,13 @@ Erstellt von Vedansh ([offensive-vk](https://github.com/offensive-vk)).
 
 ## 📜 Lizenz
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert.
+Dieses Projekt ist unter der Lizenz lizenziert[MIT](LICENSE)Lizenz.
+
+* * *
+
+<p align="center">
+  <i>&copy; <a href="https://github.com/offensive-vk/">Vedansh </a> 2020 - Present</i><br>
+  <i>Licensed under <a href="https://github.com/offensive-vk/auto-translate?tab=MIT-1-ov-file">MIT</a></i><br>
+  <a href="https://github.com/TheHamsterBot"><img src="https://i.ibb.co/4KtpYxb/octocat-clean-mini.png" alt="hamster"/></a><br>
+  <sup>Thanks for visiting :)</sup>
+</p>

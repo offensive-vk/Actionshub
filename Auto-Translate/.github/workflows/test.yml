@@ -2,19 +2,15 @@ name: CI / Action
 
 on:
   workflow_dispatch:
-  push:
-    branches: ['master']
-
-env:
-  repo-token: ${{ secrets.BOT_TOKEN }}
-
+    inputs:
+      branch: 
+        type: string
+        description: 'The Branch to commit the changes'
+        default: 'master'
+        required: true
 jobs:
   test:
-    strategy:
-      matrix:
-        lang: ['es', 'hi', 'fr', 'zh-CN', 'ar', 'de', 'ru']
-
-    name: Test
+    name: Testing Action
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,15 +19,43 @@ jobs:
       - name: Translate Readme
         uses: ./
         with:
-          repo-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
           file: "README.md"
-          language: ${{ matrix.lang }}
+          language: 'es'
 
-      - name: Commit and Push
-        uses: offensive-vk/auto-commit-push@master
-        with: 
-          branch: 'master'
-          name: 'TheHamsterBot'
-          email: 'TheHamsterBot@outlook.com'
-          github-token: ${{ secrets.BOT_TOKEN }}
-          message: 'CI: Translated Markdown [${{ matrix.lang }}] File.'
+      - name: Translate Readme
+        uses: ./
+        with:
+          file: "README.md"
+          language: 'fr'
+
+      - name: Translate Readme
+        uses: ./
+        with:
+          file: "README.md"
+          language: 'zh-CN'
+          
+      - name: Translate Readme
+        uses: ./
+        with:
+          file: "README.md"
+          language: 'ru'
+
+      - name: Translate Readme
+        uses: ./
+        with:
+          file: "README.md"
+          language: 'de'
+
+      - name: Commit & Push Changes
+        run: |
+          git fetch && git pull --verbose
+          git config --local user.name "Hamster [bot]"
+          git config --local user.email "TheHamsterBot@outlook.com"
+          git add .
+          git commit -m "📚 Updated Automated Translations
+
+
+          Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          git push --force-with-lease
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}

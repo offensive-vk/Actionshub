@@ -16,7 +16,7 @@
   "author": {
     "name": "Vedansh <offensive-vk>"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",

@@ -10,7 +10,6 @@ const filePath = core.getInput("file") || "README.md";
 const lang = core.getInput("language") || "es";
 const $ = require("@iamtraction/google-translate");
 const simpleGit = require("simple-git");
-simpleGit().clean(simpleGit.CleanOptions.FORCE);
 const git = simpleGit();
 const unified = require("unified");
 const parse = require("remark-parse");
@@ -48,11 +47,11 @@ async function translateReadme() {
       "utf8"
     );
     core.setCommandEcho(true);
+    await git.add('*.md');
     console.log(`README.${lang}.md Translated.`);
-    await commitChanges();
   } catch (error) {
-    console.error("Error during translation:", error.message);
-    process.exit(1);
+    console.error("Error during translation:", error);
+    console.dir(error, {depth: Infinity});
   }
 }
 

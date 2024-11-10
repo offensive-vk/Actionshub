@@ -4,7 +4,7 @@ This Action Automatically translate a Markdown file (e.g., README.md) to any oth
 
 ## Current Translation
 
-[English](./README.md) [Hindi](./README.hi.md) - [French](./README.fr.md) - [Arabic](./README.ar.md) - [Chinese](./README.zh-CN.md) - [Espanol](./README.es.md)
+[English](./README.md) - [Hindi](./README.hi.md) - [French](./README.fr.md) - [Arabic](./README.ar.md) - [Chinese](./README.zh-CN.md) - [Espanol](./README.es.md)
 
 ## 📖 Overview
 
@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auto Translate
-        uses: offensive-vk/auto-translate-md@v7
+        uses: offensive-vk/auto-translate@v7
         with:
           file: 'README.md'
           language: 'es'
@@ -49,7 +49,7 @@ jobs:
           name: 'TheHamsterBot'
           email: 'TheHamsterBot@outlook.com'
           github-token: ${{ secrets.BOT_TOKEN }}
-          message: 'CI: Translated Markdown Files.'
+          message: 'CI: Translated Markdown File.'
 ```
 
 This example translates the `README.md` file to Spanish (`es`) and the translated file `README.es.md` to the repository.
@@ -82,7 +82,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Auto Translate README to French
-        uses: offensive-vk/auto-translate-md@master
+        uses: offensive-vk/auto-translate@master
         with:
           file: 'README.md'
           language: ${{ matrix.lang }}
