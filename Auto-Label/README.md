@@ -1,12 +1,11 @@
 # auto-label
 
-This GitHub Action allows you to automate labels on issues and pull requests in a repository.
+This GitHub Action allows you to add or apply labels on issues and pull requests in a github repository. Please click [here](.github/workflows/test.yml) to see a complete working workflow that uses this action.
 
 ## Example Usage
 
 ```yml
 steps:
-  - uses: actions/checkout@v4
   - name: Apply Labels on PRs and Issues
     uses: offensive-vk/auto-label@v7
     with:
@@ -27,6 +26,68 @@ Configure the inputs through the `with:` section of the Action. Below is a list 
 | pr-config | `.github/pr.yml` / `required` | The Pull Request Labeler Config. (Similiar to `labeler.yml`) | 
 | create-labels | `true` | Whether to create labels in base repo or not. |
 
+## Issue Config 
+
+This is a sample description of how can you write your rules to apply labels on Issues by matching specific keywords.
+
+```yaml
+actual_label:
+  - label: actual_label
+    description: 'Short description'
+    match:
+      - 'Match1'
+      - 'Match2'
+      - '...so on.'
+```
+
+For Example:
+
+```yaml
+hamster:
+  - label: hamster
+    description: sorry its my hamster
+    match:
+      - automated
+      - hamster
+      - hamsters
+      - Hamster
+
+bug:
+  - label: bug
+    description: its a issue
+    match:
+      - issue
+      - issues
+      - bug
+      - bugs
+      - fix
+```
+
+## PR Config
+
+This is a sample description of how can you write your rules to apply labels on Pull Requests by matching specific keywords.
+
+```yaml
+actual_label:
+  - 'Match1'
+  - 'Match2'
+```
+
+Example:
+
+```yml
+area/release:
+  - 'release/'
+  - 'release_assets/'
+
+area/build:
+  - 'build'
+  - 'resources'
+  - 'xyz'
+
+```
+
+Thank you for using this action.
 
 ***
 
