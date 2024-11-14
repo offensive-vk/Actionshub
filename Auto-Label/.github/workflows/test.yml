@@ -29,7 +29,7 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.BOT_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
@@ -37,27 +37,5 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.BOT_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         pr-config: '.github/pr.yml'
-  # label_pull_requests:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     pull-requests: write
-
-  #   steps:
-  #   - name: Checkout Repository
-  #     uses: actions/checkout@v4
-
-  #   - name: Label Pull Requests
-  #     if: github.event_name == 'pull_request'
-  #     uses: actions/labeler@v4
-  #     with:
-  #       repo-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
-
-  # finish_cleanup:
-  #   runs-on: ubuntu-latest
-  #   needs: [label_issues, label_pull_requests]
-  #   steps:
-  #   - name: Finish Off & Cleanup
-  #     run: echo "Successfully labeled all of the open issues and pull requests."

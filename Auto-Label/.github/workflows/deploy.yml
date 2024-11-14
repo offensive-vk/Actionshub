@@ -50,16 +50,14 @@ jobs:
             latest
             ${{ github.ref_name }}
           labels: |
-            org.opencontainers.image.title=auto-issue
-            org.opencontainers.image.description=Automated Issue Creator Action
+            org.opencontainers.image.title=auto-label
+            org.opencontainers.image.description=Automatically Apply Labels on Issues and PRs.
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
-          echo "*** VERIFICATION COMPLETED *** "
 
       - name: Build and Push Image
         id: build-and-push
