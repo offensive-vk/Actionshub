@@ -1,20 +1,11 @@
-hamster:
-  - label: hamster
-    description: sorry its my hamster
-    match:
-      - automated
-      - hamster
-      - hamsters
-      - hamster-bot
-      - hamster-bots
-      - Hamster
+kind/enhancement:
+  - '/'
+  - 'action.yml'
+  - '.github'
+  - '**/*.yml'
+  - '**/*.ts'
+  - '**/*.js' 
 
-issue:
-  - label: issue
-    description: its a issue
-    match:
-      - issue
-      - issues
-      - bug
-      - bugs
-      - fix
+kind/ci:
+  - '**/*.yml'
+  - '.github'

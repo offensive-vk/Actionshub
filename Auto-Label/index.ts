@@ -2,10 +2,10 @@
 /**
  * @author Vedansh (offensive-vk)
  * @url https://github.com/offensive-vk/auto-label/
- * @lang TypeScript + Node.js
- * @type Github Action for Applying Labels on Issue and PR.
- * @uses Octokit and Actions Core
+ * @lang TypeScript + Node.js + Octokit
+ * @type Github Action for Applying Labels on Issue and PRs.
  * @runs Nodejs v20.x
+ * @bundler esbuild
  */
 /******************************************************/
 import * as core from '@actions/core';
@@ -18,12 +18,17 @@ const issue = context.payload.issue || context.payload.pull_request;
 const title = issue?.title ? issue.title.toLowerCase() : '';
 const body = issue?.body ? issue.body.toLowerCase() : '';
 
+interface LabelConfig {
+    label: string;
+    match: Array<string>;
+    description?: string;
+}
 
-function GetLabels<T extends { label: string; match: Array<string> }>(labels: Array<T>): Array<string> | undefined {
-    const tempLabels: Array<string> = [];
-    labels.forEach(({ label, match }) => {
+function GetLabels<T extends LabelConfig>(labels: Array<T>): Array<{ label: string; description?: string }> | undefined {
+    const tempLabels: Array<{ label: string; description?: string }> = [];
+    labels.forEach(({ label, match, description }) => {
         if (match.some(keyword => title.includes(keyword) || body.includes(keyword))) {
-            tempLabels.push(label);
+            tempLabels.push({ label, description });
         }
     });
     return tempLabels.length > 0 ? tempLabels : undefined;
@@ -38,7 +43,7 @@ function getRandomColor() {
     return color.slice(1);
 }
 
-async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string) {
+async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string, description?: string) {
     try {
         await octokit.rest.issues.getLabel({
             owner,
@@ -49,21 +54,22 @@ async function ensureLabelExists(octokit: any, owner: string, repo: string, labe
     } catch (error: any) {
         if (error.status === 404) {
             const randomColor = getRandomColor();
-            core.debug(`Label "${label}" not found, creating it with color #${randomColor}.`);
+            core.debug(`Label "${label}" not found, creating it with color #${randomColor} and description "${description}".`);
             await octokit.rest.issues.createLabel({
                 owner,
                 repo,
                 name: label,
                 color: randomColor,
+                description: description || '',
             });
-            core.info(`Label "${label}" created with color #${randomColor}.`);
+            core.info(`Label "${label}" created with color #${randomColor} and description "${description}".`);
         } else {
             core.error(error);
         }
     }
 }
 
-function parseConfigFile(filePath: string): Array<{ label: string; match: Array<string> }> {
+function parseConfigFile(filePath: string): Array<LabelConfig> {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     let parsedData;
     if (filePath.endsWith('.yml') || filePath.endsWith('.yaml')) {
@@ -75,8 +81,7 @@ function parseConfigFile(filePath: string): Array<{ label: string; match: Array<
     }
 
     if (typeof parsedData === 'object' && parsedData !== null) {
-        // Flatten dictionary to an array
-        return Object.values(parsedData).flat() as Array<{ label: string; match: Array<string> }>;
+        return Object.values(parsedData).flat() as Array<LabelConfig>;
     } else {
         throw new Error(`Parsed data from ${filePath} is not an object or is empty.`);
     }
@@ -90,7 +95,6 @@ function parseConfigFile(filePath: string): Array<{ label: string; match: Array<
         const { owner: contextOwner, repo: contextRepo } = github.context.repo;
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
-        const createLabels = core.getInput('create-labels') === 'true';
 
         const issueConfigPath = core.getInput('issue-config');
         const prConfigPath = core.getInput('pr-config');
@@ -100,13 +104,13 @@ function parseConfigFile(filePath: string): Array<{ label: string; match: Array<
 
         const matchedLabels = GetLabels(issueLabelMapping);
         if (matchedLabels) {
-            for (const label of matchedLabels) {
+            for (const { label, description } of matchedLabels) {
                 labels.push(label);
-                await ensureLabelExists(octokit, owner, repo, label);
+                await ensureLabelExists(octokit, owner, repo, label, description);
             }
         } else {
             labels.push('unknown');
-            await ensureLabelExists(octokit, owner, repo, 'unknown');
+            await ensureLabelExists(octokit, owner, repo, 'unknown', 'No specific label matched');
         }
 
         if (context.issue?.number && labels.length > 0) {
@@ -128,6 +132,9 @@ function parseConfigFile(filePath: string): Array<{ label: string; match: Array<
         `);
 
     } catch (error: any) {
+        console.dir(error);
         core.setFailed(`Failed to label PR or issue: ${error.message}`);
     }
 })();
+
+/* Good luck on re-writing this from scratch. */

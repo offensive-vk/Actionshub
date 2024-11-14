@@ -18,3 +18,11 @@ issue:
       - bug
       - bugs
       - fix
+
+feat:
+  - label: feat
+    description: ''
+    match:
+     - feature
+     - feat
+     - oi

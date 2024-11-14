@@ -37,5 +37,5 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}
         pr-config: '.github/pr.yml'
