@@ -7,12 +7,12 @@ This GitHub Action allows you to add or apply labels on issues and pull requests
 ```yml
 steps:
   - name: Apply Labels on PRs and Issues
+    if: github.event_name == 'issues'
     uses: offensive-vk/auto-label@v7
     with:
-      create-labels: true
-      github-token: ${{ secrets.GITHUB_TOKEN }}
-      issue-config: .github/issues.yml
-      pr-config: .github/pr.yml
+      create-labels: true # Not Required, defaults to true
+      github-token: ${{ secrets.GITHUB_TOKEN }} # Not Required uses ${{ secrets.GITHUB_TOKEN }}
+      issue-config: .github/issues.yml # Required config file.
 ```
 
 ## Inputs Configuration
@@ -21,7 +21,7 @@ Configure the inputs through the `with:` section of the Action. Below is a list 
 
 | Option    | Default Value                 | Description |
 |-----------|-------------------------------|-------------|
-| token     | `${{ github.token }}` / `required` | The GitHub token used to authenticate requests. Use `${{ github.token }}` or create a PAT and store it in secrets. |
+| github-token     | `${{ github.token }}` / `required` | The GitHub token used to authenticate requests. Use `${{ github.token }}` or create a PAT and store it in secrets. |
 | issue-config | `.github/issues.yml` / `required` | The Issues Config File that will label issues. |
 | pr-config | `.github/pr.yml` / `required` | The Pull Request Labeler Config. (Similiar to `labeler.yml`) | 
 | create-labels | `true` | Whether to create labels in base repo or not. |
@@ -69,8 +69,9 @@ This is a sample description of how can you write your rules to apply labels on 
 
 ```yaml
 actual_label:
-  - 'Match1'
-  - 'Match2'
+  - 'file_pattern1'
+  - 'file_pattern2'
+  - '...'
 ```
 
 Example:
@@ -79,9 +80,10 @@ Example:
 area/release:
   - 'release/'
   - 'release_assets/'
+  - '**/*.assets'
 
 area/build:
-  - 'build'
+  - 'build/**/*'
   - 'resources'
   - 'xyz'
 

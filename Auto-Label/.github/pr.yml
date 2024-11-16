@@ -9,3 +9,7 @@ kind/enhancement:
 kind/ci:
   - '**/*.yml'
   - '.github'
+
+hamster:
+  - 'automated'
+  - 'hamster'

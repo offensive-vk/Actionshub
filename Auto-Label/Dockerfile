@@ -20,7 +20,7 @@ RUN pnpm install
 COPY . .
 
 # Build the project with the specified command
-RUN pnpm run bundle
+RUN pnpm run build
 
 # Set the default command to run the application
 ENTRYPOINT ["node", "dist/index.js"]
