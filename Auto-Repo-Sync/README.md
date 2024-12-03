@@ -2,8 +2,6 @@
 
 Git Repo Sync enables you to synchronize code to other code management platforms, such as GitLab, Github, Bitbucket etc.
 
-This Action does not use Docker as its Runtime.
-
 ## Example
 
 You can use the following example as a template to create a new file with any name under `.github/workflows/`.
@@ -23,7 +21,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: offensive-vk/auto-repo-sync@v6
+    - uses: offensive-vk/auto-repo-sync@v7
       with:
         # Such as https://github.com/<user>/<repo>.git
         target-url: <target-url>
