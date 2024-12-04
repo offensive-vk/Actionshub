@@ -2,7 +2,7 @@ name: CI / Mirror Sync
 
 on:
   push:
-    branches: ['master']
+    branches: ['**']
   workflow_dispatch:
 jobs:
   sync:
