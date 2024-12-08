@@ -51,15 +51,13 @@ jobs:
             ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-issue
-            org.opencontainers.image.description=Create Automated Issue using Github Action
+            org.opencontainers.image.description=Create an Issue using this Action.
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
-          echo "*** VERIFICATION COMPLETED *** "
 
       - name: Build and Push Image
         id: build-and-push
@@ -69,4 +67,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64

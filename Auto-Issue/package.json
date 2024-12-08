@@ -1,7 +1,7 @@
 {
   "name": "auto-issue",
   "version": "7.0.0",
-  "description": "Automatically Create an Issue using Actions.",
+  "description": "Automatically Create an Issue using Octokit with Tons of Options.",
   "main": "index.js",
   "scripts": {
     "build": "esbuild index.js --bundle --outfile=dist/index.js --platform=node --sourcemap"
