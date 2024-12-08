@@ -6,8 +6,37 @@ on:
     - cron: '0 */2 * * *'
 
 jobs:
+  sync-auto-user-activity:
+    name: Auto User Activity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf Auto-User-Activity || exit 0
+          mkdir -p Auto-User-Activity
+
+      - name: Fetch Upstream Changes
+        run: |
+          git clone --depth 1 https://github.com/offensive-vk/auto-user-activity.git Auto-User-Activity
+          cd Auto-User-Activity
+          rm -rf .git/
+          cd ..
+
+      - name: Commit and Push changes
+        uses: offensive-vk/auto-commit-push@v7
+        with: 
+          name: 'Hamster [bot]'
+          email: 'TheHamsterBot@outlook.com'
+          branch: 'master'
+          message: 'Remote Repo Sync - auto-user-activity'
+          github-token: ${{ secrets.BOT_TOKEN }}
+
   sync-auto-commit-push:
     name: Auto Commit Push
+    needs: [sync-auto-user-activity]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
