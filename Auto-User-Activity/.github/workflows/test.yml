@@ -1,0 +1,23 @@
+name: CI / Recent Activity
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update_activity:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Add Activity to File
+        uses: ./
+        with:
+          username: "offensive-vk"
+          token: ${{ secrets.BOT_TOKEN }}
+          committer: "Hamster [bot]"
+          committer-email: "TheHamsterBot@outlook.com"
+          commit-msg: "Updated Recent Activity"
+          max-lines: 100
+          target-file: 'RECENT.md'

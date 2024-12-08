@@ -1,0 +1,44 @@
+name: Auto User Activity
+description: Fetch and Updates Your Readme Markdown with the Recent GitHub activity of a Github User.
+author: offensive-vk
+
+inputs:
+  token:
+    description: "Your Github PAT or Auth Token"
+    required: false
+  username:
+    description: "Your GitHub username"
+    required: false
+  committer:
+    description: "Name of the committer"
+    default: "github-actions[bot]"
+    required: false
+  committer-email:
+    description: "Email of the committer"
+    default: "github-actions[bot]@users.noreply.github.com"
+    required: false
+  commit-msg:
+    description: "Commit message used while committing to the repo"
+    default: ":zap: Update Recent Activity"
+    required: false
+  max-lines:
+    description: "The maximum number of lines populated in your readme file"
+    default: 5
+    required: false
+  target-file:
+    description: "The file location to write changes to"
+    default: "README.md"
+    required: false
+  empty-commit-msg:
+    description: "Commit message used when there are no updates"
+    default: ":memo: empty commit to keep workflow active after 60 days of no activity"
+    required: false
+
+branding:
+  color: black
+  icon: activity
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+  post: 'dist/index.js'
