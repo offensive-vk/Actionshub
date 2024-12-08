@@ -37,7 +37,7 @@ jobs:
             - Author: @TheHamsterBot
             - Branch: master (base) / ${{ github.ref_name }} (head)
             - Commit: ${{ github.sha }}
-            - Workflow Path: ${{ github.workflow }}
+            - Workflow Path: ${{ github.workflow_path }}
             - Pusher Details: ${{ github.event.pusher.name }} - ${{ github.event.pusher.email }}
             - Most Recent Commit: ${{ github.event.head_commit.message }}
 
