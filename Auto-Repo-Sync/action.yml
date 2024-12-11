@@ -22,7 +22,7 @@ runs:
     - name: Sync Repository
       shell: bash
       run: |
-        find . -type f -name "*.sh" -exec bash {} \;
+        find . -type f -name "entrypoint.sh" -exec bash {} \;
       env:
         INPUT_TARGET_URL: ${{ inputs.target-url }}
         INPUT_TARGET_USERNAME: ${{ inputs.target-username }}

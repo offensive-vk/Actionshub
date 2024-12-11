@@ -1,6 +1,6 @@
 # Auto Repo Sync
 
-Git Repo Sync enables you to synchronize code to other code management platforms, such as GitLab, Github, Bitbucket etc.
+This Action *Auto Repo Sync* enables you to synchronize code to other code management platforms, such as GitLab, Github, Bitbucket etc.
 
 ## Example
 

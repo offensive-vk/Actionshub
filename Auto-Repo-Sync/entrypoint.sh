@@ -20,23 +20,20 @@ else
     git remote add target "$TARGET_URL"
 fi
 
-# Handle events
+# Fetch latest changes from the base repository
+git fetch origin --prune
+
+# Push all references to the target repository, skipping deletion actions
 case "${GITHUB_EVENT_NAME}" in
     push)
         echo "Handling push event..."
-        git push --prune --mirror target
-        ;;
-    delete)
-        echo "Handling delete event..."
-        if [ -z "$GITHUB_EVENT_REF" ]; then
-            echo "Error: GITHUB_EVENT_REF is not set for delete event."
-            exit 1
-        fi
-        git push -d target "$GITHUB_EVENT_REF"
+        git push target --all
+        git push target --tags
         ;;
     *)
-        echo "Unhandled event: ${GITHUB_EVENT_NAME}. Showing git status."
-        git status
+        echo "Handling other event: ${GITHUB_EVENT_NAME}."
+        git push target --all
+        git push target --tags
         ;;
 esac
 
