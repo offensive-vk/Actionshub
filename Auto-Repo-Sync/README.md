@@ -7,29 +7,30 @@ This Action *Auto Repo Sync* enables you to synchronize code to other code manag
 You can use the following example as a template to create a new file with any name under `.github/workflows/`.
 
 ```yaml
-name: CI
+name: Sync
 
 on: 
-  - push
-  - delete
+  push:
+    branches:
+      - main
+  delete
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: offensive-vk/auto-repo-sync@v7
-      with:
-        # Such as https://github.com/<user>/<repo>.git
-        target-url: <target-url>
-        # Such as offensive-vk
-        target-username: <target-username>
-        # You can store token in your project's 'Setting > Secrets' and reference the name here. Such as ${{ secrets.ACCESS_TOKEN }}
-        target-token: <target-token>
+      - uses: offensive-vk/auto-repo-sync@v7
+        with:
+          target-url: https://gitlab.com/<user>/<repo>.git
+          target-username: ${{ secrets.TARGET_USERNAME }}
+          target-token: ${{ secrets.TARGET_TOKEN }}
 ```
+
+Note: Store sensitive values like TARGET_USERNAME and TARGET_TOKEN as secrets under Settings > Secrets and variables > Actions in your repository.
 
 ***
 

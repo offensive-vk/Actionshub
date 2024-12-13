@@ -7,13 +7,13 @@ branding:
 
 inputs:
   target-url:
-    description: 'Target Repo URL'
+    description: 'Target repository URL, e.g., https://github.com/<user>/<repo>.git'
     required: true
   target-username:
-    description: 'Target Repo Username'
+    description: 'Target repository username'
     required: true
   target-token:
-    description: 'Target Token'
+    description: 'Personal access token for authentication'
     required: true
 
 runs:
