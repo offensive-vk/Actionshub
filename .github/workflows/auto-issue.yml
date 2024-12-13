@@ -2,7 +2,7 @@ name: CI / Automated Issue
 
 on:
   pull_request:
-    types: ['opened', 'closed']
+    types: ['opened']
   issue_comment:
     types: ['created']
   workflow_dispatch:
@@ -40,6 +40,7 @@ jobs:
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
           echo "$markdown" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+
       - name: Create Dynamic Issue
         uses: offensive-vk/auto-issue@master
         with:
@@ -50,21 +51,3 @@ jobs:
           labels: automated
           body: |
             ${{ env.MARKDOWN_CONTENT }}
-
-  close_issue:
-    runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'issue_comment' &&
-      github.event.issue.state == 'open' &&
-      contains(github.event.issue.labels[*].name, 'automated') &&
-      github.event.issue.user.login == 'TheHamsterBot' &&
-      contains(github.event.comment.body, 'hamster --close') &&
-      (github.event.comment.user.login == github.event.repository.owner.login || 
-      github.event.comment.user.login == github.event.issue.user.login)
-    steps:
-      - name: Close Issue
-        uses: peter-evans/close-issue@v3
-        with:
-          token: ${{ secrets.BOT_TOKEN }}
-          issue-number: ${{ github.event.issue.number }}
-          comment: 'Hamster [bot] - Closed This Issue. (As Requested)'

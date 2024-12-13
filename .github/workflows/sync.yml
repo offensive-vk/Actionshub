@@ -3,7 +3,7 @@ name: CI / Actions Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 */6 * * *'
 
 jobs:
   sync-auto-user-activity:
