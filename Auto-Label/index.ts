@@ -3,7 +3,7 @@
  * @author Vedansh (offensive-vk)
  * @url https://github.com/offensive-vk/auto-label/
  * @lang TypeScript + Node.js + Octokit
- * @type Github Action for Applying Labels on PRs based on File Changes.
+ * @type Github Action for Applying Labels on PRs.
  * @runs Nodejs v20.x
  * @bundler esbuild
  */
@@ -12,8 +12,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import * as yaml from 'js-yaml';
 import * as fs from 'fs';
-import * as match from 'minimatch';
-import { minimatch  } from 'minimatch';
+import { minimatch } from 'minimatch';
  
 const context = github.context;
 
@@ -100,13 +99,12 @@ function getRandomColor() {
 
 (async () => {
     try {
-        const token = core.getInput('github-token');
+        const token = core.getInput('github-token', { required: true });
         const octokit = github.getOctokit(token);
         const { owner: contextOwner, repo: contextRepo } = github.context.repo;
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
-
-        const fileConfigPath = core.getInput('pr-config');
+        const fileConfigPath = core.getInput('pr-config') || core.getInput('issue-config');
         const fileLabelMapping = fileConfigPath ? parseConfigFile(fileConfigPath) : [];
         const labels: string[] = [];
 
@@ -139,7 +137,7 @@ function getRandomColor() {
 
         console.log(`
             ---------------------------------------------------------------------
-            🎉 Success! Labels have been applied to the PR based on file changes.
+            🎉 Success! Labels have been applied to the Issue/PR.
             Thank you for using this action! – Vedansh ✨ (offensive-vk)
             ---------------------------------------------------------------------
         `);

@@ -28703,12 +28703,12 @@ function getRandomColor() {
 }
 (async () => {
   try {
-    const token = core2.getInput("github-token");
+    const token = core2.getInput("github-token", { required: true });
     const octokit = github.getOctokit(token);
     const { owner: contextOwner, repo: contextRepo } = github.context.repo;
     const owner = core2.getInput("owner") || contextOwner;
     const repo = core2.getInput("repo") || contextRepo;
-    const fileConfigPath = core2.getInput("pr-config");
+    const fileConfigPath = core2.getInput("pr-config") || core2.getInput("issue-config");
     const fileLabelMapping = fileConfigPath ? parseConfigFile(fileConfigPath) : [];
     const labels = [];
     if (context2.payload.pull_request) {
@@ -28737,7 +28737,7 @@ function getRandomColor() {
     }
     console.log(`
             ---------------------------------------------------------------------
-            \u{1F389} Success! Labels have been applied to the PR based on file changes.
+            \u{1F389} Success! Labels have been applied to the Issue/PR.
             Thank you for using this action! \u2013 Vedansh \u2728 (offensive-vk)
             ---------------------------------------------------------------------
         `);

@@ -1,28 +1,25 @@
 hamster:
-  - label: hamster
-    description: sorry its my hamster
-    match:
-      - automated
-      - hamster
-      - hamsters
-      - hamster-bot
-      - hamster-bots
-      - Hamster
+  - automated
+  - hamster
+  - hamsters
+  - hamster-bot
+  - hamster-bots
+  - Hamster
 
 issue:
-  - label: issue
-    description: its a issue
-    match:
-      - issue
-      - issues
-      - bug
-      - bugs
-      - fix
+  - issue
+  - issues
+  - bug
+  - bugs
+  - fix
 
 feat:
-  - label: feat
-    description: ''
-    match:
-     - feature
-     - feat
-     - oi
+  - feature
+  - feat
+  - oi
+
+base:
+  - base
+  - root
+  - this
+  - testing

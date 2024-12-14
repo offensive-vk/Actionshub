@@ -3,6 +3,8 @@ kind/enhancement:
   - 'action.yml'
   - '.github'
   - '**/*.yml'
+
+kind/typescript:
   - '**/*.ts'
   - '**/*.js' 
 
@@ -10,6 +12,6 @@ kind/ci:
   - '**/*.yml'
   - '.github'
 
-hamster:
+bot/hamster:
   - 'automated'
   - 'hamster'

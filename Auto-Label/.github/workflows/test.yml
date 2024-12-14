@@ -6,6 +6,12 @@ on:
   pull_request:
     types: [opened, synchronize]
   workflow_dispatch:
+    inputs:
+      number:
+        required: true
+        type: number
+        default: 10
+        description: "PR/Issue Number to Run Workflow on."
 
 permissions:
   pull-requests: write
@@ -21,7 +27,7 @@ jobs:
       issues: write
 
     steps:
-    - name: Checkout repository
+    - name: Checkout
       uses: actions/checkout@v4
 
     - name: Label Issues
@@ -29,7 +35,7 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN || secrets.MY_TOKEN  }}
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
@@ -37,5 +43,5 @@ jobs:
       uses: ./
       with:
         create-labels: true
-        github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN || secrets.BOT_TOKEN || secrets.MY_TOKEN  }}
         pr-config: '.github/pr.yml'

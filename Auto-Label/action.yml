@@ -14,12 +14,13 @@ inputs:
     default: 'true'
   issue-config:
     description: "Path to file where each label maps to an array of matching strings. File type: .yml, .yaml, .json."
-    required: true
+    required: false
     default: '.github/issue.yml'
   pr-config:
     description: "Path to file for labeling pull request based on file changes. Like labeler.yml but more simpler."
-    required: true
+    required: false
     default: '.github/pr.yml'
+    
 runs:
   using: 'node20'
   main: 'dist/index.js'

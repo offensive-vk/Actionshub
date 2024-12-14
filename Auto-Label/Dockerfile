@@ -27,7 +27,7 @@ ENTRYPOINT ["node", "dist/index.js"]
 
 # Metadata labels for the Docker image
 LABEL \
-    name="Auto Label Action" \
+    name="Auto Label" \
     homepage="https://github.com/marketplace/actions/auto-label-stuff" \
     repository="https://github.com/offensive-vk/auto-label" \
     maintainer="TheHamsterBot <TheHamsterBot@users.noreply.github.com>"
