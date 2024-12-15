@@ -1,23 +1,24 @@
 {
 	"name": "auto-label",
 	"version": "7.0.0",
-	"description": "Automatically Apply Labels on Issues and PRs using Actions.",
+	"description": "Automatically Apply Labels on Issues and PRs using Octokit API.",
 	"main": "index.ts",
 	"scripts": {
-		"build": "esbuild index.ts --bundle --outfile=dist/index.js --platform=node --sourcemap"
+		"build": "esbuild index.ts --bundle --outfile=dist/index.js --platform=node --sourcemap --minify"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/offensive-vk/auto-issue.git"
+		"url": "git+https://github.com/offensive-vk/auto-label.git"
 	},
 	"author": "Vedansh",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/offensive-vk/auto-issue/issues"
+		"url": "https://github.com/offensive-vk/auto-label/issues"
 	},
-	"homepage": "https://github.com/offensive-vk/auto-issue#readme",
+	"homepage": "https://github.com/offensive-vk/auto-label#readme",
 	"dependencies": {
 		"@actions/core": "^1.10.1",
+		"@actions/exec": "^1.1.1",
 		"@actions/github": "^5.1.1",
 		"js-yaml": "^4.1.0",
 		"minimatch": "^10.0.1",
