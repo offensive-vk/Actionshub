@@ -26,12 +26,16 @@ inputs:
     default: 5
     required: false
   target-file:
-    description: "The file location to write changes to"
+    description: "The file location to write changes to."
     default: "README.md"
     required: false
   empty-commit-msg:
     description: "Commit message used when there are no updates"
-    default: ":memo: empty commit to keep workflow active after 60 days of no activity"
+    default: "empty commit to keep workflow active after 60 days of no activity."
+    required: false
+  enable-empty-commit:
+    description: "Whether to enable empty commit or not."
+    default: false
     required: false
 
 branding:

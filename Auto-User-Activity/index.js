@@ -1,182 +1,178 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-const { owner: contextOwner, repo: contextRepo } = github.context.repo;
-const OWNER = contextOwner;
-const REPO = contextRepo;
 const fs = require("fs");
 const { spawn } = require("child_process");
-const { Toolkit } = require("actions-toolkit");
-const GH_USERNAME = core.getInput("username") || OWNER;
-const COMMIT_NAME = core.getInput("committer");
-const COMMIT_EMAIL = core.getInput("committer-email");
-const COMMIT_MSG = core.getInput("commit-msg");
-const MAX_LINES = parseInt(core.getInput("max-lines"), 10);
-const TARGET_FILE = core.getInput("target-file");
-const EMPTY_COMMIT_MSG = core.getInput("empty-commit-msg");
-const TOKEN = core.getInput("token") || process.env.GITHUB_TOKEN;
-const DEBUG = core.getInput("debug") === "true";
-core.debug(`Using token: ${TOKEN}\n Debug: ${DEBUG}\n`);
 
 /**
- * Returns the sentence case representation
- * @param {String} str - the string
- * @returns {String}
+ * Executes a shell command.
+ * @param {string} cmd - The command to execute.
+ * @param {string[]} args - Arguments for the command.
+ * @returns {Promise<string>} - The stdout from the command.
  */
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
-/**
- * Executes a shell command
- * @param {String} cmd - root command
- * @param {String[]} args - args to be passed along with
- * @returns {Promise<String>}
- */
-const exec = (cmd, args = []) =>
-  new Promise((resolve, reject) => {
-    const app = spawn(cmd, args);
+const exec = (cmd, args = []) => {
+  return new Promise((resolve, reject) => {
+    const process = spawn(cmd, args);
 
     let stdout = "";
     let stderr = "";
 
-    app.stdout.on("data", (data) => (stdout += data.toString()));
-    app.stderr.on("data", (data) => (stderr += data.toString()));
+    process.stdout.on("data", (data) => (stdout += data.toString()));
+    process.stderr.on("data", (data) => (stderr += data.toString()));
 
-    app.on("close", (code) => {
+    process.on("close", (code) => {
       if (code !== 0 && !stdout.includes("nothing to commit")) {
-        return reject(new Error(`Command failed with code ${code}: ${stderr}`));
+        reject(new Error(`Command failed with code ${code}: ${stderr}`));
+      } else {
+        resolve(stdout);
       }
-      resolve(stdout);
     });
 
-    app.on("error", (err) => reject(new Error(`Process error: ${err.message}`)));
+    process.on("error", (err) => reject(new Error(`Process error: ${err.message}`)));
   });
-
-/**
- * Makes a commit
- * @param {Boolean} emptyCommit - whether to create an empty commit
- * @returns {Promise<void>}
- */
-const commitFile = async (emptyCommit = false) => {
-  await exec("git", ["config", "user.email", COMMIT_EMAIL]);
-  await exec("git", ["config", "user.name", COMMIT_NAME]);
-
-  if (emptyCommit) {
-    await exec("git", ["commit", "--allow-empty", "-m", EMPTY_COMMIT_MSG]);
-  } else {
-    await exec("git", ["add", TARGET_FILE]);
-    await exec("git", ["commit", "-m", COMMIT_MSG]);
-  }
-
-  await exec("git", ["push"]);
 };
 
 /**
- * Creates an empty commit if no activity is detected for over 50 days
- * @returns {Promise<void>}
+ * Capitalizes the first letter of a string.
+ * @param {string} str - The string to capitalize.
+ * @returns {string} - The capitalized string.
  */
-const createEmptyCommit = async () => {
-  const lastCommitDate = await exec("git", [
-    "--no-pager",
-    "log",
-    "-1",
-    "--format=%ct",
-  ]);
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  const commitDate = new Date(parseInt(lastCommitDate, 10) * 1000);
-  const diffInDays = Math.round((new Date() - commitDate) / (1000 * 60 * 60 * 24));
+(async () => {
+  try {
+    const token = core.getInput("token") || process.env.GITHUB_TOKEN;
+    const username = core.getInput("username");
+    const committerName = core.getInput("committer") || "github-actions[bot]";
+    const committerEmail = core.getInput("committer-email") || "github-actions[bot]@users.noreply.github.com";
+    const commitMessage = core.getInput("commit-msg");
+    const maxLines = parseInt(core.getInput("max-lines"), 10);
+    const targetFile = core.getInput("target-file");
+    const emptyCommitMsg = core.getInput("empty-commit-msg");
+    const enableEmptyCommit = core.getInput("enable-empty-commit") === "true";
+    const debug = core.getInput("debug") === "true";
 
-  core.debug(`Last commit date: ${commitDate}`);
-  core.debug(`Difference in days: ${diffInDays}`);
+    // GitHub context
+    const { owner, repo } = github.context.repo;
+    const octokit = github.getOctokit(token);
 
-  if (diffInDays > 50) {
-    core.info("Creating an empty commit to keep workflow active");
-    await commitFile(true);
-    return "Empty Commit";
-  }
+    /**
+     * Makes a commit to the repository.
+     * @param {boolean} emptyCommit - Whether to make an empty commit.
+     */
+    const commitFile = async (emptyCommit = false) => {
+      await exec("git", ["config", "user.email", committerEmail]);
+      await exec("git", ["config", "user.name", committerName]);
 
-  return "No activity found. Leaving README unchanged.";
-};
+      if (emptyCommit) {
+        await exec("git", ["commit", "--allow-empty", "-m", emptyCommitMsg]);
+      } else {
+        await exec("git", ["add", targetFile]);
+        await exec("git", ["commit", "-m", commitMessage]);
+      }
 
-/**
- * Serializers for activity types
- */
-const serializers = {
-  IssueCommentEvent: (item) => {
-    return `🗣 Commented on [#${item.payload.issue.number}](${item.payload.comment.html_url}) in ${item.repo.name}`;
-  },
-  IssuesEvent: (item) => {
-    const emojiMap = {
-      opened: "❗",
-      reopened: "🔓",
-      closed: "🔒",
+      await exec("git", ["push"]);
     };
-    const emoji = emojiMap[item.payload.action] || "";
-    return `${emoji} ${capitalize(item.payload.action)} issue [#${item.payload.issue.number}](${item.payload.issue.html_url}) in ${item.repo.name}`;
-  },
-  PullRequestEvent: (item) => {
-    const action = item.payload.pull_request.merged ? "🎉 Merged" : `${item.payload.action}`;
-    const emoji = item.payload.action === "opened" ? "💪" : "❌";
-    return `${emoji} ${capitalize(action)} PR [#${item.payload.pull_request.number}](${item.payload.pull_request.html_url}) in ${item.repo.name}`;
-  },
-  ReleaseEvent: (item) => {
-    return `🚀 ${capitalize(item.payload.action)} release [${item.payload.release.tag_name}](${item.payload.release.html_url}) in ${item.repo.name}`;
-  },
-};
 
-/**
- * Main function executed by the Toolkit
- */
-Toolkit.run(
-  async (tools) => {
-    tools.log.debug(`Getting activity for ${GH_USERNAME}`);
-    const github = tools.github;
-    const events = await github.activity.listPublicEventsForUser({
-      username: GH_USERNAME,
-      per_page: 100,
-    });
+    /**
+     * Creates an empty commit if no activity is detected for over 50 days.
+     */
+    const createEmptyCommit = async () => {
+      if (!enableEmptyCommit) {
+        core.info("Empty commits are disabled by workflow configuration.");
+        return;
+      }
 
-    tools.log.debug(`Activity for ${GH_USERNAME}, ${events.data.length} events found.`);
+      const lastCommitDate = await exec("git", [
+        "--no-pager",
+        "log",
+        "-1",
+        "--format=%ct",
+      ]);
 
-    const content = events.data
-      .filter((event) => serializers.hasOwnProperty(event.type))
-      .slice(0, MAX_LINES)
-      .map((item) => serializers[item.type](item));
+      const commitDate = new Date(parseInt(lastCommitDate, 10) * 1000);
+      const diffInDays = Math.round((new Date() - commitDate) / (1000 * 60 * 60 * 24));
 
-    let readmeContent;
-    try {
-      readmeContent = fs.readFileSync(`./${TARGET_FILE}`, "utf-8").split("\n");
-    } catch (err) {
-      return tools.exit.failure(`Failed to read ${TARGET_FILE}: ${err.message}`);
-    }
+      if (debug) {
+        core.debug(`Last commit date: ${commitDate}`);
+        core.debug(`Difference in days: ${diffInDays}`);
+      }
 
-    const startIdx = readmeContent.findIndex(
-      (line) => line.trim() === "<!--START_SECTION:activity-->",
-    );
+      if (diffInDays > 50) {
+        core.info("Creating an empty commit to keep the workflow active.");
+        await commitFile(true);
+      }
+    };
 
-    const endIdx = readmeContent.findIndex(
-      (line) => line.trim() === "<!--END_SECTION:activity-->",
-    );
+    /**
+     * Updates the target file with the latest activity.
+     */
+    const updateActivitySection = async () => {
+      const events = await octokit.rest.activity.listPublicEventsForUser({
+        username,
+        per_page: 100,
+      });
 
-    if (startIdx === -1 || endIdx === -1) {
-      return tools.exit.failure("Couldn't find activity section comments.");
-    }
+      const serializers = {
+        IssueCommentEvent: (item) => {
+          return `🗣 Commented on issue [#${item.payload.issue.number}](${item.payload.comment.html_url}) in ${item.repo.name}`;
+        },
+        IssuesEvent: (item) => {
+          const actionMap = {
+            opened: "❗ Opened",
+            reopened: "🔓 Reopened",
+            closed: "🔒 Closed",
+          };
+          const action = actionMap[item.payload.action] || capitalize(item.payload.action);
+          return `${action} issue [#${item.payload.issue.number}](${item.payload.issue.html_url}) in ${item.repo.name}`;
+        },
+        PullRequestEvent: (item) => {
+          const action = item.payload.pull_request.merged ? "🎉 Merged" : capitalize(item.payload.action);
+          const emoji = item.payload.pull_request.merged ? "🎉" : item.payload.action === "opened" ? "💪" : "❌";
+          return `${emoji} ${action} pull request [#${item.payload.pull_request.number}](${item.payload.pull_request.html_url}) in ${item.repo.name}`;
+        },
+        ReleaseEvent: (item) => {
+          return `🚀 ${capitalize(item.payload.action)} release [${item.payload.release.tag_name}](${item.payload.release.html_url}) in ${item.repo.name}`;
+        },
+      };
 
-    const newContent = content.map((line, idx) => `${idx + 1}. ${line}`).join("\n");
-    readmeContent.splice(startIdx + 1, endIdx - startIdx - 1, newContent);
+      const content = events.data
+        .filter((event) => serializers.hasOwnProperty(event.type))
+        .slice(0, maxLines)
+        .map((item) => serializers[item.type](item));
 
-    fs.writeFileSync(`${TARGET_FILE}`, readmeContent.join("\n"));
-    console.log(`:: Actual Output ::\n`);
-    console.dir(readmeContent);
+      let readmeContent;
+      try {
+        readmeContent = fs.readFileSync(`./${targetFile}`, "utf-8").split("\n");
+      } catch (err) {
+        throw new Error(`Failed to read ${targetFile}: ${err.message}`);
+      }
 
-    try {
+      const startIdx = readmeContent.findIndex(
+        (line) => line.trim() === "<!--START_SECTION:activity-->",
+      );
+
+      const endIdx = readmeContent.findIndex(
+        (line) => line.trim() === "<!--END_SECTION:activity-->",
+      );
+
+      if (startIdx === -1 || endIdx === -1) {
+        throw new Error("Couldn't find activity section comments.");
+      }
+
+      const newContent = content.map((line, idx) => `${idx + 1}. ${line}`).join("\n");
+      readmeContent.splice(startIdx + 1, endIdx - startIdx - 1, newContent);
+
+      fs.writeFileSync(targetFile, readmeContent.join("\n"));
+      core.info("Activity section updated successfully.");
+
       await commitFile();
-    } catch (err) {
-      return tools.exit.failure(`Failed to push changes: ${err.message}`);
-    }
+    };
 
-    tools.exit.success("Readme or Markdown Changes Committed.");
-  },
-  {
-    event: ["push", "schedule", "workflow_dispatch", "workflow_call"],
-    secrets: ["GITHUB_TOKEN" || TOKEN],
-  },
-);
+    await createEmptyCommit();
+    await updateActivitySection();
+    core.info("Workflow completed successfully.");
+  } catch (error) {
+    core.error(error);
+    core.setFailed(`Action failed with error: ${error.message}`);
+  }
+})();
