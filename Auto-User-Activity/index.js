@@ -114,7 +114,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
       const serializers = {
         IssueCommentEvent: (item) => {
-          return `🗣 Commented on issue [#${item.payload.issue.number}](${item.payload.comment.html_url}) in ${item.repo.name}`;
+          return `🗣 Commented on issue [#${item.payload.issue.number}](https://github.com/${item.repo.name}/issues/${item.payload.issue.number}) in [${item.repo.name}](https://github.com/${item.repo.name})`;
         },
         IssuesEvent: (item) => {
           const actionMap = {
@@ -123,17 +123,27 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
             closed: "🔒 Closed",
           };
           const action = actionMap[item.payload.action] || capitalize(item.payload.action);
-          return `${action} issue [#${item.payload.issue.number}](${item.payload.issue.html_url}) in ${item.repo.name}`;
+          return `${action} issue [#${item.payload.issue.number}](https://github.com/${item.repo.name}/issues/${item.payload.issue.number}) in [${item.repo.name}](https://github.com/${item.repo.name})`;
         },
         PullRequestEvent: (item) => {
-          const action = item.payload.pull_request.merged ? "🎉 Merged" : capitalize(item.payload.action);
+          const action = item.payload.pull_request.merged ? " Merged" : capitalize(item.payload.action);
           const emoji = item.payload.pull_request.merged ? "🎉" : item.payload.action === "opened" ? "💪" : "❌";
-          return `${emoji} ${action} pull request [#${item.payload.pull_request.number}](${item.payload.pull_request.html_url}) in ${item.repo.name}`;
+          return `${emoji} ${action} pull request [#${item.payload.pull_request.number}](https://github.com/${item.repo.name}/pull/${item.payload.pull_request.number}) in [${item.repo.name}](https://github.com/${item.repo.name})`;
+        },
+        PullRequestReviewEvent: (item) => {
+          const stateMap = {
+            approved: "✅ Approved",
+            changes_requested: "🔄 Changes Requested",
+            commented: "💬 Commented",
+          };
+          const state = stateMap[item.payload.review.state] || capitalize(item.payload.review.state);
+          return `${state} on pull request [#${item.payload.pull_request.number}](https://github.com/${item.repo.name}/pull/${item.payload.pull_request.number}) in [${item.repo.name}](https://github.com/${item.repo.name})`;
         },
         ReleaseEvent: (item) => {
-          return `🚀 ${capitalize(item.payload.action)} release [${item.payload.release.tag_name}](${item.payload.release.html_url}) in ${item.repo.name}`;
+          return `🚀 ${capitalize(item.payload.action)} release [${item.payload.release.tag_name}](https://github.com/${item.repo.name}/releases/tag/${item.payload.release.tag_name}) in [${item.repo.name}](https://github.com/${item.repo.name})`;
         },
       };
+
 
       const content = events.data
         .filter((event) => serializers.hasOwnProperty(event.type))
@@ -171,6 +181,12 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
     await createEmptyCommit();
     await updateActivitySection();
     core.info("Workflow completed successfully.");
+    console.log(`
+      --------------------------------------------------------------
+      🎉 Success!
+      Thank you for using this action! – Vedansh (offensive-vk)
+      --------------------------------------------------------------
+    `);
   } catch (error) {
     core.error(error);
     core.setFailed(`Action failed with error: ${error.message}`);

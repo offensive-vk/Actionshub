@@ -4,13 +4,14 @@ on:
   push: 
     branches: ['master']
   pull_request:
-   branches: ['master']
+    branches: ['master']
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Use Node 20
         uses: actions/setup-node@v4
         with:
@@ -19,4 +20,3 @@ jobs:
       - run: npm i -g pnpm@9.10.0
       - run: pnpm i
       - run: pnpm run build
-      - run: pnpm run buildx

@@ -9,8 +9,7 @@
   "scripts": {
     "format:check": "prettier --check index.js",
     "format": "prettier --write index.js",
-    "build": "ncc build index.js -o dist",
-    "buildx": "esbuild index.js --bundle --outfile=dist/index.js --platform=node --sourcemap"
+    "build": "esbuild index.js --bundle --outfile=dist/index.js --platform=node --sourcemap"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
@@ -18,7 +17,6 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1",
     "esbuild": "^0.24.0",
     "prettier": "^3.2.5"
   }

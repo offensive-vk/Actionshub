@@ -11,6 +11,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Add Activity to Readme
+        uses: ./
+        with:
+          username: "offensive-vk"
+          token: ${{ secrets.BOT_TOKEN }}
+          committer: "Hamster [bot]"
+          committer-email: "TheHamsterBot@outlook.com"
+          commit-msg: "Updated Recent Activity."
+          max-lines: 50
+          target-file: 'RECENT.md'
+
       - name: Add Activity to File
         uses: ./
         with:
@@ -18,6 +30,6 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           committer: "Hamster [bot]"
           committer-email: "TheHamsterBot@outlook.com"
-          commit-msg: "Updated Recent Activity"
-          max-lines: 100
+          commit-msg: "Updated Recent Activity."
+          max-lines: 200
           target-file: 'RECENT.md'
