@@ -54,6 +54,7 @@ Configure inputs through the `with:` section of the Action. Below is the list of
 | `issue-config` | `.github/issues.yml`          | Path to the YAML configuration file for labeling issues. |
 | `pr-config`    | `.github/pr.yml`              | Path to the YAML configuration file for labeling pull requests. |
 | `create-labels`| `true`                        | Whether to create missing labels in the repository. |
+| `debug`        | `false`                       | Whether to enable debug mode or not. |
 
 ---
 
@@ -97,6 +98,7 @@ area/build:
 ---
 
 ## How It Works
+
 1. The Action triggers based on GitHub events (`issues` or `pull_request`).
 2. Matches keywords (for issues) or file patterns (for pull requests) against the configuration file.
 3. Applies labels to issues or pull requests that match the criteria.

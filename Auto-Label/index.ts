@@ -51,6 +51,17 @@ function parseConfigFile(filePath: string): Array<LabelConfig> {
         throw new Error(`Parsed data from ${filePath} is not an object or is empty.`);
     }
 }
+async function ensureLabelsExist(
+    octokit: any,
+    owner: string,
+    repo: string,
+    labels: Array<{ label: string; description?: string }>
+) {
+    const tasks = labels.map(({ label, description }) =>
+        ensureLabelExists(octokit, owner, repo, label, description)
+    );
+    await Promise.all(tasks);
+}
 
 async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string, description?: string) {
     try {
@@ -69,7 +80,7 @@ async function ensureLabelExists(octokit: any, owner: string, repo: string, labe
             });
             core.info(`Label "${label}" created successfully.`);
         } else {
-            throw error;
+            core.warning(error);
         }
     }
 }
@@ -97,7 +108,8 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
     try {
         const token = core.getInput('github-token');
         const octokit = github.getOctokit(token);
-        
+        const debugMode = core.getInput('debug') || false;
+
         const { owner: contextOwner, repo: contextRepo } = github.context.repo;
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
@@ -108,7 +120,11 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const eventType = context.eventName;
         const labelsToApply: string[] = [];
         let targetNumber;
-        
+
+        if (debugMode) {
+            core.debug('Debug mode enabled.');
+        }
+
         if (eventType === 'pull_request' && context.payload.pull_request) {
             const prNumber = context.payload.pull_request.number;
             targetNumber = prNumber;
@@ -125,7 +141,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
             if (matchedLabels) {
                 for (const { label, description } of matchedLabels) {
                     labelsToApply.push(label);
-                    await ensureLabelExists(octokit, owner, repo, label, description);
+                    await ensureLabelsExist(octokit, owner, repo, [{label: label, description: description}]);
                 }
             } else {
                 core.warning('No labels matched the file changes in this pull request.');

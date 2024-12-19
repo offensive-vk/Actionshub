@@ -40,6 +40,7 @@ jobs:
       if: github.event_name == 'issues'
       uses: ./
       with:
+        debug: false
         create-labels: true
         github-token: ${{ secrets.MY_TOKEN }}
         issue-config: '.github/issues.yml'
@@ -48,6 +49,7 @@ jobs:
       if: github.event_name == 'pull_request'
       uses: ./
       with:
+        debug: true
         create-labels: true
         github-token: ${{ secrets.MY_TOKEN }}
         pr-config: '.github/pr.yml'

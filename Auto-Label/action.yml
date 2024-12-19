@@ -5,13 +5,17 @@ branding:
   icon: mail
   color: gray-dark
 inputs:
+  debug:
+    required: false
+    description: "Whether to enable Debug Mode or not."
+    default: false
   github-token:
     description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
     required: false
   create-labels:
     description: "Set to true if the labels does not exist in the repository. If set to false, the action will not create the labels."
     required: false
-    default: 'true'
+    default: true
   issue-config:
     description: "Path to file where each label maps to an array of matching strings. File type: .yml, .yaml, .json."
     required: false
@@ -20,7 +24,7 @@ inputs:
     description: "Path to file for labeling pull request based on file changes. Like labeler.yml but more simpler."
     required: false
     default: '.github/pr.yml'
-    
+  
 runs:
   using: 'node20'
   main: 'dist/index.js'

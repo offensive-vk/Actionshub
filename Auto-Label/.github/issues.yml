@@ -16,10 +16,10 @@ issue:
 feat:
   - feature
   - feat
-  - oi
+  - 'oi'
 
 base:
-  - base
-  - root
-  - this
-  - testing
+  - 'base'
+  - 'root'
+  - 'this'
+  - 'testing'
