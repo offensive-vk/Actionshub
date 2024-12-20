@@ -13,7 +13,8 @@ import * as github from '@actions/github';
 import * as yaml from 'js-yaml';
 import * as fs from 'fs';
 import { minimatch } from 'minimatch';
- 
+import { Octokit } from '@octokit/rest';
+
 const context = github.context;
 
 interface LabelConfig {
@@ -22,13 +23,15 @@ interface LabelConfig {
     description?: string;
 }
 
-async function getChangedFiles(octokit: any, owner: string, repo: string, prNumber: number): Promise<string[]> {
+async function getChangedFiles(octokit: Octokit, owner: string, repo: string, prNumber: number): Promise<string[]> {
     const { data: files } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
         pull_number: prNumber,
     });
-    return files.map((file: any) => file.filename);
+    const filenames = files.map((file: any) => file.filename);
+    core.debug(`Changed files: ${filenames.join(', ')}`);
+    return filenames;
 }
 
 function parseConfigFile(filePath: string): Array<LabelConfig> {
@@ -43,10 +46,12 @@ function parseConfigFile(filePath: string): Array<LabelConfig> {
     }
 
     if (typeof parsedData === 'object' && parsedData !== null) {
-        return Object.entries(parsedData).map(([label, patterns]) => ({
-            label,
-            match: patterns as string[],
-        }));
+        return Object.entries(parsedData).map(([label, patterns]) => {
+            if (!Array.isArray(patterns)) {
+                throw new Error(`Patterns for label "${label}" should be an array.`);
+            }
+            return { label, match: patterns as string[] };
+        });
     } else {
         throw new Error(`Parsed data from ${filePath} is not an object or is empty.`);
     }
@@ -97,6 +102,7 @@ function getRandomColor() {
 function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels: Array<T>): Array<{ label: string; description?: string }> | undefined {
     const matchedLabels: Array<{ label: string; description?: string }> = [];
     labels.forEach(({ label, match, description }) => {
+        core.debug(`Checking label "${label}" with patterns: ${match.join(', ')}`);
         if (match.some(pattern => content.some(item => minimatch(item, pattern)))) {
             matchedLabels.push({ label, description });
         }
@@ -108,7 +114,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
     try {
         const token = core.getInput('github-token');
         const octokit = github.getOctokit(token);
-        const debugMode = core.getInput('debug') || false;
+        const debugMode = core.getBooleanInput('debug');
 
         const { owner: contextOwner, repo: contextRepo } = github.context.repo;
         const owner = core.getInput('owner') || contextOwner;
@@ -121,10 +127,6 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const labelsToApply: string[] = [];
         let targetNumber;
 
-        if (debugMode) {
-            core.debug('Debug mode enabled.');
-        }
-
         if (eventType === 'pull_request' && context.payload.pull_request) {
             const prNumber = context.payload.pull_request.number;
             targetNumber = prNumber;
@@ -134,7 +136,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
                 return;
             }
 
-            const changedFiles = await getChangedFiles(octokit, owner, repo, prNumber);
+            const changedFiles = await getChangedFiles(octokit as unknown as Octokit, owner, repo, prNumber);
             const fileLabelMapping = parseConfigFile(prConfigPath);
 
             const matchedLabels = getMatchedLabels(changedFiles, fileLabelMapping);
@@ -193,7 +195,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         `);
 
     } catch (error: any) {
-        console.dir(error);
+        core.error(`Error: ${error.message}`);
         core.setFailed(`Failed to label PR based on file changes: \n${error.message}`);
     }
 })();
