@@ -19,10 +19,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Sync Repository
+    - name: Run Repository Sync Script
       shell: bash
-      run: |
-        find . -type f -name "entrypoint.sh" -exec bash {} \;
+      run: chmod +x entrypoint.sh ; ./entrypoint.sh
       env:
         INPUT_TARGET_URL: ${{ inputs.target-url }}
         INPUT_TARGET_USERNAME: ${{ inputs.target-username }}

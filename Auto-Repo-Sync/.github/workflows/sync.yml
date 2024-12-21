@@ -1,0 +1,32 @@
+name: CI / Mirror Sync
+
+on:
+  workflow_call:
+    inputs:
+      target-url:
+        description: "Target repository URL"
+        required: true
+        type: string
+      target-username:
+        description: "Username for the target repository"
+        required: true
+        type: string
+      target-token:
+        description: "Token for the target repository"
+        required: true
+        type: string
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    name: Sync
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Sync
+        uses: ./
+        with:
+          target-url: ${{ inputs.target-url }}
+          target-username: ${{ inputs.target-username }}
+          target-token: ${{ inputs.target-token }}
