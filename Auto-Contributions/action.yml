@@ -1,0 +1,11 @@
+name: Auto 3D Contributions
+description: Automatically Generate Profile 3D Contributions in SVG.
+author: offensive-vk
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'box'
+  color: 'blue'
