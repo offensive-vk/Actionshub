@@ -12,9 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Generate Stats
+        uses: offensive-vk/auto-stats@v6
+        with:
+          branch: master
+          message: Updated Repository Statistics
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Make Changes
         run: |
           echo "" >> Test.md
+          echo "> [!TIP] " >> Test.md
+          echo "> ## Testing Local Action " >> Test.md
           echo "## Workflow Name: ${{ github.workflow }} " >> Test.md
           echo "## Actor: ${{ github.actor }} " >> Test.md
           echo "## Commit SHA: ${{ github.sha }} " >> Test.md
@@ -22,6 +31,6 @@ jobs:
       - name: Commit and Push
         uses: ./
         with: 
-          branch: "master"
-          message: "Automated Stats. (Push)"
+          branch: ${{ github.ref_name }}
+          message: "Update Automated Stats (Push)"
           github-token: ${{ secrets.GITHUB_TOKEN }}
