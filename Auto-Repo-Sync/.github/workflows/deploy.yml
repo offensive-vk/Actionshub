@@ -50,15 +50,13 @@ jobs:
             ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-repo-sync
-            org.opencontainers.image.description=Automated Repo Sync Action
+            org.opencontainers.image.description=Synchronize Your Git Repository to other VCS Platforms like Gitlab, Bitbucket, etc.
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels
         run: |
           echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
-          echo "*** VERIFICATION COMPLETED *** "
 
       - name: Build and Push Image
         id: build-and-push

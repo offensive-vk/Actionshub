@@ -12,8 +12,7 @@ name: Sync
 on: 
   push:
     branches:
-      - main
-  delete
+      - '**'
 
 jobs:
   sync:

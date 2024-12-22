@@ -1,11 +1,11 @@
 #!/bin/bash
-set -euo pipefail
+set -eux pipefail
 
 log() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
-log ":: Starting Repository Sync Script ::"
+log ":: Starting Repository Sync ::"
 
 # Check required inputs
 if [[ -z "$INPUT_TARGET_USERNAME" || -z "$INPUT_TARGET_TOKEN" || -z "$INPUT_TARGET_URL" ]]; then
@@ -14,6 +14,17 @@ if [[ -z "$INPUT_TARGET_USERNAME" || -z "$INPUT_TARGET_TOKEN" || -z "$INPUT_TARG
 fi
 
 TARGET_URL="https://${INPUT_TARGET_USERNAME}:${INPUT_TARGET_TOKEN}@${INPUT_TARGET_URL#*://}"
+
+if [ -z "$$INPUT_TARGET_USERNAME" ]; then
+  git config --global user.name "github-actions[bot]"
+  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+else
+  git config --global user.name "$INPUT_TARGET_USERNAME"
+  git config --global user.email "$INPUT_TARGET_USERNAME@users.noreply.github.com"
+fi
+
+# Add safe directory config
+git config --global --add safe.directory /github/workspace
 
 # Ensure 'target' remote exists
 if git remote | grep -q "^target$"; then

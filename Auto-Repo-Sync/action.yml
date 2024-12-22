@@ -17,12 +17,19 @@ inputs:
     required: true
 
 runs:
-  using: "composite"
-  steps:
-    - name: Run Repository Sync Script
-      shell: bash
-      run: chmod +x entrypoint.sh ; ./entrypoint.sh
-      env:
-        INPUT_TARGET_URL: ${{ inputs.target-url }}
-        INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
-        INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    INPUT_TARGET_URL: ${{ inputs.target-url }}
+    INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
+    INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
+# runs:
+#   using: "composite"
+#   steps:
+#     - name: Run Repository Sync Script
+#       shell: bash
+#       run: chmod +x entrypoint.sh ; ./entrypoint.sh
+#       env:
+#         INPUT_TARGET_URL: ${{ inputs.target-url }}
+#         INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
+#         INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
