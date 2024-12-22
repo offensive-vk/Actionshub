@@ -29,9 +29,10 @@ inputs:
     description: 'Commit flags'
     required: false
     default: '-a'
+
 runs:
-  using: docker
-  image: Dockerfile
+  using: 'docker'
+  image: 'docker://ghcr.io/offensive-vk/auto-stats:edge'
   env:
     NAME: ${{ inputs.name }}
     EMAIL: ${{ inputs.email }}
@@ -39,15 +40,3 @@ runs:
     GITHUB_TOKEN: ${{ inputs.github-token }}
     BRANCH: ${{ inputs.branch }}
     OPTIONS: ${{ inputs.options }}
-# runs:
-#   using: "composite"
-#   steps:
-#     - run: ./entrypoint.sh
-#       shell: bash
-#       env:
-#         NAME: ${{ inputs.name }}
-#         EMAIL: ${{ inputs.email }}
-#         COMMIT_MESSAGE: ${{ inputs.message }}
-#         GITHUB_TOKEN: ${{ inputs.github-token }}
-#         BRANCH: ${{ inputs.branch }}
-#         OPTIONS: ${{ inputs.options }}

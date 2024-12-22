@@ -21,10 +21,10 @@ jobs:
     - uses: actions/checkout@v4
       
     - name: Generate Stats
-    - uses: offensive-vk/auto-stats@v6
+      uses: offensive-vk/auto-stats@v7
       with:
         branch: master
-        commit-message: Update Repo Stats
+        commit-message: Updated Repo Stats
         github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -32,7 +32,7 @@ jobs:
 
 # Daily Repository Statistics
 
-Generated on Sep 14, Saturday 12:40:33 PM  
+Generated on `<time>`
 
 SECURITY.md: 1111 characters  
 LICENSE: 34523 characters  
