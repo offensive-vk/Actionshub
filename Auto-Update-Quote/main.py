@@ -1,5 +1,5 @@
 ###############################
-# main.py - Entrypoint 
+# main.py - Entrypoint Program 
 ###############################
 import os
 import re
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     if readme_content_decoded != new_readme:
         readme_repo.update_file(path=readme_obj.path, message=COMMIT_MSG,
                              content=new_readme, sha=readme_obj.sha)
-        print("Success, pushed to remote")
+        print("Yayy ! Success, pushed to remote")
     else:
-        print("Error, no changes to commit.")
+        print("Oops ! Error, nothing to commit.")

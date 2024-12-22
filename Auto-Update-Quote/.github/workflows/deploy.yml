@@ -5,54 +5,13 @@ on:
     tags:
       - '*'
   workflow_dispatch:
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-  USERNAME: ${{ github.repository_owner }}
-  PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ env.USERNAME }}
-          password: ${{ env.PASSWORD }}
-
-      - name: Extract Metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            latest
-            ${{ github.ref_name }}
-          labels: |
-            org.opencontainers.image.title=auto-update-quote
-            org.opencontainers.image.vendor=Vedansh
-            org.opencontainers.image.source=https://github.com/offensive-vk/auto-update-quote/
-            
-      - name: Verify Tags and Labels
-        run: |
-          echo "## Github Action Summary - Docker CI " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.tags }} " >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.meta.outputs.labels }} " >> $GITHUB_STEP_SUMMARY
-          echo "*** VERIFICATION COMPLETED ***"
-
-      - name: Build and Push Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          platform: linux/amd64,linux/arm64,linux/arm/v7
+  call-ghcr-workflow:
+    uses: offensive-vk/Assets/.github/workflows/ghcr.yml@master
+    with:
+      author: "Vedansh"
+      title: "auto-update-quote"
+      description: "Update Your Readme With A Random Quote Daily."
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
