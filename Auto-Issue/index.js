@@ -69,12 +69,3 @@ const listToArray = (str = '') => str.split(',').map(item => item.trim());
   }
 })();
 /******************************************************/
-/**
- * @author Vedansh (offensive-vk)
- * @url https://github.com/offensive-vk/auto-issue/
- * @lang JavaScript + Node.js
- * @type Github Action for Creating Issues.
- * @uses Octokit and Actions Core
- * @runs Nodejs v20.x
- */
-/******************************************************/

@@ -1,4 +1,4 @@
-name: CI / Test
+name: CI / Test Action
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
-          title: "Automated Pull Request from: ${{ github.head_ref }}"
+          title: "Automated Pull Request from: ${{ github.ref_name }}"
           body: |
              The `auto-issue` Action is functional locally here.
             
@@ -71,10 +71,10 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
-          title: "Automated Pull Request from: ${{ github.head_ref }}"
+          title: Test Issue - `auto-issue` is working fine.
           body: |
              The `auto-issue` Action is functional locally here.
             
-             Good Day!
+             Good Day !
           labels: test,automated
           assignees: TheHamsterBot
