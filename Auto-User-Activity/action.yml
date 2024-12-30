@@ -7,7 +7,7 @@ inputs:
     description: "Your Github PAT or Auth Token"
     required: false
   username:
-    description: "Your GitHub username"
+    description: "Your GitHub Username"
     required: false
   committer:
     description: "Name of the committer"

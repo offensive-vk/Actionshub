@@ -1,7 +1,7 @@
 {
   "name": "auto-user-activity",
-  "version": "5.0.0",
-  "description": "Fetch and Update the recent user activity of a github user",
+  "version": "7.0.0",
+  "description": "Fetch and Updates the recent user activity of a github user",
   "main": "index.js",
   "keywords": [],
   "author": "Vedansh",

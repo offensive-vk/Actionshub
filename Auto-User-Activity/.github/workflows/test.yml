@@ -21,7 +21,7 @@ jobs:
           committer-email: "TheHamsterBot@outlook.com"
           commit-msg: "Updated Recent Activity."
           max-lines: 50
-          target-file: 'RECENT.md'
+          target-file: 'README.md'
 
       - name: Add Activity to File
         uses: ./

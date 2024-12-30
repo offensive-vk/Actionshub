@@ -1,3 +1,13 @@
+/******************************************************/
+/**
+ * @author Vedansh (offensive-vk)
+ * @url https://github.com/offensive-vk/auto-user-activity/
+ * @lang JavaScript + Node.js + Octokit
+ * @type Github Action for Fetching and Updating Your Github Activity User Data.
+ * @runs Nodejs v20.x
+ * @bundler esbuild
+ */
+/******************************************************/
 const core = require("@actions/core");
 const github = require("@actions/github");
 const fs = require("fs");
