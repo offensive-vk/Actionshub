@@ -1,3 +1,13 @@
+/******************************************************/
+/**
+ * @author Vedansh (offensive-vk)
+ * @url https://github.com/offensive-vk/auto-translate/
+ * @type Github Action for Translating the README.
+ * @lang JavaScript + Node.js
+ * @uses Octokit and Actions Core
+ * @runs Nodejs v20.x
+ */
+/******************************************************/
 const { readFileSync, writeFileSync, readdirSync, readFile } = require("fs");
 const { join } = require("path");
 const core = require("@actions/core");
@@ -75,13 +85,3 @@ async function commitChanges() {
 
 // Translate 
 translateReadme();
-/******************************************************/
-/**
- * @author Vedansh (offensive-vk)
- * @url https://github.com/offensive-vk/auto-translate/
- * @type Github Action for Translating the README.
- * @lang JavaScript + Node.js
- * @uses Octokit and Actions Core
- * @runs Nodejs v20.x
- */
-/******************************************************/

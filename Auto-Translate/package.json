@@ -2,7 +2,7 @@
   "name": "auto-translate",
   "version": "7.0.0",
   "description": "Github Action to translate Readme to a different language.",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
     "build": "pnpx esbuild index.js --bundle --outfile=dist/index.js --platform=node --sourcemap --external:esbuild"
   },
