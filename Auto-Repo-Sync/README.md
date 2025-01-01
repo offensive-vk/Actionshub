@@ -29,7 +29,7 @@ jobs:
           target-token: ${{ secrets.TARGET_TOKEN }}
 ```
 
-Note: Store sensitive values like TARGET_USERNAME and TARGET_TOKEN as secrets under Settings > Secrets and variables > Actions in your repository.
+Note: Store sensitive values like `TARGET_USERNAME` and `TARGET_TOKEN` as secrets under Settings > Secrets and variables > Actions in your repository.
 
 ***
 
