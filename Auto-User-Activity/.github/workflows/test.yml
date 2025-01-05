@@ -26,10 +26,10 @@ jobs:
       - name: Add Activity to File
         uses: ./
         with:
-          username: "offensive-vk"
+          username: "TheHamsterBot"
           token: ${{ secrets.BOT_TOKEN }}
           committer: "Hamster [bot]"
           committer-email: "TheHamsterBot@outlook.com"
           commit-msg: "Updated Recent Activity."
-          max-lines: 200
-          target-file: 'RECENT.md'
+          max-lines: 150
+          target-file: 'ACTIVITY.md'
