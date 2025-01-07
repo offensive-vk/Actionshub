@@ -19,4 +19,4 @@ jobs:
           email: TheHamsterBot@users.noreply.github.com
           branch: ${{ github.ref_name || 'master' }}
           github-token: ${{ secrets.BOT_TOKEN }}
-          message: 'Updated Daily Statistics - Hamster.'
+          message: '🐹 Updated Daily Statistics - Hamster.'

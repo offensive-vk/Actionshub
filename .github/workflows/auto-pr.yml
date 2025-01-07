@@ -1,4 +1,4 @@
-name: CI / Automated Pull Request 
+name: CI / Automated PR
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create Pull Request
+      - name: Create PR
         id: create-pr
         uses: offensive-vk/auto-pr-action@master
         with:
@@ -24,7 +24,7 @@ jobs:
           destination_branch: 'master'
           title: '🐹 - (${{ github.event.head_commit.message }})'
           reviewers: 'offensive-vk'
-          labels: 'bot,automated,hamster,pull-request'
+          labels: 'automated,hamster'
           assignees: 'TheHamsterBot'
           draft: false
           body: |
@@ -37,7 +37,7 @@ jobs:
             - Author: @TheHamsterBot
             - Branch: master (base) / ${{ github.ref_name }} (head)
             - Commit: ${{ github.sha }}
-            - Workflow Path: ${{ github.workflow_path }}
+            - Workflow Path: ${{ github.workflow_sha }}
             - Pusher Details: ${{ github.event.pusher.name }} - ${{ github.event.pusher.email }}
             - Most Recent Commit: ${{ github.event.head_commit.message }}
 

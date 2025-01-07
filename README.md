@@ -1,12 +1,12 @@
-# AwesomeDevOps 🚀
+# ActionsHub 🚀
 
-Welcome to **AwesomeDevOps** — a repository specially designed to test, enhance, and experiment with CI/CD workflows and GitHub Actions. Whether you're building automation tools, deploying pipelines, or simply pushing the boundaries of DevOps, this is your playground to try out new ideas daily!
+Welcome to **ActionsHub** — a repository specially designed to test, enhance, and experiment with CI/CD workflows and GitHub Actions. Whether you're building automation tools, deploying pipelines, or simply pushing the boundaries of DevOps, this is your playground to try out new ideas daily!
 
 ## 🚧 Purpose
 
 This repository is focused on continuous integration and delivery (CI/CD) innovations. Here, you'll find:
 
-- Workflow automations.
+- Workflow automations and testing.
 - Custom actions to streamline DevOps processes.
 - Regular testing environments for experimenting with pipeline improvements.
 

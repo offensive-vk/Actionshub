@@ -1,7 +1,7 @@
 services:
   awesome-devops:
     build: .
-    container_name: awesome-devops
+    container_name: actionshub
     restart: always
     environment:
       - NODE_ENV=development
