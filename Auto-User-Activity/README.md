@@ -11,20 +11,6 @@ This GitHub Action automatically fetches and updates the recent activity of a Gi
 
 ---
 
-## Recent Activity
-
-<!--START_SECTION:activity-->
-1. 💪 Opened pull request [#7](https://github.com/offensive-vk/auto-user-activity/pull/7) in [offensive-vk/auto-user-activity](https://github.com/offensive-vk/auto-user-activity)
-2. 🎉  Merged pull request [#28106](https://github.com/offensive-vk/offensive-vk/pull/28106) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
-3. ✅ Approved on pull request [#28106](https://github.com/offensive-vk/offensive-vk/pull/28106) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
-4. 🎉  Merged pull request [#27974](https://github.com/offensive-vk/offensive-vk/pull/27974) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
-5. ✅ Approved on pull request [#27974](https://github.com/offensive-vk/offensive-vk/pull/27974) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
-6. 🎉  Merged pull request [#1](https://github.com/offensive-vk/Roadmap.sh/pull/1) in [offensive-vk/Roadmap.sh](https://github.com/offensive-vk/Roadmap.sh)
-7. 💪 Opened pull request [#1](https://github.com/offensive-vk/Roadmap.sh/pull/1) in [offensive-vk/Roadmap.sh](https://github.com/offensive-vk/Roadmap.sh)
-<!--END_SECTION:activity-->
-
----
-
 ## Inputs
 
 The action supports the following input parameters:
@@ -50,21 +36,44 @@ name: Update GitHub Activity
 
 on:
   schedule:
-    - cron: "0 * * * *" # Runs hourly
-  workflow_dispatch: # Allows manual trigger
+    - cron: "0 * * * *"
+  workflow_dispatch:
 
 jobs:
   update-activity:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Run Auto User Activity
-        uses: offensive-vk/auto-user-activity@v1
+      - name: Get User Activity
+        uses: offensive-vk/auto-user-activity@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ github.repository_owner }}
-          commit-msg: ":zap: Updated activity in README"
-          debug: true
+          commit-msg: "Updated Activity."
+          target-file: 'readme.md'
 ```
+
+---
+
+## Recent Activity
+
+<!--START_SECTION:activity-->
+1. 💪 Opened pull request [#7](https://github.com/offensive-vk/auto-user-activity/pull/7) in [offensive-vk/auto-user-activity](https://github.com/offensive-vk/auto-user-activity)
+2. 🎉  Merged pull request [#28106](https://github.com/offensive-vk/offensive-vk/pull/28106) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
+3. ✅ Approved on pull request [#28106](https://github.com/offensive-vk/offensive-vk/pull/28106) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
+4. 🎉  Merged pull request [#27974](https://github.com/offensive-vk/offensive-vk/pull/27974) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
+5. ✅ Approved on pull request [#27974](https://github.com/offensive-vk/offensive-vk/pull/27974) in [offensive-vk/offensive-vk](https://github.com/offensive-vk/offensive-vk)
+6. 🎉  Merged pull request [#1](https://github.com/offensive-vk/Roadmap.sh/pull/1) in [offensive-vk/Roadmap.sh](https://github.com/offensive-vk/Roadmap.sh)
+7. 💪 Opened pull request [#1](https://github.com/offensive-vk/Roadmap.sh/pull/1) in [offensive-vk/Roadmap.sh](https://github.com/offensive-vk/Roadmap.sh)
+<!--END_SECTION:activity-->
+
+***
+
+<p align="center">
+  <i>&copy; <a href="https://github.com/offensive-vk/">Vedansh </a> 2020 - Present</i><br>
+  <i>Licensed under <a href="https://github.com/offensive-vk/auto-user-activity?tab=MIT-1-ov-file">MIT</a></i><br>
+  <a href="https://github.com/TheHamsterBot"><img src="https://i.ibb.co/4KtpYxb/octocat-clean-mini.png" alt="hamster"/></a><br>
+  <sup>Thanks for visiting :)</sup>
+</p>

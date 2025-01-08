@@ -60,7 +60,6 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
     const emptyCommitMsg = core.getInput("empty-commit-msg");
     const enableEmptyCommit = core.getInput("enable-empty-commit") === "true";
     const debug = core.getInput("debug") === "true";
-    const { owner, repo } = github.context.repo;
     const octokit = github.getOctokit(token);
 
     /**
@@ -130,7 +129,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
       const events = await octokit.rest.activity.listPublicEventsForUser({
         username,
-        per_page: 100,
+        per_page: 200,
       });
 
       const serializers = {
@@ -167,7 +166,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
       const content = events.data
         .filter((event) => serializers.hasOwnProperty(event.type))
-        .slice(0, maxLines || 10)
+        .slice(0, maxLines)
         .map((item) => serializers[item.type](item));
 
       const fileContent = fs.readFileSync(targetFile, "utf-8").split("\n");
@@ -201,6 +200,6 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
     `);
   } catch (error) {
     core.error(error);
-    core.setFailed(`Action failed with error: ${error.message}`);
+    core.setFailed(`Error: ${error.message}`);
   }
 })();
