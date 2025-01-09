@@ -4,7 +4,7 @@
   "description": "Github Action to Generate Profile 3D Contributions in SVG.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outdir=dist --platform=node --sourcemap --minify --analyze=verbose --external:canvas --external:./xhr-sync-worker.js",
+    "build": "esbuild src/index.ts --bundle --outdir=dist --platform=node --sourcemap --minify --analyze=verbose --external:canvas",
     "dev": "ts-node src/index.ts",
     "dev:watch": "ts-node-dev --respawn src/index.ts",
     "tsc": "tsc",
@@ -38,12 +38,12 @@
   "author": "offensive-vk",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/node": "^14.14.44",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
-    "axios-mock-adapter": "^1.19.0",
-    "eslint": "^7.25.0",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^14.18.63",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "axios-mock-adapter": "^1.22.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "8.3.0",
     "jest": "^26.6.3",
     "npm-run-all": "^4.1.5",
@@ -51,17 +51,17 @@
     "rimraf": "^2.7.1",
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
-    "ts-node-dev": "^1.1.6",
-    "typescript": "^4.2.4"
+    "ts-node-dev": "^1.1.8",
+    "typescript": "5.7.0-beta"
   },
   "dependencies": {
-    "@actions/core": "^1.2.7",
+    "@actions/core": "^1.11.1",
     "@actions/github": "^4.0.0",
-    "@types/d3": "^6.3.0",
-    "@types/jsdom": "^16.2.10",
-    "axios": "^0.28.0",
+    "@types/d3": "^6.7.8",
+    "@types/jsdom": "^16.2.15",
+    "axios": "^0.28.1",
     "d3": "^6.7.0",
-    "esbuild": "^0.24.0",
-    "jsdom": "^16.5.3"
+    "esbuild": "^0.24.2",
+    "jsdom": "^16.7.0"
   }
 }
