@@ -8,7 +8,7 @@
  * @runs Nodejs v20.x
  */
 /******************************************************/
-const { readFileSync, writeFileSync, readdirSync, readFile } = require("fs");
+const { readFileSync, writeFileSync, readdirSync } = require("fs");
 const { join } = require("path");
 const core = require("@actions/core");
 const github = require("@actions/github");

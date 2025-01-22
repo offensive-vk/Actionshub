@@ -13,12 +13,11 @@ This Action Automatically translate a Markdown file (e.g., README.md) to any oth
 ## ✨ Features
 
 - Translates Markdown files to any specified language.
-- Commits the translated file to the repository.
-- Configurable commit message, committer, and additional commit options.
+- Various Configurable options for multiple language processing.
 
 ## 🚀 Usage
 
-For an live firetest, please click [here](https://github.com/offensive-vk/auto-translate/tree/master/.github/workflows/test.yml) to see a perfect example of this Action.
+For a live firetest, please click [here](https://github.com/offensive-vk/auto-translate/tree/master/.github/workflows/test.yml) to see a perfect example of this Action.
 
 Add the following to your `.github/workflows/translate.yml` workflow file to set up **Auto Translate** in your repository:
 
