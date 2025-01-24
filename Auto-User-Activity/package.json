@@ -1,7 +1,7 @@
 {
   "name": "auto-user-activity",
   "version": "7.0.0",
-  "description": "Fetch and Updates the recent user activity of a github user",
+  "description": "Fetch and Update the recent user activity of a github user",
   "main": "index.js",
   "keywords": [],
   "author": "Vedansh",
@@ -17,7 +17,7 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0",
-    "prettier": "^3.2.5"
+    "esbuild": "^0.24.2",
+    "prettier": "^3.4.2"
   }
 }

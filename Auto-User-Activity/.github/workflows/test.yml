@@ -5,7 +5,7 @@ on:
 
 jobs:
   update_activity:
-    name: Test
+    name: Update
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           committer: "Hamster [bot]"
           committer-email: "TheHamsterBot@outlook.com"
-          commit-msg: "Updated Recent Activity."
+          commit-msg: "Updated Recent Activity"
           max-lines: 50
           target-file: 'README.md'
 
@@ -30,6 +30,6 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           committer: "Hamster [bot]"
           committer-email: "TheHamsterBot@outlook.com"
-          commit-msg: "Updated Recent Activity."
+          commit-msg: "Updated Recent Activity"
           max-lines: 150
           target-file: 'ACTIVITY.md'
