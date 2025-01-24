@@ -31,7 +31,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-user-activity'
+          message: '🚀 Mirror Sync - auto-user-activity'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-commit-push:
@@ -60,7 +60,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-commit-push'
+          message: '🚀 Mirror Sync - auto-commit-push'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-issue:
@@ -89,7 +89,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-issue'
+          message: '🚀 Mirror Sync - auto-issue'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-pr:
@@ -118,7 +118,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-pull-request'
+          message: '🚀 Mirror Sync - auto-pull-request'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-update-quote:
@@ -147,7 +147,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-update-quote'
+          message: '🚀 Mirror Sync - auto-update-quote'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-repo-sync:
@@ -176,7 +176,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-repo-sync'
+          message: '🚀 Mirror Sync - auto-repo-sync'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-add-project:
@@ -205,7 +205,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-add-project'
+          message: '🚀 Mirror Sync - auto-add-project'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-stats:
@@ -234,7 +234,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-stats'
+          message: '🚀 Mirror Sync - auto-stats'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-label:
@@ -263,7 +263,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-label'
+          message: '🚀 Mirror Sync - auto-label'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-translate:
@@ -292,7 +292,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-translate'
+          message: '🚀 Mirror Sync - auto-translate'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-pr-action:
@@ -321,7 +321,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-pr-action'
+          message: '🚀 Mirror Sync - auto-pr-action'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   sync-auto-contributions:
@@ -350,7 +350,7 @@ jobs:
           name: 'Hamster [bot]'
           email: 'TheHamsterBot@outlook.com'
           branch: 'master'
-          message: 'Remote Repo Sync - auto-contributions'
+          message: '🚀 Mirror Sync - auto-contributions'
           github-token: ${{ secrets.BOT_TOKEN }}
 
   finish-repo-sync:
