@@ -10,26 +10,16 @@ inputs:
     description: 'Target repository URL, e.g., https://github.com/<user>/<repo>.git'
     required: true
   target-username:
-    description: 'Target repository username'
+    description: 'Target Repository Username.'
     required: true
   target-token:
-    description: 'Personal access token for authentication'
+    description: 'Personal Access Token for Authentication.'
     required: true
 
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://ghcr.io/offensive-vk/auto-repo-sync:latest'
   env:
     INPUT_TARGET_URL: ${{ inputs.target-url }}
     INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
     INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
-# runs:
-#   using: "composite"
-#   steps:
-#     - name: Run Repository Sync Script
-#       shell: bash
-#       run: chmod +x entrypoint.sh ; ./entrypoint.sh
-#       env:
-#         INPUT_TARGET_URL: ${{ inputs.target-url }}
-#         INPUT_TARGET_USERNAME: ${{ inputs.target-username }}
-#         INPUT_TARGET_TOKEN: ${{ inputs.target-token }}
