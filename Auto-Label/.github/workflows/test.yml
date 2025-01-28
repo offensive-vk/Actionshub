@@ -42,7 +42,7 @@ jobs:
       with:
         debug: false
         create-labels: true
-        github-token: ${{ secrets.MY_TOKEN }}
+        github-token: ${{ secrets.BOT_TOKEN || secrets.MY_TOKEN }}
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
@@ -51,7 +51,7 @@ jobs:
       with:
         debug: true
         create-labels: true
-        github-token: ${{ secrets.MY_TOKEN }}
+        github-token: ${{ secrets.BOT_TOKEN || secrets.MY_TOKEN }}
         pr-config: '.github/pr.yml'
 
     - name: Debug Event Context

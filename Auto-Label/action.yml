@@ -1,14 +1,16 @@
 name: auto-label-stuff
-description: Super Easy Action to Automatically Apply Labels on Issues and PRs
+description: 'Super Easy Action to Automatically Apply Labels on Issues and PRs based on config files.'
 author: offensive-vk
 branding:
   icon: mail
   color: gray-dark
 inputs:
+  number:
+    description: "Works on a specific issue or pr number."
+    required: false
   debug:
     required: false
     description: "Whether to enable Debug Mode or not."
-    default: false
   github-token:
     description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
     required: false
@@ -19,11 +21,9 @@ inputs:
   issue-config:
     description: "Path to file where each label maps to an array of matching strings. File type: .yml, .yaml, .json."
     required: false
-    default: '.github/issue.yml'
   pr-config:
     description: "Path to file for labeling pull request based on file changes. Like labeler.yml but more simpler."
     required: false
-    default: '.github/pr.yml'
   
 runs:
   using: 'node20'

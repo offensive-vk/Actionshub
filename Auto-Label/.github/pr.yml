@@ -1,8 +1,6 @@
 kind/enhancement:
-  - '/'
-  - 'action.yml'
-  - '.github'
-  - '**/*.yml'
+  - '**/*.js'
+  - '**/*.js.map'
 
 kind/typescript:
   - '**/*.ts'
@@ -15,3 +13,7 @@ kind/ci:
 bot/hamster:
   - 'automated'
   - 'hamster'
+
+kind/dotfiles:
+  - '**/*.json'
+  - '**/*.md'

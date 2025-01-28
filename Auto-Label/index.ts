@@ -110,6 +110,10 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
     return matchedLabels.length > 0 ? matchedLabels : undefined;
 }
 
+function resolvePath (path: string) {
+    return path.replace(/\$([A-Z_]+)/g, (_, name) => process.env[name] || '');
+};
+
 (async () => {
     try {
         const token = core.getInput('github-token');
@@ -120,8 +124,13 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
 
-        const prConfigPath = core.getInput('pr-config');
-        const issueConfigPath = core.getInput('issue-config');
+        const prConfigPath = resolvePath(core.getInput('pr-config') || '.github/pr.yml');
+        const issueConfigPath = resolvePath(core.getInput('issue-config') || '.github/issues.yml');
+
+        if (debugMode) {
+            core.info(`PR Config Path: ${prConfigPath}`);
+            core.info(`Issue Config Path: ${issueConfigPath}`);
+        }
 
         const eventType = context.eventName;
         const labelsToApply: string[] = [];
@@ -189,7 +198,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
 
         console.log(`
             --------------------------------------------------------------
-            🎉 Success! Labels have been applied to the Issue/PR.
+            🎉 Success! Labels have been applied to Issue/PR.
             Thank you for using this action! – Vedansh ✨ (offensive-vk)
             --------------------------------------------------------------
         `);
