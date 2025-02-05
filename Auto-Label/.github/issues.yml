@@ -1,25 +1,29 @@
+bug:
+  match:
+    - "error"
+    - "fail"
+    - "bug"
+    - "crash"
+  description: "Indicates a bug or error in the system."
+
+enhancement:
+  match:
+    - "feature"
+    - "enhancement"
+    - "improvement"
+  description: "Suggests a new feature or improvement."
+
+documentation:
+  match:
+    - "doc"
+    - "documentation"
+    - "readme"
+  description: "Related to documentation updates or changes."
+
 hamster:
-  - automated
-  - hamster
-  - hamsters
-  - hamster-bot
-  - hamster-bots
-  - Hamster
-
-issue:
-  - issue
-  - issues
-  - bug
-  - bugs
-  - fix
-
-feat:
-  - feature
-  - feat
-  - oi
-
-base:
-  - 'base'
-  - 'root'
-  - 'this'
-  - 'testing'
+  match:
+    - 'pet'
+    - 'animal'
+    - 'automated'
+    - 'hamster'
+  description: "Thats my hamster."

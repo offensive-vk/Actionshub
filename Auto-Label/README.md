@@ -7,10 +7,11 @@ For a complete example, check the [working workflow](.github/workflows/test.yml)
 ---
 
 ## Features
+
 - **Automatic Labeling**: Apply labels to issues and pull requests based on custom rules.
 - **Keyword Matching**: Match specific keywords in issues to apply relevant labels.
 - **File Pattern Matching**: Automatically label pull requests based on modified file patterns.
-- **Optional Label Creation**: Create missing labels automatically.
+- **Optional Label Creation**: Create missing labels automatically with descriptions.
 
 ---
 
@@ -55,32 +56,43 @@ Configure inputs through the `with:` section of the Action. Below is the list of
 | `pr-config`    | `.github/pr.yml`              | Path to the YAML configuration file for labeling pull requests. |
 | `create-labels`| `true`                        | Whether to create missing labels in the repository. |
 | `debug`        | `false`                       | Whether to enable debug mode or not. |
+| `number`        | `0`                       | Valid only at workflow_dispatch event. |
 
 ---
 
 ## Configuration Files
 
 ### Issue Configuration
+
 Define rules to apply labels on issues based on keywords. Below is an example:
 
 ```yaml
 # .github/issues.yml
-actual_label:
-  - 'Match1'
-  - 'Match2'
-  - '...'
-
 bug:
-  - 'bug'
-  - 'issue'
-  - 'fix'
+  match:
+    - "error"
+    - "fail"
+    - "bug"
+    - "crash"
+  description: "Indicates a bug or error in the system."
 
-feature:
-  - 'feature'
-  - 'enhancement'
+enhancement:
+  match:
+    - "feature"
+    - "enhancement"
+    - "improvement"
+  description: "Suggests a new feature or improvement."
+
+documentation:
+  match:
+    - "doc"
+    - "documentation"
+    - "readme"
+  description: "Related to documentation updates or changes."
 ```
 
 ### Pull Request Configuration
+
 Define rules to apply labels on pull requests based on file patterns. Below is an example:
 
 ```yaml
@@ -93,6 +105,10 @@ area/release:
 area/build:
   - 'build/**/*'
   - 'resources/**'
+
+area/ci-cd:
+  - '**/*.yml'
+  - '**/*.yaml'
 ```
 
 ---
@@ -103,10 +119,12 @@ area/build:
 2. Matches keywords (for issues) or file patterns (for pull requests) against the configuration file.
 3. Applies labels to issues or pull requests that match the criteria.
 4. Optionally creates missing labels in the repository.
+5. Works both on issue and pull requests.
 
 ---
 
 ## License
+
 This repository is licensed under the [MIT License](https://github.com/offensive-vk/auto-issue?tab=MIT-1-ov-file).
 
 ***

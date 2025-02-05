@@ -1,19 +1,41 @@
 kind/enhancement:
-  - '**/*.js'
-  - '**/*.js.map'
+  match:
+    - '**/*.js'
+    - '**/*.js.map'
+  description: "Modifies crucial files, an enhancement."
 
 kind/typescript:
-  - '**/*.ts'
-  - '**/*.js' 
+  match:
+    - '**/*.ts'
+  description: "Modifies typescript files."
 
 kind/ci:
-  - '**/*.yml'
-  - '.github'
+  match:
+    - '**/*.yml'
+    - '.github'
+  description: "Modifies ci/cd files."
 
 bot/hamster:
-  - 'automated'
-  - 'hamster'
+  match:
+    - 'pet'
+    - 'animal'
+    - 'automated'
+    - 'hamster'
+  description: "Thats my hamster."
 
 kind/dotfiles:
-  - '**/*.json'
-  - '**/*.md'
+  match:
+    - '**/*.json'
+    - '**/*.md'
+  description: "Modifies dotfiles or configs"
+
+kind/testing:
+  match:
+    - '**/*.js.map'
+    - '**/*.js'
+  description: "Testing dept."
+
+kind/docs:
+  match:
+    - '**/*.md'
+  description: "Documentation."

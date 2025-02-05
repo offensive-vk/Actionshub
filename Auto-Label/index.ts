@@ -23,6 +23,8 @@ interface LabelConfig {
     description?: string;
 }
 
+type MatchedLabels = Array<{ label: string , description?: string}>;
+
 async function getChangedFiles(octokit: Octokit, owner: string, repo: string, prNumber: number): Promise<string[]> {
     const { data: files } = await octokit.rest.pulls.listFiles({
         owner,
@@ -36,26 +38,32 @@ async function getChangedFiles(octokit: Octokit, owner: string, repo: string, pr
 
 function parseConfigFile(filePath: string): Array<LabelConfig> {
     const fileContent = fs.readFileSync(filePath, 'utf8');
-    let parsedData;
+    let parsedData: Record<string, { match: string[]; description?: string }>;
+
     if (filePath.endsWith('.yml') || filePath.endsWith('.yaml')) {
-        parsedData = yaml.load(fileContent);
+        parsedData = yaml.load(fileContent) as Record<string, { match: string[]; description?: string }>;
     } else if (filePath.endsWith('.json')) {
-        parsedData = JSON.parse(fileContent);
+        parsedData = JSON.parse(fileContent) as Record<string, { match: string[]; description?: string }>;
     } else {
         throw new Error(`Unsupported file type: ${filePath}`);
     }
 
     if (typeof parsedData === 'object' && parsedData !== null) {
-        return Object.entries(parsedData).map(([label, patterns]) => {
-            if (!Array.isArray(patterns)) {
-                throw new Error(`Patterns for label "${label}" should be an array.`);
+        return Object.entries(parsedData).map(([label, config]) => {
+            if (!Array.isArray(config.match)) {
+                throw new Error(`Invalid configuration for label "${label}".`);
             }
-            return { label, match: patterns as string[] };
+            return {
+                label,
+                match: config.match,
+                description: config.description || undefined,
+            };
         });
     } else {
         throw new Error(`Parsed data from ${filePath} is not an object or is empty.`);
     }
 }
+
 async function ensureLabelsExist(
     octokit: any,
     owner: string,
@@ -99,16 +107,33 @@ function getRandomColor() {
     return color.slice(1);
 }
 
+
+function findMatchingLabels(body: string, labelConfig: LabelConfig[]): MatchedLabels {
+    const content = body.replace(/[^a-zA-Z0-9]/g, ' ').toLowerCase().split(/\s+/);
+    const matchedLabels: MatchedLabels = [];
+
+    for (const { label, match, description } of labelConfig) {
+        for (const word of content) {
+            if (match.some(pattern => minimatch(word, pattern))) {
+                matchedLabels.push({ label, description });
+                break; // Avoid duplicate entries
+            }
+        }
+    }
+
+    return matchedLabels;
+}
+
 function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels: Array<T>): 
-    Array<{ label: string; description?: string }> | undefined {
-    const matchedLabels: Array<{ label: string; description?: string }> = [];
+    MatchedLabels {
+    const matchedLabels: MatchedLabels = [];
     labels.forEach(({ label, match, description }) => {
         core.debug(`Checking label "${label}" with patterns: ${match.join(', ')}`);
         if (match.some(pattern => content.some(item => minimatch(item, pattern)))) {
             matchedLabels.push({ label, description });
         }
     });
-    return matchedLabels.length > 0 ? matchedLabels : undefined;
+    return matchedLabels.length > 0 ? matchedLabels : [];
 }
 
 function resolvePath (path: string) {
@@ -120,7 +145,6 @@ function resolvePath (path: string) {
         const token = core.getInput('github-token') || process.env.GITHUB_TOKEN || '';
         const octokit = github.getOctokit(token);
         const debugMode = core.getBooleanInput('debug') || true;
-
         const { owner: contextOwner, repo: contextRepo } = github.context.repo;
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
@@ -134,7 +158,7 @@ function resolvePath (path: string) {
         }
 
         const eventType = context.eventName;
-        const labelsToApply: string[] = [];
+        const labelsToApply = [];
         let targetNumber;
 
         if (eventType === 'pull_request' && context.payload.pull_request) {
@@ -168,12 +192,15 @@ function resolvePath (path: string) {
                 return;
             }
 
-            const titleAndBody = [`${context.payload.issue.title}`, `${context.payload.issue.body || ''}`];
+            const titleAndBody = `${context.payload.issue.title} ${context.payload.issue.body || ''}`;
             const issueLabelMapping = parseConfigFile(issueConfigPath);
 
-            const matchedLabels = getMatchedLabels(titleAndBody, issueLabelMapping);
+            const matchedLabels = findMatchingLabels(titleAndBody, issueLabelMapping);
+            console.dir(matchedLabels);
+
             if (matchedLabels) {
                 for (const { label, description } of matchedLabels) {
+                    core.info(`Matching label ${label} with description ${description}`);
                     labelsToApply.push(label);
                     await ensureLabelExists(octokit, owner, repo, label, description);
                 }
@@ -183,54 +210,15 @@ function resolvePath (path: string) {
 
         } else if (eventType == 'workflow_dispatch' && actionNumber != 'undefined') {
             targetNumber = actionNumber as unknown as number;
-            
-            if (context.payload.issue) {
-                if (!issueConfigPath) {
-                    core.setFailed('Missing "issue-config" input for issue labeling.');
-                    return;
-                }
-    
-                const titleAndBody = [`${context.payload.issue.title}`, `${context.payload.issue.body || ''}`];
-                const issueLabelMapping = parseConfigFile(issueConfigPath);
-    
-                const matchedLabels = getMatchedLabels(titleAndBody, issueLabelMapping);
-                if (matchedLabels) {
-                    for (const { label, description } of matchedLabels) {
-                        labelsToApply.push(label);
-                        await ensureLabelExists(octokit, owner, repo, label, description);
-                    }
-                } else {
-                    core.warning('No labels matched the issue title or body.');
-                }
-            }
-
-            if (context.payload.pull_request) {
-                if (!prConfigPath) {
-                    core.setFailed('Missing "pr-config" input for pull request labeling.');
-                    return;
-                }
-    
-                const changedFiles = await getChangedFiles(octokit as unknown as Octokit, owner, repo, targetNumber);
-                const fileLabelMapping = parseConfigFile(prConfigPath);
-    
-                const matchedLabels = getMatchedLabels(changedFiles, fileLabelMapping);
-                if (matchedLabels) {
-                    for (const { label, description } of matchedLabels) {
-                        labelsToApply.push(label);
-                        await ensureLabelsExist(octokit, owner, repo, [{label: label, description: description}]);
-                    }
-                } else {
-                    core.warning('No labels matched the file changes in this pull request.');
-                }
-            }
+            core.warning(`Workflow dispatch event is still under development. - ${targetNumber}`)
         } else {
             core.warning(`Event Type "${eventType}" is not supported.`);
         }
 
         if (targetNumber && labelsToApply.length > 0) {
             await octokit.rest.issues.addLabels({
-                owner,
-                repo,
+                owner: contextOwner,
+                repo: contextRepo,
                 issue_number: targetNumber,
                 labels: labelsToApply,
             });
@@ -240,14 +228,15 @@ function resolvePath (path: string) {
         }
 
         console.log(`
-            --------------------------------------------------------------
+            -------------------------------------------------
             🎉 Success! Labels have been applied to Issue/PR.
             ✨ Thank you for using this action! – Vedansh
-            --------------------------------------------------------------
+            -------------------------------------------------
         `);
 
     } catch (error: any) {
         core.error(`Error: ${error.message}`);
-        core.setFailed(`Failed to label PR based on file changes: \n${error.message}`);
+        core.debug(`Debug Info: ${JSON.stringify(error, null, 2)}`);
+        core.setFailed(`Something went wrong in here. Kindly check the detailed logs.`)
     }
 })();
