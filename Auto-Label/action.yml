@@ -11,9 +11,10 @@ inputs:
   debug:
     required: false
     description: "Whether to enable Debug Mode or not."
-  github-token:
-    description: "Your GitHub token (PAT or `github.token`). Required to authenticate API requests."
+  auth-token:
+    description: "Your GitHub Token (PAT or `github.token`). Required to authenticate API requests."
     required: false
+    default: '${{ github.token }}'
   create-labels:
     description: "Set to true if the labels does not exist in the repository. If set to false, the action will not create the labels."
     required: false

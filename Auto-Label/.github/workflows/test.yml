@@ -3,7 +3,7 @@ name: CI / Test Action
 on: 
   issues:
     types: [opened, edited]
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize]
   workflow_dispatch:
     inputs:
@@ -14,6 +14,7 @@ on:
         description: "PR/Issue Number to Run / Test Workflow on."
 
 permissions:
+  content: write
   pull-requests: write
   issues: write
 
@@ -42,16 +43,16 @@ jobs:
       with:
         debug: true
         create-labels: true
-        github-token: ${{ secrets.MY_PAT || github.token }}
+        auth-token: ${{ github.token }}
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request_target'
       uses: ./
       with:
         debug: true
         create-labels: true
-        github-token: ${{ secrets.MY_PAT || github.token }}
+        auth-token: ${{ github.token }}
         pr-config: '.github/pr.yml'
         
     - name: Manual Dispatch

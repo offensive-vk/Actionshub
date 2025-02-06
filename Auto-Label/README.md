@@ -26,7 +26,7 @@ steps:
     uses: offensive-vk/auto-label@v7
     with:
       create-labels: true # Optional, defaults to true
-      github-token: ${{ secrets.GITHUB_TOKEN }} # Optional, defaults to ${{ secrets.GITHUB_TOKEN }}
+      auth-token: ${{ github.token }} # Optional, defaults to ${{ secrets.GITHUB_TOKEN }}
       issue-config: .github/issues.yml # Required, path to the issue configuration file.
 ```
 
@@ -39,7 +39,7 @@ steps:
     uses: offensive-vk/auto-label@v7
     with:
       create-labels: true # Optional, defaults to true
-      github-token: ${{ secrets.GITHUB_TOKEN }} # Optional, defaults to ${{ secrets.GITHUB_TOKEN }}
+      auth-token: ${{ github.token }} # Optional, defaults to ${{ secrets.GITHUB_TOKEN }}
       pr-config: .github/pr.yml # Required, path to the pull request configuration file.
 ```
 
@@ -51,7 +51,7 @@ Configure inputs through the `with:` section of the Action. Below is the list of
 
 | Input          | Default Value                 | Description |
 |----------------|-------------------------------|-------------|
-| `github-token` | `${{ secrets.GITHUB_TOKEN }}` | The GitHub token for authenticating requests. You can use `${{ secrets.GITHUB_TOKEN }}` or a personal access token (PAT) stored in your secrets. |
+| `auth-token` | `${{ github.token }}` | The GitHub token for authenticating requests. You can use `${{ secrets.GITHUB_TOKEN }}` or a personal access token (PAT) stored in your secrets. |
 | `issue-config` | `.github/issues.yml`          | Path to the YAML configuration file for labeling issues. |
 | `pr-config`    | `.github/pr.yml`              | Path to the YAML configuration file for labeling pull requests. |
 | `create-labels`| `true`                        | Whether to create missing labels in the repository. |
