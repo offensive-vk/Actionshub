@@ -45,13 +45,12 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=pr
             type=edge
             latest
             ${{ github.ref_name }}
           labels: |
             org.opencontainers.image.title=auto-label
-            org.opencontainers.image.description=Automatically Apply Labels on Issues and PRs.
+            org.opencontainers.image.description=Simple Github Action to Apply Labels on Issues and PRs.
             org.opencontainers.image.vendor=Vedansh
 
       - name: Verify Tags and Labels

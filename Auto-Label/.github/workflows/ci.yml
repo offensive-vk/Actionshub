@@ -3,12 +3,10 @@ name: CI / Build & Test
 on:
   push:
     branches: ["master"]
-  pull_request:
-    branches: ["master"]
   workflow_dispatch:
 
 concurrency:
-  group: build-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,7 +17,7 @@ jobs:
       matrix:
         node-version: [18.x, 19.x, 20.x, 21.x, 22.x]
 
-    name: Linux - Build & Test on v${{ matrix.node-version }}
+    name: Linux - v${{ matrix.node-version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -41,7 +39,7 @@ jobs:
       matrix:
         node-version: [18.x, 19.x, 20.x, 21.x, 22.x]
     
-    name: Macos - Build & Test on v${{ matrix.node-version }} 
+    name: Macos - v${{ matrix.node-version }} 
     steps:
     - uses: actions/checkout@v4
 
@@ -63,7 +61,7 @@ jobs:
       matrix:
         node-version: [18.x, 19.x, 20.x, 21.x, 22.x]
     
-    name: Windows - Build & Test on v${{ matrix.node-version }}
+    name: Windows - v${{ matrix.node-version }}
     steps:
     - uses: actions/checkout@v4
 

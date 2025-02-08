@@ -6,7 +6,7 @@ bug:
     - "crash"
   description: "Indicates a bug or error in the system."
 
-enhancement:
+feature:
   match:
     - "feature"
     - "enhancement"

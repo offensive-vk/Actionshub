@@ -15,8 +15,6 @@ import * as fs from 'fs';
 import { minimatch } from 'minimatch';
 import { Octokit } from '@octokit/rest';
 
-const context = github.context;
-
 /**
  * @interface LabelConfig Schema for Proper API Usage.
  */
@@ -112,7 +110,7 @@ async function ensureLabelExists(octokit: any, owner: string, repo: string, labe
     } catch (error: any) {
         if (error.status === 404) {
             const randomColor = getRandomColor();
-            core.info(`Label "${label}" not found. Creating it with color #${randomColor}.`);
+            core.info(`Label "${label}" not found. Creating it with color "#${randomColor}".`);
             await octokit.rest.issues.createLabel({
                 owner,
                 repo,
@@ -166,6 +164,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const actionNumber = core.getInput('number') || undefined;
         const prConfigPath = resolvePath(core.getInput('pr-config') || '.github/pr.yml');
         const issueConfigPath = resolvePath(core.getInput('issue-config') || '.github/issues.yml');
+        const context = github.context;
 
         if (debugMode) {
             core.debug(`PR Config Path: ${prConfigPath}`);
@@ -176,10 +175,10 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const labelsToApply = [];
         let targetNumber;
 
-        if (eventType === 'pull_request_target' && context.payload.pull_request) {
+        if (eventType === 'pull_request' && context.payload.pull_request) {
             const prNumber = context.payload.pull_request.number;
-            core.info(`Pull Request Number: ${prNumber}`)
             targetNumber = prNumber;
+            core.debug(`Pull Request Number: ${targetNumber}`)
 
             if (!prConfigPath) {
                 core.setFailed('Missing "pr-config" input for pull request labeling.');
@@ -204,6 +203,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         } else if (eventType === 'issues' && context.payload.issue) {
             const issueNumber = context.payload.issue.number;
             targetNumber = issueNumber;
+            core.debug(`Issue Number: ${targetNumber}`)
 
             if (!issueConfigPath) {
                 core.setFailed('Missing "issue-config" input for issue labeling.');
@@ -241,13 +241,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
                 labels: labelsToApply,
             });
 
-            await octokit.rest.issues.setLabels({
-                issue_number: targetNumber,
-                owner: contextOwner,
-                repo: contextRepo,
-                labels: labelsToApply
-            })
-            core.info(`Issue Labels Applied: ${labelsToApply.join(', ')}`);
+            core.info(`Labels Applied: ${labelsToApply.join(', ')}`);
         } else {
             core.warning('No labels were applied.');
         }

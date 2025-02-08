@@ -14,7 +14,7 @@ on:
         description: "PR/Issue Number to Run / Test Workflow on."
 
 permissions:
-  content: write
+  contents: write
   pull-requests: write
   issues: write
 
@@ -22,20 +22,10 @@ jobs:
   label:
     name: Label Issues and Pull Requests
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-
-    - name: Validate Config Files
-      run: |
-        if [[ ! -f .github/issues.yml || ! -f .github/pr.yml ]]; then
-          echo "Required config files not found! Please ensure .github/issues.yml and .github/pr.yml exist."
-          exit 1
-        fi
 
     - name: Label Issues
       if: github.event_name == 'issues'
@@ -43,16 +33,16 @@ jobs:
       with:
         debug: true
         create-labels: true
-        auth-token: ${{ github.token }}
+        auth-token: ${{ secrets.GITHUB_TOKEN || github.token }}
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
-      if: github.event_name == 'pull_request_target'
+      if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
       uses: ./
       with:
         debug: true
         create-labels: true
-        auth-token: ${{ github.token }}
+        auth-token: ${{ secrets.GITHUB_TOKEN || github.token }}
         pr-config: '.github/pr.yml'
         
     - name: Manual Dispatch

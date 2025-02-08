@@ -1,8 +1,8 @@
-kind/enhancement:
+kind/feature:
   match:
     - '**/*.js'
     - '**/*.js.map'
-  description: "Modifies crucial files, an enhancement."
+  description: "Modifies crucial files, an improvement."
 
 kind/typescript:
   match:
