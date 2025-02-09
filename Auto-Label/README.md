@@ -2,7 +2,7 @@
 
 The **auto-label** GitHub Action simplifies the process of adding labels to issues and pull requests in your repository. Powered by the GitHub Octokit API, this Action can match specific keywords or file patterns to apply labels automatically.
 
-For a complete example, check the working [workflow](.github/workflows/test.yml).
+For a complete example, check the working [workflow](.github/workflows/test.yml). 🙌
 
 ---
 
@@ -11,7 +11,7 @@ For a complete example, check the working [workflow](.github/workflows/test.yml)
 - **Automatic Labeling**: Apply labels to issues and pull requests based on custom rules.
 - **Keyword Matching**: Match specific keywords in issues to apply relevant labels.
 - **File Pattern Matching**: Automatically label pull requests based on modified file patterns.
-- **Optional Label Creation**: Create missing labels automatically with descriptions.
+- **Optional Label Creation**: Create missing labels automatically with suitable descriptions.
 
 ---
 

@@ -40,7 +40,6 @@ function resolvePath (path: string) {
 
 /**
  * Generates a random hexadecimal color code.
- * 
  * @returns A string representing a random color in hexadecimal format (e.g., '1A2B3C').
  */
 function getRandomColor() {
@@ -52,7 +51,7 @@ function getRandomColor() {
     return color.slice(1);
 }
 
-async function getChangedFiles(octokit: Octokit, owner: string, repo: string, prNumber: number): Promise<string[]> {
+async function getChangedFiles(octokit: any, owner: string, repo: string, prNumber: number): Promise<string[]> {
     const { data: files } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
@@ -185,7 +184,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
                 return;
             }
 
-            const changedFiles = await getChangedFiles(octokit as unknown as Octokit, owner, repo, prNumber);
+            const changedFiles = await getChangedFiles(octokit, owner, repo, prNumber);
             const fileLabelMapping = parseConfigFile(prConfigPath);
 
             const matchedLabels = getMatchedLabels(changedFiles, fileLabelMapping);
