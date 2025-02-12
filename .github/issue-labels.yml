@@ -1,0 +1,29 @@
+error:
+  match:
+    - "error"
+    - "fail"
+    - "bug"
+    - "crash"
+  description: "Indicates a bug or error in the system."
+
+feat:
+  match:
+    - "feature"
+    - "enhancement"
+    - "improvement"
+  description: "Suggests a new feature or improvement."
+
+documentation:
+  match:
+    - "doc"
+    - "documentation"
+    - "readme"
+  description: "Related to documentation updates or changes."
+
+hamster:
+  match:
+    - 'pet'
+    - 'animal'
+    - 'automated'
+    - 'hamster'
+  description: "Thats my hamster."

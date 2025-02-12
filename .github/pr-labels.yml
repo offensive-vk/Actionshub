@@ -1,0 +1,35 @@
+
+kind/typescript:
+  match:
+    - '**/*.ts'
+  description: "Modifies typescript files."
+
+kind/ci:
+  match:
+    - '**/*.yml'
+    - '.github'
+  description: "Modifies ci/cd files."
+
+bot/hamster:
+  match:
+    - 'pet'
+    - 'animal'
+    - 'automated'
+    - 'hamster'
+  description: "Thats my hamster."
+
+kind/dotfiles:
+  match:
+    - '**/*.json'
+    - '**/*.md'
+  description: "Modifies dotfiles or configs"
+
+kind/docs:
+  match:
+    - '**/*.md'
+  description: "Documentation."
+
+kind/shell:
+  match: 
+    - '**/*.sh'
+  description: 'Modified shell scripts'
