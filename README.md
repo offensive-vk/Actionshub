@@ -6,6 +6,7 @@ Welcome to **ActionsHub** — a repository specially designed to test, enhance, 
 
 This repository is focused on continuous integration and delivery (CI/CD) innovations. Here, you'll find:
 
+- Testing Actions for Any Bugs / Issues.
 - Regular Stats Update and Issues Pulse.
 - Workflow automations and testing.
 - Custom actions to streamline DevOps processes.
@@ -18,7 +19,7 @@ AwesomeDevOps serves as the testing ground for various custom actions, including
 - **auto-repo-sync**: Automates syncing between repositories.
 - **auto-issue**: Automatically manages issue creation and updates.
 - **auto-label**: Dynamically applies labels based on conditions.
-- **auto-pr-action**: Generates or updates pull requests automatically.
+- **auto-pr-action**: Create or update pull requests automatically.
 - **auto-stats**: Tracks and reports repository statistics.
 - **auto-update-quote**: Adds daily motivational or code-related quotes.
 - **auto-commit-push**: Automates regular commits and pushes.
