@@ -27,3 +27,11 @@ hamster:
     - 'automated'
     - 'hamster'
   description: "Thats my hamster."
+
+boss:
+  match:
+    - 'admin'
+    - 'boss'
+    - 'offensive-vk'
+    - 'root'
+  description: "Thats me."
