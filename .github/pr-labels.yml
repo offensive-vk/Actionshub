@@ -1,4 +1,3 @@
-
 kind/typescript:
   match:
     - '**/*.ts'
@@ -7,7 +6,7 @@ kind/typescript:
 kind/ci:
   match:
     - '**/*.yml'
-    - '.github'
+    - '.github/**/*'
   description: "Modifies ci/cd files."
 
 bot/hamster:
@@ -33,3 +32,8 @@ kind/shell:
   match: 
     - '**/*.sh'
   description: 'Modified shell scripts'
+
+kind/javacript:
+  match: 
+    - '**/*.js'
+  description: 'Modified javascript files'

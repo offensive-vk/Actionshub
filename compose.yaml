@@ -1,5 +1,5 @@
 services:
-  awesome-devops:
+  actionshub:
     build: .
     container_name: actionshub
     restart: always
