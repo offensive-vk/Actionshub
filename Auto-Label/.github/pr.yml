@@ -12,7 +12,7 @@ kind/typescript:
 kind/ci:
   match:
     - '**/*.yml'
-    - '.github'
+    - '.github/**/*'
   description: "Modifies ci/cd files."
 
 bot/hamster:
@@ -25,6 +25,7 @@ bot/hamster:
 
 kind/dotfiles:
   match:
+    - '**/*.yaml'
     - '**/*.json'
     - '**/*.md'
   description: "Modifies dotfiles or configs"
@@ -38,4 +39,5 @@ kind/testing:
 kind/docs:
   match:
     - '**/*.md'
+    - 'LICENSE'
   description: "Documentation."

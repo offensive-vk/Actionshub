@@ -13,7 +13,6 @@ import * as github from '@actions/github';
 import * as yaml from 'js-yaml';
 import * as fs from 'fs';
 import { minimatch } from 'minimatch';
-import { Octokit } from '@octokit/rest';
 
 /**
  * @interface LabelConfig Schema for Proper API Usage.
@@ -102,7 +101,7 @@ async function ensureLabelsExist(
     await Promise.all(tasks);
 }
 
-async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string, description?: string) {
+async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string, desc?: string) {
     try {
         await octokit.rest.issues.getLabel({ owner, repo, name: label });
         core.debug(`Label "${label}" already exists.`);
@@ -111,11 +110,11 @@ async function ensureLabelExists(octokit: any, owner: string, repo: string, labe
             const randomColor = getRandomColor();
             core.info(`Label "${label}" not found. Creating it with color "#${randomColor}".`);
             await octokit.rest.issues.createLabel({
-                owner,
-                repo,
+                owner: owner,
+                repo: repo,
                 name: label,
                 color: randomColor,
-                description: description || '',
+                description: desc || '',
             });
             core.info(`Label "${label}" created successfully.`);
         } else {
@@ -174,7 +173,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const labelsToApply = [];
         let targetNumber;
 
-        if (eventType === 'pull_request' && context.payload.pull_request) {
+        if (eventType === 'pull_request' && context.payload.pull_request || eventType === 'pull_request_target' && context.payload.pull_request) {
             const prNumber = context.payload.pull_request.number;
             targetNumber = prNumber;
             core.debug(`Pull Request Number: ${targetNumber}`)
@@ -217,7 +216,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
 
             if (matchedLabels) {
                 for (const { label, description } of matchedLabels) {
-                    core.info(`Matching label ${label} with description ${description}`);
+                    core.info(`Matching label "${label}" with description "${description}"`);
                     labelsToApply.push(label);
                     await ensureLabelExists(octokit, owner, repo, label, description);
                 }

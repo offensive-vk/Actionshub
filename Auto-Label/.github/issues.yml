@@ -27,3 +27,10 @@ hamster:
     - 'automated'
     - 'hamster'
   description: "Thats my hamster."
+
+ignore:
+  match:
+    - 'testing'
+    - 'ignore'
+    - 'please'
+  description: 'Please ignore this.'

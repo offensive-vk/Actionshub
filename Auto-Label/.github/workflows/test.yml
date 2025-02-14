@@ -37,7 +37,7 @@ jobs:
         issue-config: '.github/issues.yml'
 
     - name: Label Pull Requests
-      if: github.event_name == 'pull_request_target' || github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request'
       uses: ./
       with:
         debug: true
