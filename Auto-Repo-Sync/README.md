@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: offensive-vk/auto-repo-sync@v7
+      - uses: offensive-vk/auto-repo-sync@v8
         with:
           target-url: https://gitlab.com/<user>/<repo>.git
           target-username: ${{ secrets.TARGET_USERNAME }}

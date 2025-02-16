@@ -8,14 +8,14 @@ log() {
 log ":: Starting Repository Sync ::"
 
 # Check required inputs
-if [[ -z "$INPUT_TARGET_USERNAME" || -z "$INPUT_TARGET_TOKEN" || -z "$INPUT_TARGET_URL" ]]; then
+if [ -z "$INPUT_TARGET_USERNAME" || -z "$INPUT_TARGET_TOKEN" || -z "$INPUT_TARGET_URL" ]; then
     log "Error: Missing one or more required inputs: 'target-username', 'target-token', 'target-url'."
     exit 1
 fi
 
 TARGET_URL="https://${INPUT_TARGET_USERNAME}:${INPUT_TARGET_TOKEN}@${INPUT_TARGET_URL#*://}"
 
-if [ -z "$$INPUT_TARGET_USERNAME" ]; then
+if [ -z "$INPUT_TARGET_USERNAME" ]; then
   git config --global user.name "github-actions[bot]"
   git config --global user.email "github-actions[bot]@users.noreply.github.com"
 else
