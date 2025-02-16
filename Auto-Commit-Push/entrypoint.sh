@@ -36,7 +36,7 @@ git add . $ADD_OPTIONS
 
 # If commit message is empty, use default message
 if [ -z "$MESSAGE" ]; then
-  MESSAGE="Automated Commit by GitHub Actions"
+  MESSAGE="Automated Commit by GitHub Actions."
 fi
 
 # Commit the changes with commit options (if any)

@@ -2,7 +2,7 @@ name: CI / Test
 
 on: 
   push: 
-    branches: ["master"]
+    branches-ignore: ["master"]
   workflow_dispatch:
 
 jobs:
@@ -11,13 +11,6 @@ jobs:
     name: Test Action
     steps:
       - uses: actions/checkout@v4
-
-      - name: Generate Stats
-        uses: offensive-vk/auto-stats@v6
-        with:
-          branch: master
-          message: Updated Repository Statistics
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Make Changes
         run: |
@@ -32,5 +25,5 @@ jobs:
         uses: ./
         with: 
           branch: ${{ github.ref_name }}
-          message: "Update Automated Stats (Push)"
+          message: "Updated Automated Stats (Push)"
           github-token: ${{ secrets.GITHUB_TOKEN }}

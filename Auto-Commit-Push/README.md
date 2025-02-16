@@ -24,14 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Commit and Push
-        uses: offensive-vk/auto-commit-push@v6
+        uses: offensive-vk/auto-commit-push@v8
         with:
           name: 'Your Name'
           email: 'your@email.com'
           message: 'Commit Message'
           branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          co-authors: co-author1, co-author2
 ```
 
 ## Usage

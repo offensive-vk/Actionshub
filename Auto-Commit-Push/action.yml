@@ -1,6 +1,6 @@
 name: 'Auto Commit Push'
 author: 'Vedansh (offensive-vk)'
-description: 'Auto Commit and Push Action helps to stage all changes and push them to Remote Repo. '
+description: 'Auto Commit and Push Action helps to stage all changes and push them to Remote Repository.'
 branding:
   icon: upload-cloud
   color: gray-dark
@@ -16,7 +16,7 @@ inputs:
     default: 'github-actions[bot]@users.noreply.github.com'
   message:
     description: 'Commit message'
-    required: false
+    required: true
     default: 'Automated Commit by Actions.'
   branch:
     description: 'Target branch'
