@@ -6,7 +6,7 @@ branding:
   color: gray-dark
 inputs:
   number:
-    description: "Works on a specific issue or pr number."
+    description: "Works on a specific issue or pr number. (wip)"
     required: false
   debug:
     required: false

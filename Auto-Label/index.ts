@@ -160,8 +160,8 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         const owner = core.getInput('owner') || contextOwner;
         const repo = core.getInput('repo') || contextRepo;
         const actionNumber = core.getInput('number') || undefined;
-        const prConfigPath = resolvePath(core.getInput('pr-config') || '.github/pr.yml');
-        const issueConfigPath = resolvePath(core.getInput('issue-config') || '.github/issues.yml');
+        const prConfigPath = resolvePath(core.getInput('pr-config'));
+        const issueConfigPath = resolvePath(core.getInput('issue-config'));
         const context = github.context;
 
         if (debugMode) {
