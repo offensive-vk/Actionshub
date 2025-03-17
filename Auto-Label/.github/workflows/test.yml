@@ -55,6 +55,3 @@ jobs:
         pr-config: '.github/pr.yml'
         issue-config: '.github/issues.yml'
         number: ${{ github.event.inputs.number }}
-        
-    - name: Debug Event Context
-      run: echo "${{ toJSON(github.event) }}"

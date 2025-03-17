@@ -95,10 +95,15 @@ async function ensureLabelsExist(
     repo: string,
     labels: Array<{ label: string; description?: string }>
 ) {
-    const tasks = labels.map(({ label, description }) =>
-        ensureLabelExists(octokit, owner, repo, label, description)
-    );
-    await Promise.all(tasks);
+    core.debug(`Ensuring ${labels.length} labels exist`);
+    for (const labelConfig of labels) {
+        try {
+            await ensureLabelExists(octokit, owner, repo, labelConfig.label, labelConfig.description);
+        } catch (error) {
+            core.warning(`Failed to ensure label "${labelConfig.label}" exists: ${error}`);
+            // Continue with other labels even if one fails
+        }
+    }
 }
 
 async function ensureLabelExists(octokit: any, owner: string, repo: string, label: string, desc?: string) {
@@ -142,13 +147,28 @@ function findMatchingLabels(body: string, labelConfig: LabelConfig[]): MatchedLa
 function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels: Array<T>): 
     MatchedLabels {
     const matchedLabels: MatchedLabels = [];
-    labels.forEach(({ label, match, description }) => {
-        core.debug(`Checking label "${label}" with patterns: ${match.join(', ')}`);
-        if (match.some(pattern => content.some(item => minimatch(item, pattern)))) {
-            matchedLabels.push({ label, description });
-        }
+    
+    content.forEach(file => {
+        core.debug(`Checking file: ${file}`);
+        
+        labels.forEach(({ label, match, description }) => {
+            core.debug(`  Against label "${label}":`);
+            
+            for (const pattern of match) {
+                core.debug(`    Pattern: ${pattern}`);
+                const isMatch = minimatch(file, pattern, { nocase: true, dot: true });
+                core.debug(`    Match result: ${isMatch}`);
+                
+                if (isMatch && !matchedLabels.some(ml => ml.label === label)) {
+                    core.info(`✓ File "${file}" matched pattern "${pattern}" for label "${label}"`);
+                    matchedLabels.push({ label, description });
+                    break;
+                }
+            }
+        });
     });
-    return matchedLabels.length > 0 ? matchedLabels : [];
+    
+    return matchedLabels;
 }
 
 (async () => {
@@ -176,7 +196,7 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
         if (eventType === 'pull_request' && context.payload.pull_request || eventType === 'pull_request_target' && context.payload.pull_request) {
             const prNumber = context.payload.pull_request.number;
             targetNumber = prNumber;
-            core.debug(`Pull Request Number: ${targetNumber}`)
+            core.info(`Processing Pull Request #${targetNumber}`);
 
             if (!prConfigPath) {
                 core.setFailed('Missing "pr-config" input for pull request labeling.');
@@ -184,15 +204,24 @@ function getMatchedLabels<T extends LabelConfig>(content: Array<string>, labels:
             }
 
             const changedFiles = await getChangedFiles(octokit, owner, repo, prNumber);
+            core.info(`Found ${changedFiles.length} changed files:`);
+            changedFiles.forEach(file => core.info(`  - ${file}`));
+
             const fileLabelMapping = parseConfigFile(prConfigPath);
+            core.info(`Loaded ${fileLabelMapping.length} label configurations:`);
+            fileLabelMapping.forEach(config => {
+                core.info(`  - Label: ${config.label}`);
+                core.info(`    Patterns: ${config.match.join(', ')}`);
+            });
 
             const matchedLabels = getMatchedLabels(changedFiles, fileLabelMapping);
-            console.dir(matchedLabels);
-
-            if (matchedLabels) {
+            
+            if (matchedLabels.length > 0) {
+                core.info(`Found ${matchedLabels.length} matching labels:`);
                 for (const { label, description } of matchedLabels) {
+                    core.info(`  - Adding label: ${label}`);
                     labelsToApply.push(label);
-                    await ensureLabelsExist(octokit, owner, repo, [{label: label, description: description}]);
+                    await ensureLabelsExist(octokit, owner, repo, [{label, description}]);
                 }
             } else {
                 core.warning('No labels matched the file changes in this pull request.');

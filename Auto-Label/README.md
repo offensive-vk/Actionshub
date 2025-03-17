@@ -4,15 +4,13 @@ The **auto-label** GitHub Action simplifies the process of adding labels to issu
 
 For a complete example, have a look at our [workflow](.github/workflows/test.yml). 🙌
 
----
-
 ## Features
 
 - **Automatic Labeling**: Apply labels to issues and pull requests based on custom rules.
 - **Keyword Matching**: Match specific keywords in issues to apply relevant labels.
 - **File Pattern Matching**: Automatically label pull requests based on modified file patterns.
 - **Optional Label Creation**: Create missing labels automatically with suitable descriptions.
-- **Both PR and Issues**: Works on both issues and pull request using seperate files.
+- **Both PR and Issues**: Works on both issues and pull request using separate files.
 
 ---
 
