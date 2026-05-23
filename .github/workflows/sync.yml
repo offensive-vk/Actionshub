@@ -211,6 +211,7 @@ jobs:
   sync-auto-stats:
     name: Auto Stats
     needs: [sync-auto-add-project]
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -323,40 +324,11 @@ jobs:
           branch: 'master'
           message: '🚀 Mirror Sync - auto-pr-action'
           github-token: ${{ secrets.BOT_TOKEN }}
-
-  sync-auto-contributions:
-    name: Auto Contributions
-    needs: [sync-auto-pr-action]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cleanup
-        run: |
-          rm -rf Auto-Contributions || exit 0
-          mkdir -p Auto-Contributions
-
-      - name: Fetch Upstream Changes
-        run: |
-          git clone --depth 1 https://github.com/offensive-vk/auto-contributions.git Auto-Contributions
-          cd Auto-Contributions
-          rm -rf .git/
-          cd ..
-
-      - name: Commit and Push changes
-        uses: offensive-vk/auto-commit-push@v7
-        with: 
-          name: 'Hamster [bot]'
-          email: 'TheHamsterBot@outlook.com'
-          branch: 'master'
-          message: '🚀 Mirror Sync - auto-contributions'
-          github-token: ${{ secrets.BOT_TOKEN }}
-
+
   finish-repo-sync:
     runs-on: ubuntu-latest
     name: Report Successful Syncing
-    needs: [sync-auto-contributions]
+    needs: [sync-auto-translate]
     steps:
       - name: Goodbye
         run: | 
